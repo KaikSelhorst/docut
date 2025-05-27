@@ -1,6 +1,6 @@
-import { z } from 'shared/lib/zod'
+import { z } from '@/shared/lib/zod'
 
-export const createLinkSchema = z.object({
+const linkSchema = z.object({
   url: z.url(),
   expiration: z
     .string()
@@ -22,3 +22,6 @@ export const createLinkSchema = z.object({
       return new Date(exp)
     })
 })
+
+export const createLinkSchema = linkSchema
+export const updateLinkSchema = linkSchema.partial()

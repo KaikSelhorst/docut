@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import type { LinkRepository } from 'server/repository/link-repository'
 import { parseRequest } from 'server/helpers/request'
-import { createLinkSchema } from '@/server/schemas/link'
+import { createLinkSchema } from '@/server/schemas/link-schema'
 import { serverError, unauthorized } from 'server/helpers/response'
 import { getSession } from '@/shared/lib/auth/utils'
 

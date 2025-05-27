@@ -2,7 +2,7 @@ import type { LinkRepository } from 'server/repository/link-repository'
 import { notFound, serverError, unauthorized } from 'server/helpers/response'
 import { getSession } from '@/shared/lib/auth/utils'
 import { parseRequest } from 'server/helpers/request'
-import { updateLinkSchema } from '@/server/schemas/link'
+import { updateLinkSchema } from '@/server/schemas/link-schema'
 
 export class UpdateLink {
   constructor(private readonly linkRepository: LinkRepository) {}
