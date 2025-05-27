@@ -19,7 +19,11 @@ export class UpdateLink {
 
     if (link.userId !== session.user.id) return unauthorized()
 
-    const updated = await this.linkRepository.update({ ...link, ...ctx })
+    const updated = await this.linkRepository.update({
+      ...link,
+      ...ctx,
+      updatedAt: new Date()
+    })
     if (!updated) return serverError()
 
     return Response.json(updated, { status: 200 })
