@@ -1,12 +1,16 @@
 import { nanoid } from 'nanoid'
 import type { LinkRepository } from 'server/repository/link-repository'
+import type { DBInstance } from 'server/db'
 import { parseRequest } from 'server/helpers/request'
-import { createLinkSchema } from '@/server/schemas/link-schema'
+import { createLinkSchema } from 'server/schemas/link-schema'
 import { serverError, unauthorized } from 'server/helpers/response'
-import { getSession } from '@/shared/lib/auth/utils'
+import { getSession } from 'shared/lib/auth/utils'
 
 export class CreateLink {
-  constructor(private readonly linkRepository: LinkRepository) {}
+  constructor(
+    private readonly db: DBInstance,
+    private readonly linkRepository: LinkRepository
+  ) {}
   async execute(req: Request) {
     const session = await getSession()
 
@@ -16,7 +20,7 @@ export class CreateLink {
 
     if (err) return err()
 
-    const link = await this.linkRepository.create({
+    const link = await this.linkRepository.create(this.db, {
       id: nanoid(),
       expiration: ctx.expiration,
       url: ctx.url,
