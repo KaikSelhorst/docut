@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm'
 import type { DBInstance } from '../db'
-import { type Link, link } from '../db/schemas/'
+import { type Link, link, seo } from '../db/schemas/'
 import type { LinkRepositoryInterface } from './interfaces/link-repository'
 
 export class LinkRepository implements LinkRepositoryInterface {
@@ -37,8 +37,24 @@ export class LinkRepository implements LinkRepositoryInterface {
 
   async findById(tx: DBInstance, id: string) {
     try {
-      const query = await tx.query.link.findFirst({ where: eq(link.id, id) })
+      const query = await tx.query.link.findFirst({
+        where: eq(link.id, id)
+      })
       return query ?? null
+    } catch {
+      return null
+    }
+  }
+
+  async findByIdWithSeo(tx: DBInstance, id: string) {
+    try {
+      const query = await tx
+        .select()
+        .from(link)
+        .innerJoin(seo, eq(seo.linkId, link.id))
+        .where(eq(link.id, id))
+        .limit(1)
+      return query.length ? query[0] : null
     } catch {
       return null
     }
