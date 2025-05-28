@@ -1,10 +1,10 @@
 import { nanoid } from 'nanoid'
-import type { LinkRepository } from 'server/repository/link-repository'
-import type { SeoRepository } from 'server/repository/seo-repository'
 import type { DBInstance } from 'server/db'
 import { parseRequest } from 'server/helpers/request'
-import { createLinkSchema } from 'server/schemas/link-schema'
 import { serverError, unauthorized } from 'server/helpers/response'
+import type { LinkRepository } from 'server/repository/link-repository'
+import type { SeoRepository } from 'server/repository/seo-repository'
+import { createLinkSchema } from 'server/schemas/link-schema'
 import { getSession } from 'shared/lib/auth/utils'
 
 export class CreateLink {

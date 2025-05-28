@@ -1,6 +1,6 @@
+import type { InferSelectModel } from 'drizzle-orm'
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { user } from './user-schema'
-import type { InferSelectModel } from 'drizzle-orm'
 
 export const link = pgTable('link', {
   id: text('id').primaryKey(),

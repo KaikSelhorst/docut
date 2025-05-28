@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm'
 import type { DBInstance } from '../db'
-import { seo, type Seo } from '../db/schemas/seo-schema'
+import { type Seo, seo } from '../db/schemas/seo-schema'
 import type { SeoRepositoryInterface } from './interfaces/seo-repository'
 
 export class SeoRepository implements SeoRepositoryInterface {

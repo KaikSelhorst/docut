@@ -1,9 +1,9 @@
-import { env } from 'shared/env'
-import { db } from 'server/db'
-import { makePasswordHasher } from 'server/helpers/cryptography/password'
-import { logger } from 'shared/logger'
-import { account, user } from 'server/db/schemas'
 import { nanoid } from 'nanoid'
+import { db } from 'server/db'
+import { account, user } from 'server/db/schemas'
+import { makePasswordHasher } from 'server/helpers/cryptography/password'
+import { env } from 'shared/env'
+import { logger } from 'shared/logger'
 
 async function seed() {
   try {

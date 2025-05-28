@@ -1,10 +1,10 @@
+import type { DBInstance } from 'server/db'
+import { parseRequest } from 'server/helpers/request'
+import { notFound, serverError, unauthorized } from 'server/helpers/response'
 import type { LinkRepository } from 'server/repository/link-repository'
 import type { SeoRepository } from 'server/repository/seo-repository'
-import type { DBInstance } from 'server/db'
-import { notFound, serverError, unauthorized } from 'server/helpers/response'
-import { getSession } from 'shared/lib/auth/utils'
-import { parseRequest } from 'server/helpers/request'
 import { updateLinkSchema } from 'server/schemas/link-schema'
+import { getSession } from 'shared/lib/auth/utils'
 
 export class UpdateLink {
   constructor(

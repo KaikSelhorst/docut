@@ -1,5 +1,5 @@
-import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import type { InferSelectModel } from 'drizzle-orm'
+import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { link } from './link-schema'
 
 export const seo = pgTable('seo', {

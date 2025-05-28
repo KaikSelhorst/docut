@@ -1,6 +1,6 @@
-import type { LinkRepository } from 'server/repository/link-repository'
 import type { DBInstance } from 'server/db'
 import { notFound } from 'server/helpers/response'
+import type { LinkRepository } from 'server/repository/link-repository'
 
 export class GetLinkSeo {
   constructor(

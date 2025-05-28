@@ -1,6 +1,6 @@
-import type { LinkRepository } from 'server/repository/link-repository'
 import type { DBInstance } from 'server/db'
 import { serverError, unauthorized } from 'server/helpers/response'
+import type { LinkRepository } from 'server/repository/link-repository'
 import { getSession } from 'shared/lib/auth/utils'
 
 export class ListLinks {
