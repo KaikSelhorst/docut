@@ -1,3 +1,6 @@
+import RootProviders from '@/components/providers'
+import { fontMono, fontSans } from '@/lib/fonts'
+import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import type React from 'react'
 import './globals.css'
@@ -13,8 +16,16 @@ interface Layout {
 
 export default function RootLayout({ children }: Layout) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased',
+          fontSans.variable,
+          fontMono.variable
+        )}
+      >
+        <RootProviders>{children}</RootProviders>
+      </body>
     </html>
   )
 }
