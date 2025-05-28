@@ -10,13 +10,14 @@ export class GetLink {
   ) {}
   async execute(_: Request, params: { id: string }) {
     const session = await getSession()
-
     if (!session) return unauthorized()
 
-    const link = await this.linkRepository.findById(this.db, params.id)
+    const link = await this.linkRepository.findByIdWithSeo(this.db, params.id)
 
     if (!link) return notFound('Link not found!')
 
-    return Response.json(link, { status: 200 })
+    if (link.link.userId !== session.user.id) return unauthorized()
+
+    return Response.json({ ...link.link, seo: link.seo }, { status: 200 })
   }
 }

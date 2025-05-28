@@ -1,4 +1,5 @@
 import type { LinkRepository } from 'server/repository/link-repository'
+import type { SeoRepository } from 'server/repository/seo-repository'
 import type { DBInstance } from 'server/db'
 import { notFound, serverError, unauthorized } from 'server/helpers/response'
 import { getSession } from 'shared/lib/auth/utils'
@@ -8,7 +9,8 @@ import { updateLinkSchema } from 'server/schemas/link-schema'
 export class UpdateLink {
   constructor(
     private readonly db: DBInstance,
-    private readonly linkRepository: LinkRepository
+    private readonly linkRepository: LinkRepository,
+    private readonly seoRepository: SeoRepository
   ) {}
   async execute(req: Request, params: { id: string }) {
     const session = await getSession()
@@ -23,11 +25,38 @@ export class UpdateLink {
 
     if (link.userId !== session.user.id) return unauthorized()
 
-    const updated = await this.linkRepository.update(this.db, {
-      ...link,
-      ...ctx,
-      updatedAt: new Date()
+    const linkSeo = await this.seoRepository.findByLinkId(this.db, link.id)
+
+    if (!linkSeo) return notFound('Link seo not found!')
+
+    const updated = await this.db.transaction(async (tx) => {
+      const linkUpdated = await this.linkRepository.update(this.db, {
+        ...link,
+        ...ctx,
+        updatedAt: new Date()
+      })
+
+      if (!linkUpdated) {
+        tx.rollback()
+        return null
+      }
+
+      const ctxSeo = ctx.seo ?? {}
+
+      const seoUpdated = await this.seoRepository.update(tx, {
+        ...linkSeo,
+        ...ctxSeo,
+        updatedAt: new Date()
+      })
+
+      if (!seoUpdated) {
+        tx.rollback()
+        return null
+      }
+
+      return { ...linkUpdated, seo: seoUpdated }
     })
+
     if (!updated) return serverError()
 
     return Response.json(updated, { status: 200 })
