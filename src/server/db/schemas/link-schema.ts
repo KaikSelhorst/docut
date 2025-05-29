@@ -8,7 +8,7 @@ export const link = pgTable('link', {
   expiration: timestamp('expiration').$type<Date | null>(),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at').notNull(),
-  userId: text('project_id')
+  userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' })
 })

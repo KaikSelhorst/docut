@@ -22,6 +22,13 @@
       "when": 1748452148193,
       "tag": "0002_bumpy_echo",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1748485529448,
+      "tag": "0003_great_power_man",
+      "breakpoints": true
     }
   ]
 }
