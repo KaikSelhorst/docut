@@ -8,8 +8,10 @@ export function Header() {
 
   return (
     <header className="border-b">
-      <div className="container mx-auto h-16 flex items-center justify-between">
-        <h1 className="font-mono font-semibold">doshort</h1>
+      <div className="container mx-auto h-16 flex items-center justify-between p-3">
+        <h1 className="font-mono font-semibold">
+          <Link href="/">doshort</Link>
+        </h1>
         <Link
           href="/"
           className="text-sm font-medium text-primary hover:text-primary/80 duration-150"
