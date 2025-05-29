@@ -1,16 +1,20 @@
+import { faker } from '@faker-js/faker'
 import { nanoid } from 'nanoid'
 import { db } from 'server/db'
 import { account, user } from 'server/db/schemas'
 import { makePasswordHasher } from 'server/helpers/cryptography/password'
 import { env } from 'shared/env'
 import { logger } from 'shared/logger'
+import { LinkRepository } from '../repository/link-repository'
+import { SeoRepository } from '../repository/seo-repository'
 
 async function seed() {
-  try {
-    logger.info('Start seed DB...')
+  const linkRepository = new LinkRepository()
+  const seoRepository = new SeoRepository()
 
+  const error = await db.transaction(async (tx) => {
     try {
-      const [newUser] = await db
+      const [newUser] = await tx
         .insert(user)
         .values({
           name: 'Admin',
@@ -22,7 +26,7 @@ async function seed() {
         })
         .returning()
 
-      await db
+      await tx
         .insert(account)
         .values({
           id: nanoid(),
@@ -34,16 +38,65 @@ async function seed() {
           updatedAt: new Date()
         })
         .returning()
-    } catch (error) {
-      logger.error('Seed - Account exist')
-    }
 
-    logger.success('Seed concluided with success!')
-  } catch (error) {
-    logger.error('Error on start seed:', error)
+      const links = Array(100)
+        .fill('')
+        .map(() => ({
+          id: nanoid(9),
+          url: faker.internet.url(),
+          expiration: faker.date.soon({ days: 12 }),
+          createdAt: new Date(faker.date.recent()),
+          updatedAt: new Date(faker.date.recent()),
+          seo: {
+            title: faker.lorem.words(),
+            description: faker.lorem.paragraph()
+          }
+        }))
+
+      for (let i = 0; i < links.length; i++) {
+        const element = links[i]
+
+        const link = await linkRepository.create(tx, {
+          createdAt: element.createdAt,
+          updatedAt: element.updatedAt,
+          expiration: element.expiration,
+          id: element.id,
+          url: element.url,
+          userId: newUser.id
+        })
+
+        if (!link) {
+          throw new Error('Error on create link')
+        }
+
+        const seoLink = await seoRepository.create(tx, {
+          createdAt: element.createdAt,
+          updatedAt: element.updatedAt,
+          description: element.seo.description,
+          title: element.seo.title,
+          id: nanoid(),
+          linkId: link.id
+        })
+
+        if (!seoLink) {
+          throw new Error('Error on create link seo')
+        }
+      }
+
+      return false
+    } catch (e) {
+      console.log(e)
+      tx.rollback()
+      return true
+    }
+  })
+
+  if (error) {
+    logger.error('Error on seed!')
     process.exit(1)
-  } finally {
-    process.exit(0)
   }
+
+  logger.success('Seed concluided with success!')
+  process.exit(0)
 }
 seed()
