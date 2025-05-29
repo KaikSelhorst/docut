@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 import type { DBInstance } from '../db'
 import { type Link, link, seo } from '../db/schemas/'
 import type { LinkRepositoryInterface } from './interfaces/link-repository'
@@ -67,6 +67,7 @@ export class LinkRepository implements LinkRepositoryInterface {
         .from(link)
         .where(eq(link.userId, id))
         .limit(24)
+        .orderBy(desc(link.updatedAt))
       return query ?? null
     } catch {
       return null
