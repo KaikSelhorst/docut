@@ -18,6 +18,8 @@ export class GetLink {
 
     if (link.link.userId !== session.user.id) return unauthorized()
 
-    return Response.json({ ...link.link, seo: link.seo }, { status: 200 })
+    const linkWithSeo = { ...link.link, seo: link.seo }
+
+    return Response.json(linkWithSeo, { status: 200 })
   }
 }
