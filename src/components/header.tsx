@@ -10,7 +10,6 @@ export function Header() {
     <header className="border-b">
       <div className="container mx-auto h-16 flex items-center justify-between">
         <h1 className="font-mono font-semibold">doshort</h1>
-        <p className="text-sm">{isPending ? '...' : session?.user.name}</p>
         <Link
           href="/"
           className="text-sm font-medium text-primary hover:text-primary/80 duration-150"
