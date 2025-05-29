@@ -62,7 +62,11 @@ export class LinkRepository implements LinkRepositoryInterface {
 
   async findManyByUserId(tx: DBInstance, id: string) {
     try {
-      const query = await tx.query.link.findMany({ where: eq(link.userId, id) })
+      const query = await tx
+        .select()
+        .from(link)
+        .where(eq(link.userId, id))
+        .limit(24)
       return query ?? null
     } catch {
       return null
