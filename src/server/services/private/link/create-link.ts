@@ -24,7 +24,7 @@ export class CreateLink {
 
     const link = await this.db.transaction(async (tx) => {
       const link = await this.linkRepository.create(tx, {
-        id: nanoid(),
+        id: nanoid(9),
         expiration: ctx.expiration,
         url: ctx.url,
         userId: session.user.id,
