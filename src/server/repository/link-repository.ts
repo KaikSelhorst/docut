@@ -1,4 +1,4 @@
-import { desc, eq, and, gte, or, isNull } from 'drizzle-orm'
+import { desc, eq, and, gte, or, isNull, sql } from 'drizzle-orm'
 import type { DBInstance } from '../db'
 import { type Link, link, seo } from '../db/schemas/'
 import type { LinkRepositoryInterface } from './interfaces/link-repository'
@@ -40,6 +40,18 @@ export class LinkRepository implements LinkRepositoryInterface {
       const query = await tx.query.link.findFirst({
         where: eq(link.id, id)
       })
+
+      if (!query) return null
+
+      const now = new Date()
+      const linkExpiration = new Date(query.expiration || '')
+
+      if (now > linkExpiration) return null
+
+      await tx
+        .update(link)
+        .set({ clicks: sql`${link.clicks} + 1`, updatedAt: new Date() })
+        .where(eq(link.id, id))
       return query ?? null
     } catch {
       return null

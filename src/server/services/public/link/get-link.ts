@@ -12,12 +12,6 @@ export class GetLink {
 
     if (!link) return notFound('Link not found!')
 
-    const now = new Date()
-
-    const linkExpiration = new Date(link.expiration || '')
-
-    if (now > linkExpiration) return notFound('Link not found!')
-
     return Response.json(link, { status: 200 })
   }
 }
