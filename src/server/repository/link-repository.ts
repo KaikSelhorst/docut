@@ -1,4 +1,4 @@
-import { desc, eq, and, gte, or, isNull, sql } from 'drizzle-orm'
+import { and, desc, eq, gte, isNull, or, sql } from 'drizzle-orm'
 import type { DBInstance } from '../db'
 import { type Link, link, seo } from '../db/schemas/'
 import type { LinkRepositoryInterface } from './interfaces/link-repository'

@@ -62,7 +62,8 @@ async function seed() {
           expiration: element.expiration,
           id: element.id,
           url: element.url,
-          userId: newUser.id
+          userId: newUser.id,
+          clicks: Math.ceil(Math.random() * 3000)
         })
 
         if (!link) {

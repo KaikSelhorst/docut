@@ -29,7 +29,8 @@ export class CreateLink {
         url: ctx.url,
         userId: session.user.id,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        clicks: 0
       })
 
       if (!link) {
