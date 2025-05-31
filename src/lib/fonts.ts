@@ -1,4 +1,4 @@
-import { Inter, Geist_Mono } from 'next/font/google'
+import { Geist_Mono, Inter } from 'next/font/google'
 
 const fontSans = Inter({
   variable: '--font-sans',
