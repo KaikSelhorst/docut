@@ -29,6 +29,13 @@
       "when": 1748485529448,
       "tag": "0003_great_power_man",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1748703787157,
+      "tag": "0004_freezing_norman_osborn",
+      "breakpoints": true
     }
   ]
 }

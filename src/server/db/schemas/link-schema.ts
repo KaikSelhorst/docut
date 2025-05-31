@@ -1,5 +1,5 @@
 import type { InferSelectModel } from 'drizzle-orm'
-import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { user } from './user-schema'
 
 export const link = pgTable('link', {
@@ -10,7 +10,8 @@ export const link = pgTable('link', {
   updatedAt: timestamp('updated_at').notNull(),
   userId: text('user_id')
     .notNull()
-    .references(() => user.id, { onDelete: 'cascade' })
+    .references(() => user.id, { onDelete: 'cascade' }),
+  clicks: integer('click').notNull().default(0)
 })
 
 export type Link = InferSelectModel<typeof link>

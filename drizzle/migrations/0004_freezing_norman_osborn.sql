@@ -1,0 +1,1 @@
+ALTER TABLE "link" ADD COLUMN "click" integer DEFAULT 0 NOT NULL;
