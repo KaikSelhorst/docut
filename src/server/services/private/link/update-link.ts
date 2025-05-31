@@ -30,7 +30,7 @@ export class UpdateLink {
     if (!linkSeo) return notFound('Link seo not found!')
 
     const updated = await this.db.transaction(async (tx) => {
-      const linkUpdated = await this.linkRepository.update(this.db, {
+      const linkUpdated = await this.linkRepository.update(tx, {
         ...link,
         ...ctx,
         updatedAt: new Date()
