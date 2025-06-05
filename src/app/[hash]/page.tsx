@@ -1,7 +1,6 @@
 import { getLinkSeo } from '@/actions/public/get-link-seo'
 import { env } from '@/shared/env'
 import type { Metadata } from 'next'
-import { redirect } from 'next/navigation'
 import { RedirectTo } from './redirect-to'
 
 interface PageProps {
