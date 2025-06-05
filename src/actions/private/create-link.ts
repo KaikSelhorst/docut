@@ -17,7 +17,7 @@ export async function createLink(params: {
     body: JSON.stringify(params)
   })
 
-  if (res.status !== 200) return failure(res)
+  if (res.status !== 201) return failure(res)
 
   return success<{
     id: string
