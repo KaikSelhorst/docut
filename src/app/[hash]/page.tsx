@@ -1,3 +1,4 @@
+import { env } from '@/shared/env'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
@@ -10,18 +11,17 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { hash } = await params
 
-  const seo = await fetch(`http://localhost:3000/api/link/${hash}/seo`)
+  const seo = await fetch(`${env.BETTER_AUTH_URL}/api/link/${hash}/seo`)
 
   if (seo.status !== 200) return {}
   const json = await seo.json()
-  console.log(json)
   return { title: json.title, description: json.description }
 }
 
 export default async function Page({ params }: PageProps) {
   const { hash } = await params
 
-  const link = await fetch(`http://localhost:3000/api/link/${hash}`)
+  const link = await fetch(`${env.BETTER_AUTH_URL}/api/link/${hash}`)
 
   if (link.status !== 200) return <div>Not found!</div>
 
