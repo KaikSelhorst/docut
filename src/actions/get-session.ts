@@ -3,7 +3,10 @@ import { cookies } from 'next/headers'
 export async function getSession() {
   const cookie = await cookies()
 
-  const name = 'better-auth.session_token'
+  const devName = 'doshort.session_token'
+  const prodName = '__Secure-doshort.session_token'
+
+  const name = cookie.has(devName) ? devName : prodName
 
   const value = cookie.get(name)
 
