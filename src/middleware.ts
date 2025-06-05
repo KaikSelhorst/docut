@@ -1,10 +1,10 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { getSession } from 'shared/lib/auth/utils'
+import { getSessionCookie } from 'better-auth/cookies'
 
 const authPages = ['/sign-in', '/sign-up']
 
 export async function middleware(request: NextRequest) {
-  const session = await getSession()
+  const session = getSessionCookie(request)
 
   const { pathname } = new URL(request.url)
 
@@ -20,7 +20,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  runtime: 'nodejs',
   matcher: [
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     '/(api|trpc)(.*)'
