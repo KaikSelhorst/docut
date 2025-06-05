@@ -1,5 +1,6 @@
 'use server'
 
+import { env } from '@/shared/env'
 import { getSession } from '../get-session'
 import { makeRequestQuery } from '../request'
 import { failure, success } from '../response'
@@ -9,7 +10,7 @@ export async function listLinks(filters: Record<string, string>) {
 
   const query = makeRequestQuery(filters)
 
-  const res = await fetch(`http://localhost:3000/api/private/link${query}`, {
+  const res = await fetch(`${env.BETTER_AUTH_URL}/api/private/link${query}`, {
     headers: { Cookie: session.header }
   })
 

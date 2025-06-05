@@ -1,5 +1,6 @@
 'use server'
 
+import { env } from '@/shared/env'
 import { getSession } from '../get-session'
 import { failure, success } from '../response'
 
@@ -10,7 +11,7 @@ export async function createLink(params: {
 }) {
   const session = await getSession()
 
-  const res = await fetch('http://localhost:3000/api/private/link', {
+  const res = await fetch(`${env.BETTER_AUTH_URL}/api/private/link`, {
     method: 'POST',
     headers: { Cookie: session.header },
     body: JSON.stringify(params)
