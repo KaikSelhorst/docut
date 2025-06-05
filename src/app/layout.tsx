@@ -2,7 +2,6 @@ import RootProviders from '@/components/providers'
 import { fontMono, fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
-import type React from 'react'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -19,7 +18,7 @@ export default function RootLayout({ children }: Layout) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
+          'min-h-screen bg-background font-mono antialiased',
           fontSans.variable,
           fontMono.variable
         )}
