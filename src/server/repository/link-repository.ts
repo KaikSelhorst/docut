@@ -1,4 +1,15 @@
-import { and, desc, eq, gte, isNull, or, sql } from 'drizzle-orm'
+import {
+  type SQL,
+  and,
+  count,
+  desc,
+  eq,
+  gte,
+  ilike,
+  isNull,
+  or,
+  sql
+} from 'drizzle-orm'
 import type { DBInstance } from '../db'
 import { type Link, link, seo } from '../db/schemas/'
 import type { LinkRepositoryInterface } from './interfaces/link-repository'
@@ -72,20 +83,47 @@ export class LinkRepository implements LinkRepositoryInterface {
     }
   }
 
-  async findManyByUserId(tx: DBInstance, id: string) {
+  async findManyByUserId(
+    tx: DBInstance,
+    userId: string,
+    filters: { page: number; hash: string } = { hash: '', page: 1 }
+  ) {
+    const arrFilters: SQL[] = []
+
+    arrFilters.push(eq(link.userId, userId))
+    arrFilters.push(
+      or(gte(link.expiration, new Date()), isNull(link.expiration)) as SQL
+    )
+
+    if (filters.hash) {
+      arrFilters.push(ilike(link.id, `%${filters.hash}%`))
+    }
+
+    const safePageSize = 24
+    const safeOffset = (filters.page - 1) * safePageSize
+
     try {
-      const query = await tx
+      const queryPromise = tx
         .select()
         .from(link)
-        .where(
-          and(
-            eq(link.userId, id),
-            or(gte(link.expiration, new Date()), isNull(link.expiration))
-          )
-        )
-        .limit(24)
+        .where(and(...arrFilters))
+        .limit(safePageSize)
         .orderBy(desc(link.updatedAt))
-      return query ?? null
+        .offset(safeOffset)
+
+      const totalPromise = tx
+        .select({ count: count() })
+        .from(link)
+        .where(and(...arrFilters))
+
+      const [query, [total]] = await Promise.all([queryPromise, totalPromise])
+
+      return {
+        links: query,
+        total: total.count,
+        per_page: safePageSize,
+        total_pages: Math.ceil(total.count / safePageSize)
+      }
     } catch {
       return null
     }

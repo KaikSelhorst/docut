@@ -6,5 +6,14 @@ export interface LinkRepositoryInterface {
   deleteById: (tx: DBInstance, id: string) => Promise<Link | null>
   update: (tx: DBInstance, lk: Link) => Promise<Link | null>
   findById: (tx: DBInstance, id: string) => Promise<Link | null>
-  findManyByUserId: (tx: DBInstance, id: string) => Promise<Link[] | null>
+  findManyByUserId: (
+    tx: DBInstance,
+    id: string,
+    filters: { page: number; hash: string }
+  ) => Promise<{
+    links: Link[]
+    total: number
+    per_page: number
+    total_pages: number
+  } | null>
 }
