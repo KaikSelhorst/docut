@@ -1,3 +1,4 @@
+import { getLinkSeo } from '@/actions/public/get-link-seo'
 import { env } from '@/shared/env'
 import type { Metadata } from 'next'
 // import { redirect } from 'next/navigation'
@@ -11,11 +12,22 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { hash } = await params
 
-  const seo = await fetch(`${env.BETTER_AUTH_URL}/api/link/${hash}/seo`)
+  const seo = await getLinkSeo(hash)
 
-  if (seo.status !== 200) return {}
-  const json = await seo.json()
-  return { title: json.title, description: json.description }
+  if (!seo.success) return {}
+
+  return {
+    title: seo.data.title,
+    description: seo.data.description,
+    openGraph: {
+      title: seo.data.title || '',
+      description: seo.data.description || ''
+    },
+    twitter: {
+      description: seo.data.description || '',
+      title: seo.data.title || ''
+    }
+  }
 }
 
 export default async function Page({ params }: PageProps) {
