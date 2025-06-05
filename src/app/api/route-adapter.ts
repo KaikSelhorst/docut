@@ -2,8 +2,7 @@ type RouteParams<T> = {
   params: Promise<T>
 }
 
-// biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
-type Route<T> = (req: Request, params: T) => Promise<Response | void>
+type Route<T> = (req: Request, params: T) => Promise<Response>
 
 export function routeAdapter<T>(route: Route<T>) {
   return async (req: Request, ctx: RouteParams<T>) => {

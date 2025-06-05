@@ -9,7 +9,7 @@ async function getRequestBody(req: Request) {
   }
 }
 
-type ErrorHandler = () => void
+type ErrorHandler = () => Response
 type zodSchema = z.ZodType | undefined
 type Schema<T extends zodSchema> = T extends z.ZodType ? z.infer<T> : object
 
