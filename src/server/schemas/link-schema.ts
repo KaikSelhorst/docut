@@ -30,3 +30,16 @@ const linkSchema = z.object({
 
 export const createLinkSchema = linkSchema
 export const updateLinkSchema = linkSchema.partial()
+
+export const listLinksSchema = z.object({
+  page: z
+    .string()
+    .transform((v) => {
+      const parsed = Number(v)
+
+      if (typeof parsed === 'number') return parsed
+      return 1
+    })
+    .default(1),
+  hash: z.string().default('')
+})
