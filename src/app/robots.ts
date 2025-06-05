@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/'],
-        disallow: ['/*']
+        allow: ['/$'],
+        disallow: ['/']
       }
     ],
     sitemap: 'https://www.docut.xyz/sitemap.xml'
