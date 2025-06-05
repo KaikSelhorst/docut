@@ -1,9 +1,12 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
+import Script from 'next/script'
 
 export function RedirectTo({ path }: { path: string }) {
-  const router = useRouter()
-  router.push(path)
-  return null
+  return (
+    <Script
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+      dangerouslySetInnerHTML={{
+        __html: `window.location.href = "${path}";`
+      }}
+    />
+  )
 }
