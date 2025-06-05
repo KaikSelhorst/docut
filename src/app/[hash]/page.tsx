@@ -1,7 +1,7 @@
 import { getLinkSeo } from '@/actions/public/get-link-seo'
 import { env } from '@/shared/env'
 import type { Metadata } from 'next'
-// import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 interface PageProps {
   params: Promise<{ hash: string }>
@@ -38,7 +38,5 @@ export default async function Page({ params }: PageProps) {
   if (link.status !== 200) return <div>Not found!</div>
 
   const res = await link.json()
-  console.log(res)
-  // redirect(res.url)
-  return null
+  redirect(res.url)
 }
