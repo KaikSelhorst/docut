@@ -17,6 +17,10 @@ export async function generateMetadata({
   if (!seo.success) return {}
 
   return {
+    robots: {
+      index: false,
+      follow: false
+    },
     title: seo.data.title,
     description: seo.data.description,
     openGraph: {
