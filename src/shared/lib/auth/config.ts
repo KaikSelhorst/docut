@@ -19,6 +19,5 @@ export const auth = betterAuth({
     maxPasswordLength: 128,
     password: { hash: passwordHasher.hash, verify: passwordHasher.compare }
   },
-  advanced: { cookiePrefix: 'doshort' },
   plugins: [nextCookies()]
 })
