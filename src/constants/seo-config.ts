@@ -37,4 +37,4 @@ export const seoMetadata = {
     }
   },
   favicon: 'https://www.docut.xyz/favicon.ico'
-}
+} as const
