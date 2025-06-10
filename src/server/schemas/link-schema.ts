@@ -41,5 +41,5 @@ export const listLinksSchema = z.object({
       return 1
     })
     .default(1),
-  hash: z.string().default('')
+  url: z.string().default('')
 })
