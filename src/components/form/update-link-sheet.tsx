@@ -132,7 +132,7 @@ export function UpdateLinkSheet({
                 label="Expiration date"
                 defaultValue={link?.expiration || ''}
               />
-              <h1 className="font-semibold">Metadata</h1>
+              <h2 className="font-semibold">Metadata</h2>
               <DefaultField
                 defaultValue={link?.seo.title || ''}
                 name="seo.title"

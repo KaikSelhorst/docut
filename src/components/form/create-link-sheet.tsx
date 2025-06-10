@@ -99,7 +99,7 @@ export function CreateLinkSheet({
               label="Expiration date"
               description="If you leave no expiration data, the link will be permanent."
             />
-            <Separator />
+            <h2 className="font-semibold">Metadata</h2>
             <DefaultField
               name="seo.title"
               label="Title"
