@@ -1,7 +1,6 @@
+import { listLinks } from '@/actions/dashboard/link'
 import { AppSidebar } from '@/components/sidebar/app-sidebar'
 import { LinksTable, LinksTableSkeleton } from '@/components/table/links-table'
-import { LinksTableFilter } from '@/components/table/links-table-filter'
-import { LinksTablePaginate } from '@/components/table/links-table-paginate'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,7 +20,13 @@ import { Suspense } from 'react'
 
 export const metadata = generateMetadata()
 
-export default function Page() {
+interface PageProps {
+  searchParams: Promise<Record<string, string>>
+}
+
+export default async function Page({ searchParams }: PageProps) {
+  const query = await searchParams
+  const linksPromise = listLinks(query)
   return (
     <SidebarProvider defaultOpen={false}>
       <AppSidebar />
@@ -42,12 +47,10 @@ export default function Page() {
             </Breadcrumb>
           </div>
         </header>
-        <main className="p-4 space-y-3 max-w-[2000px] mx-auto w-full">
-          <LinksTableFilter />
-          <Suspense fallback={<LinksTableSkeleton />}>
-            <LinksTable />
+        <main className="p-4 max-w-[2000px] mx-auto w-full">
+          <Suspense key={Math.random()} fallback={<LinksTableSkeleton />}>
+            <LinksTable linksPromise={linksPromise} />
           </Suspense>
-          <LinksTablePaginate />
         </main>
       </SidebarInset>
     </SidebarProvider>
