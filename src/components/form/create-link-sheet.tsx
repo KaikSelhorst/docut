@@ -1,5 +1,10 @@
 'use client'
-import { DefaulTextAreaField, DefaultField } from '@/components/form/fields'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  DefaulTextAreaField,
+  DefaultField,
+  ExpirationDatePicker
+} from '@/components/form/fields'
 import { Form } from '@/components/ui/form'
 import {
   Sheet,
@@ -11,14 +16,24 @@ import {
   SheetTrigger
 } from '@/components/ui/sheet'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { z } from '@/shared/lib/zod'
+import { createLink } from '@/actions/dashboard/link'
 
-const schema = z.object({})
+const schema = z.object({
+  url: z.url(),
+  expiration: z
+    .string()
+    .max(1)
+    .or(z.date().transform((v) => v.toISOString()))
+    .or(z.iso.datetime()),
+
+  seo: z.object({ title: z.string(), description: z.string() })
+})
 
 type Schema = z.infer<typeof schema>
 
@@ -33,15 +48,22 @@ export function CreateLinkSheet({
 }: CreateLinkSheetProps) {
   const [open, setOpen] = useState(false)
   const router = useRouter()
-  const form = useForm()
+  const form = useForm({ resolver: zodResolver(schema) })
 
   async function onSubmit(data: Schema) {
     toast.loading('Creating link...')
-    await new Promise((r) => setTimeout(r, 3000))
-    toast.dismiss()
+    const res = await createLink(data)
 
+    toast.dismiss()
+    if (!res.success) {
+      toast.error(res.error)
+      return
+    }
+
+    setOpen(false)
     toast.success('Link created!')
     router.refresh()
+    form.reset()
   }
 
   return (
@@ -72,20 +94,20 @@ export function CreateLinkSheet({
             className="grid gap-3 px-4"
           >
             <DefaultField name="url" placeholder="URL" label="Full URL" />
-            <DefaultField
+            <ExpirationDatePicker
               name="expiration"
               label="Expiration date"
-              type="datetime-local"
+              description="If you leave no expiration data, the link will be permanent."
             />
             <Separator />
             <DefaultField
-              name="title"
+              name="seo.title"
               label="Title"
               placeholder="Simple original title"
             />
 
             <DefaulTextAreaField
-              name="description"
+              name="seo.description"
               label="Description"
               placeholder="About your link"
             />
