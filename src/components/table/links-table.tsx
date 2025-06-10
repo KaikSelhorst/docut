@@ -7,40 +7,60 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
-import { faker } from '@faker-js/faker'
 import { use } from 'react'
 import { LinksTableRow, LinksTableRowSkeleton } from './links-table-row'
+import type { listLinks } from '@/actions/dashboard/link'
+import {
+  LinksTableFilter,
+  LinksTableFilterSkeleton
+} from './links-table-filter'
+import { LinksTablePaginate } from './links-table-paginate'
 
 interface LinksTableProps {
   className?: string
+  linksPromise: ReturnType<typeof listLinks>
 }
 
-export function LinksTable({ className }: LinksTableProps) {
-  const linkList = use(new Promise((r) => setTimeout(r, 3000)))
+export function LinksTable({ className, linksPromise }: LinksTableProps) {
+  const linkList = use(linksPromise)
+
+  if (!linkList.success) {
+    return <div>Error</div>
+  }
+
+  const { links, total_pages, total } = linkList.data
 
   return (
-    <div className="border rounded-md overflow">
-      <Table className={cn(className)}>
-        <LinksTableHeader />
-        <TableBody>
-          {!invoices.length && (
-            <TableRow>
-              <TableCell colSpan={5}>No shortened links found.</TableCell>
-            </TableRow>
-          )}
-          {invoices.map((invoice) => (
-            <LinksTableRow
-              clicks={invoice.clicks}
-              expiration={invoice.expiration}
-              id={invoice.id}
-              lastAccess={invoice.last_access}
-              url={invoice.url}
-              key={invoice.id}
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+    <section className="space-y-3">
+      <LinksTableFilter />
+      <div className="border rounded-md overflow">
+        <Table className={cn(className)}>
+          <LinksTableHeader />
+          <TableBody>
+            {!linkList.data.links.length && (
+              <TableRow>
+                <TableCell colSpan={5}>No shortened links found.</TableCell>
+              </TableRow>
+            )}
+            {linkList.data.links.map((invoice) => (
+              <LinksTableRow
+                expiration={invoice.expiration}
+                clicks={invoice.clicks}
+                id={invoice.id}
+                lastAccess={invoice.updatedAt}
+                url={invoice.url}
+                key={invoice.id}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <LinksTablePaginate
+        perPage={links.length}
+        total={total}
+        totalPages={total_pages}
+      />
+    </section>
   )
 }
 
@@ -63,30 +83,28 @@ function LinksTableHeader() {
   )
 }
 
-const invoices = new Array(16).fill(0).map(() => ({
-  id: faker.database.mongodbObjectId().slice(0, 9),
-  url: faker.internet.url(),
-  expiration: faker.date.soon({ days: 3 }).toISOString(),
-  last_access: faker.date.recent({ days: 3 }).toISOString(),
-  clicks: Math.ceil(Math.random() * 9999)
-}))
+const invoices = new Array(16).fill(0)
 
 export function LinksTableSkeleton() {
   return (
-    <div className="border rounded-md overflow">
-      <Table>
-        <LinksTableHeader />
-        <TableBody>
-          {!invoices.length && (
-            <TableRow>
-              <TableCell colSpan={5}>No shortened links found.</TableCell>
-            </TableRow>
-          )}
-          {invoices.map((invoice) => (
-            <LinksTableRowSkeleton key={invoice.id} />
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+    <section className="space-y-3">
+      <LinksTableFilterSkeleton />
+      <div className="border rounded-md overflow">
+        <Table>
+          <LinksTableHeader />
+          <TableBody>
+            {!invoices.length && (
+              <TableRow>
+                <TableCell colSpan={5}>No shortened links found.</TableCell>
+              </TableRow>
+            )}
+            {invoices.map((_, i) => (
+              <LinksTableRowSkeleton key={String(i)} />
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <LinksTablePaginate totalPages={0} perPage={0} total={0} />
+    </section>
   )
 }
