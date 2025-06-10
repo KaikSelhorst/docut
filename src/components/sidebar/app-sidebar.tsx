@@ -1,7 +1,7 @@
 'use client'
 
 import type * as React from 'react'
-import { Link, Trash } from 'lucide-react'
+import { Link } from 'lucide-react'
 
 import { NavMain } from '@/components/sidebar/nav-projects'
 import { NavUser } from '@/components/sidebar/nav-user'
@@ -20,12 +20,12 @@ const data = {
       name: 'Links',
       url: '#',
       icon: Link
-    },
-    {
-      name: 'Trash',
-      url: '#',
-      icon: Trash
     }
+    // {
+    //   name: 'Trash',
+    //   url: '#',
+    //   icon: Trash
+    // }
   ]
 }
 
