@@ -1,3 +1,4 @@
+'use client'
 import {
   Table,
   TableBody,
@@ -15,6 +16,7 @@ import {
   LinksTableFilterSkeleton
 } from './links-table-filter'
 import { LinksTablePaginate } from './links-table-paginate'
+import { useSearchParams } from 'next/navigation'
 
 interface LinksTableProps {
   className?: string
@@ -83,9 +85,12 @@ function LinksTableHeader() {
   )
 }
 
-const invoices = new Array(16).fill(0)
-
 export function LinksTableSkeleton() {
+  const searchParams = useSearchParams()
+
+  const perPage = Number(searchParams.get('per_page')) || 16
+  const invoices = new Array(perPage).fill(0)
+
   return (
     <section className="space-y-3">
       <LinksTableFilterSkeleton />

@@ -9,8 +9,6 @@ import { useDebounce } from '@/hooks'
 
 export function LinksTableFilter() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const url = searchParams.get('url') || ''
 
   return (
     <div className="flex gap-3">
@@ -49,15 +47,16 @@ export function SearchURL(props: React.ComponentProps<'input'>) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const [url, setURL] = useState(searchParams.get('url') || '')
+  const urlQuery = searchParams.get('url') || ''
+
+  const [url, setURL] = useState(urlQuery)
 
   const debouncedValue = useDebounce(url, 350)
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if ((searchParams.get('url') || '') === debouncedValue) return
-    router.push(`?url=${debouncedValue}`)
-  }, [debouncedValue])
+    if (urlQuery === debouncedValue) return
+    router.replace(`?url=${debouncedValue}`)
+  }, [debouncedValue, urlQuery, router])
 
   return (
     <div className="relative flex-1">

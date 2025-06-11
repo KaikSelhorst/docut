@@ -86,7 +86,11 @@ export class LinkRepository implements LinkRepositoryInterface {
   async findManyByUserId(
     tx: DBInstance,
     userId: string,
-    filters: { page: number; url: string } = { url: '', page: 1 }
+    filters: { page: number; url: string; per_page: number } = {
+      url: '',
+      page: 1,
+      per_page: 16
+    }
   ) {
     const arrFilters: SQL[] = []
 
@@ -99,7 +103,7 @@ export class LinkRepository implements LinkRepositoryInterface {
       arrFilters.push(ilike(link.url, `%${filters.url}%`))
     }
 
-    const safePageSize = 16
+    const safePageSize = filters.per_page || 16
     const safeOffset = (filters.page - 1) * safePageSize
 
     try {
