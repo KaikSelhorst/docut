@@ -32,6 +32,15 @@ export const createLinkSchema = linkSchema
 export const updateLinkSchema = linkSchema.partial()
 
 export const listLinksSchema = z.object({
+  per_page: z
+    .string()
+    .transform((per) => {
+      const num = Number(per)
+      if (Number.isNaN(num)) return 16
+      if (num > 64) return 64
+      return num
+    })
+    .default(16),
   page: z
     .string()
     .transform((v) => {

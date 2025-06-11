@@ -9,7 +9,7 @@ export interface LinkRepositoryInterface {
   findManyByUserId: (
     tx: DBInstance,
     id: string,
-    filters: { page: number; url: string }
+    filters: { page: number; url: string; per_page: number }
   ) => Promise<{
     links: Link[]
     total: number
