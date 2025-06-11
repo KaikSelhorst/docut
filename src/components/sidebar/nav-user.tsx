@@ -125,12 +125,13 @@ export function NavUser() {
                       toast.loading('Signing out...')
                     },
                     onSuccess: () => {
+                      toast.dismiss()
                       setSigningOut(false)
                       toast.success('Signed out successfully')
-                      toast.dismiss()
                       router.push('/sign-in')
                     },
                     onError: () => {
+                      toast.dismiss()
                       setSigningOut(false)
                       toast.error('Failed to sign out')
                     }
