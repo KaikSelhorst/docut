@@ -49,7 +49,7 @@ export function LinksTablePaginate({
       >
         {perPage} of {total} row(s) selected.
       </div>
-      <PerPage />
+      <PerPage className={perPage ? '' : 'invisible'} />
       <div
         className={cn(
           'flex w-fit items-center justify-center text-sm font-medium',

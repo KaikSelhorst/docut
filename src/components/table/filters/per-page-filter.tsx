@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useDebounce } from '@/hooks'
 import {
@@ -9,13 +9,14 @@ import {
   SelectItem
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
 
 interface PerPageProps {
   paramName?: string
   defaultValue?: number
   options?: number[]
+  className?: string
 }
-
 /**
  * Component for selecting the number of items per page, with support for URL parameters and debounce.
  * @param paramName - Name of the parameter in the URL (default: 'per_page')
@@ -25,7 +26,8 @@ interface PerPageProps {
 export function PerPage({
   paramName = 'per_page',
   defaultValue = 16,
-  options = [16, 24, 32, 48, 64]
+  options = [16, 24, 32, 48, 64],
+  className
 }: PerPageProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -48,7 +50,7 @@ export function PerPage({
   }, [debouncedValue, perPageQuery, searchParams, router, paramName])
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={cn('flex items-center gap-2', className)}>
       <Label htmlFor="rows-per-page" className="text-sm font-medium">
         Rows per page
       </Label>
