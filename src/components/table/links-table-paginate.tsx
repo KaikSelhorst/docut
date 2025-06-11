@@ -9,6 +9,7 @@ import { Button } from '../ui/button'
 import { useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { PerPage } from './filters/per-page-filter'
 
 interface LinksTablePaginateProps {
   total: number
@@ -48,6 +49,7 @@ export function LinksTablePaginate({
       >
         {perPage} of {total} row(s) selected.
       </div>
+      <PerPage />
       <div
         className={cn(
           'flex w-fit items-center justify-center text-sm font-medium',
