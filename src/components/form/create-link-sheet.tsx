@@ -17,22 +17,26 @@ import {
 } from '@/components/ui/sheet'
 import { useForm } from 'react-hook-form'
 import { Button } from '../ui/button'
-import { Separator } from '../ui/separator'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { z } from '@/shared/lib/zod'
 import { createLink } from '@/actions/dashboard/link'
+import {
+  descriptionValidator,
+  expirationValidator,
+  titleValidator,
+  urlValidator
+} from '@/shared/validators'
 
 const schema = z.object({
-  url: z.url(),
-  expiration: z
-    .string()
-    .max(1)
-    .or(z.date().transform((v) => v.toISOString()))
-    .or(z.iso.datetime()),
+  url: urlValidator(),
+  expiration: expirationValidator(),
 
-  seo: z.object({ title: z.string(), description: z.string() })
+  seo: z.object({
+    title: titleValidator(),
+    description: descriptionValidator()
+  })
 })
 
 type Schema = z.infer<typeof schema>

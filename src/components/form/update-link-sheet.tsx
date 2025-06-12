@@ -23,16 +23,21 @@ import { z } from '@/shared/lib/zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Skeleton } from '../ui/skeleton'
 import { getLink, updateLink } from '@/actions/dashboard/link'
+import {
+  descriptionValidator,
+  expirationValidator,
+  titleValidator,
+  urlValidator
+} from '@/shared/validators'
 
 const schema = z.object({
-  url: z.url(),
-  expiration: z
-    .string()
-    .max(1)
-    .or(z.date().transform((v) => v.toISOString()))
-    .or(z.iso.datetime()),
+  url: urlValidator(),
+  expiration: expirationValidator(),
 
-  seo: z.object({ title: z.string(), description: z.string() })
+  seo: z.object({
+    title: titleValidator(),
+    description: descriptionValidator()
+  })
 })
 
 type Schema = z.infer<typeof schema>
