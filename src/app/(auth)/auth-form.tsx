@@ -1,30 +1,35 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { signIn, signUp } from '@/shared/lib/auth/client'
+import { signIn, signUp } from 'shared/lib/auth/client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useTransition } from 'react'
 import { toast } from 'sonner'
+import { z } from 'shared/lib/zod'
+import { Form } from '@/components/ui/form'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { DefaultField } from '@/components/form/fields'
+
+import {
+  passwordValidator,
+  emailValidator,
+  nameValidator
+} from '@/shared/validators'
+
+const signInSchema = z.object({
+  email: emailValidator(),
+  password: passwordValidator().weak
+})
 
 export function SignInForm() {
   const router = useRouter()
-  const [isLoading, setIsLoading] = useTransition()
+  const form = useForm({ resolver: zodResolver(signInSchema) })
 
-  async function onSubmit(e: any) {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-
-    const email = formData.get('email') || ''
-    const password = formData.get('password') || ''
-
+  async function onSubmit(data: z.infer<typeof signInSchema>) {
     toast.loading('Signing....')
 
-    const { error } = await signIn.email({
-      email: email as string,
-      password: password as string
-    })
+    const { error } = await signIn.email(data)
 
     toast.dismiss()
     if (error) {
@@ -37,44 +42,41 @@ export function SignInForm() {
   }
 
   return (
-    <form
-      className="grid gap-3 max-w-sm w-full"
-      onSubmit={(e) => setIsLoading(async () => await onSubmit(e))}
-    >
-      <h1 className="text-lg font-semibold">Sign in</h1>
-      <Input placeholder="Email" type="email" name="email" />
-      <Input placeholder="Password" type="password" name="password" />
-      <Button disabled={isLoading}>Continuar</Button>
-      <p className="text-sm text-muted-foreground">
-        Don't have an account?{' '}
-        <Link
-          href="/sign-up"
-          className="text-primary font-medium hover:underline"
-        >
-          Sign up
-        </Link>
-      </p>
-    </form>
+    <Form {...form}>
+      <form
+        className="grid gap-3 max-w-sm w-full"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <h1 className="text-lg font-semibold">Sign in</h1>
+        <DefaultField placeholder="Email" name="email" />
+        <DefaultField placeholder="Password" name="password" type="password" />
+        <Button disabled={form.formState.isSubmitting}>Continuar</Button>
+        <p className="text-sm text-muted-foreground">
+          Don't have an account?{' '}
+          <Link
+            href="/sign-up"
+            className="text-primary font-medium hover:underline"
+          >
+            Sign up
+          </Link>
+        </p>
+      </form>
+    </Form>
   )
 }
 
+const signUpForm = signInSchema.extend({
+  name: nameValidator(),
+  password: passwordValidator().strong
+})
+
 export function SignUpForm() {
   const router = useRouter()
-  const [isLoading, setIsLoading] = useTransition()
 
-  async function onSubmit(e: any) {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
+  const form = useForm({ resolver: zodResolver(signUpForm) })
 
-    const email = formData.get('email') || ''
-    const password = formData.get('password') || ''
-    const name = formData.get('name') || ''
-
-    const { error } = await signUp.email({
-      name: name as string,
-      email: email as string,
-      password: password as string
-    })
+  async function onSubmit(data: z.infer<typeof signUpForm>) {
+    const { error } = await signUp.email(data)
 
     if (error) {
       toast.error(error.message)
@@ -84,24 +86,26 @@ export function SignUpForm() {
   }
 
   return (
-    <form
-      className="grid gap-3 max-w-sm w-full"
-      onSubmit={(e) => setIsLoading(async () => await onSubmit(e))}
-    >
-      <h1 className="text-lg font-semibold">Sign up</h1>
-      <Input placeholder="Name" name="name" />
-      <Input placeholder="Email" type="email" name="email" />
-      <Input placeholder="Password" type="password" name="password" />
-      <Button disabled={isLoading}>Continuar</Button>
-      <p className="text-sm text-muted-foreground">
-        Already have an account?{' '}
-        <Link
-          href="/sign-in"
-          className="text-primary font-medium hover:underline"
-        >
-          Sign in
-        </Link>
-      </p>
-    </form>
+    <Form {...form}>
+      <form
+        className="grid gap-3 max-w-sm w-full"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <h1 className="text-lg font-semibold">Sign up</h1>
+        <DefaultField placeholder="Name" name="name" />
+        <DefaultField placeholder="Email" name="email" />
+        <DefaultField placeholder="Password" name="password" type="password" />
+        <Button disabled={form.formState.isSubmitting}>Continuar</Button>
+        <p className="text-sm text-muted-foreground">
+          Already have an account?{' '}
+          <Link
+            href="/sign-in"
+            className="text-primary font-medium hover:underline"
+          >
+            Sign in
+          </Link>
+        </p>
+      </form>
+    </Form>
   )
 }
