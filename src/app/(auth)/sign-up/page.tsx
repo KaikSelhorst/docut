@@ -1,3 +1,4 @@
+import { enableEmailVerification } from 'shared/env'
 import { SignUpForm } from '../auth-form'
 
 export const metadata = {
@@ -7,7 +8,7 @@ export const metadata = {
 export default function Page() {
   return (
     <section className="h-screen flex justify-center items-center">
-      <SignUpForm />
+      <SignUpForm needEmailVerification={enableEmailVerification} />
     </section>
   )
 }
