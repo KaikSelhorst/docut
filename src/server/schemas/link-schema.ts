@@ -1,31 +1,22 @@
 import { z } from '@/shared/lib/zod'
+import {
+  descriptionValidator,
+  expirationValidator,
+  titleValidator
+} from '@/shared/validators'
 
 const seoSchema = z.object({
-  title: z.string().nullable().default(null),
-  description: z.string().nullable().default(null)
+  title: titleValidator().transform((v) => v || null),
+  description: descriptionValidator().transform((v) => v || null)
 })
 
 const linkSchema = z.object({
   url: z.url(),
   seo: seoSchema,
-  expiration: z
-    .string()
-    .nullable()
-    .transform((exp) => {
-      if (!exp) return null
-      return exp
-    })
-    .refine((exp) => {
-      if (typeof exp === 'string' && !exp.includes('T')) return false
-      if (typeof exp !== 'string') return true
-
-      const date = new Date(exp)
-      return date.toString() !== 'Invalid date'
-    }, 'Invalid expiration date')
-    .transform((exp) => {
-      if (!exp) return null
-      return new Date(exp)
-    })
+  expiration: expirationValidator().transform((exp) => {
+    if (!exp) return null
+    return new Date(exp)
+  })
 })
 
 export const createLinkSchema = linkSchema
