@@ -36,5 +36,5 @@ export const seoMetadata = {
       'query-input': 'required name=search_term_string'
     }
   },
-  favicon: 'https://www.docut.xyz/favicon.ico'
+  favicon: '/favicon.svg'
 } as const
