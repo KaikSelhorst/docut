@@ -8,6 +8,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { InputPassword } from '@/components/ui/input-password'
 
 interface DefaultFieldProps {
   type: React.ComponentProps<'input'>['type']
@@ -36,7 +37,11 @@ export function DefaultField({
         <FormItem className="space-y-1">
           {label ? <FormLabel>{label}</FormLabel> : null}
           <FormControl>
-            <Input placeholder={placeholder} {...field} type={type} />
+            {type === 'password' ? (
+              <InputPassword placeholder={placeholder} {...field} />
+            ) : (
+              <Input placeholder={placeholder} {...field} type={type} />
+            )}
           </FormControl>
           {description ? (
             <FormDescription>{description}</FormDescription>
