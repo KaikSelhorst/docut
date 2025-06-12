@@ -1,13 +1,10 @@
 import RootProviders from '@/components/providers'
 import { fontMono, fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
-import type { Metadata } from 'next'
 import './globals.css'
+import { generateMetadata } from '@/helpers/generate-metadata'
 
-export const metadata: Metadata = {
-  title: 'doshort',
-  description: 'doshort app'
-}
+export const metadata = generateMetadata()
 
 interface Layout {
   children: React.ReactNode

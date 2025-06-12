@@ -14,14 +14,14 @@ export const seoMetadata = {
     type: 'website',
     url: 'https://www.docut.xyz',
     site_name: 'Docut',
-    image: 'https://www.docut.xyz/assets/images/docut-logo.png'
+    image: 'https://www.docut.xyz/favicon.svg'
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Docut - Customizable Link Shortener with SEO',
     description:
       'Shorten URLs with custom SEO-friendly titles and descriptions for better sharing. Use Docut’s SDK for seamless backend integration.',
-    image: 'https://www.docut.xyz/assets/images/docut-logo.png'
+    image: 'https://www.docut.xyz/favicon.svg'
   },
   jsonLd: {
     '@context': 'https://schema.org',
@@ -36,5 +36,5 @@ export const seoMetadata = {
       'query-input': 'required name=search_term_string'
     }
   },
-  favicon: '/favicon.svg'
+  favicon: 'https://www.docut.xyz/favicon.svg'
 } as const

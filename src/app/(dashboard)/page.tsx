@@ -15,10 +15,7 @@ import {
   SidebarProvider,
   SidebarTrigger
 } from '@/components/ui/sidebar'
-import { generateMetadata } from '@/helpers/generate-metadata'
 import { Suspense } from 'react'
-
-export const metadata = generateMetadata()
 
 interface PageProps {
   searchParams: Promise<Record<string, string>>
