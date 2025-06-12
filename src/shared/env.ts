@@ -12,14 +12,17 @@ export const env = createEnv({
       .enum(['production', 'development', 'test'])
       .default('development'),
     DEBUG: booleanSchema,
-    ADMIN_EMAIL: z.email().optional().default('admin@grngroup.net'),
-    ADMIN_PASSWORD: z.string().optional().default('admin123'),
+    ADMIN_EMAIL: z.email().optional().default('admin@docut.xyz'),
+    ADMIN_PASSWORD: z.string().optional().default('Senha123.'),
     // BetterAuth
     BETTER_AUTH_URL: z.string().min(1).optional(),
     BETTER_AUTH_SECRET: z.string().min(1).optional(),
     // Database
     DATABASE_URL: z.string().min(1),
-    DRIZZLE_LOGGER: booleanSchema
+    DRIZZLE_LOGGER: booleanSchema,
+    // Mail
+    MAIL_ADAPTER: z.enum(['NONE', 'RESEND']).default('NONE'),
+    MAIL_TOKEN: z.string().optional().default('')
   },
   client: {},
   experimental__runtimeEnv: {}
@@ -27,3 +30,5 @@ export const env = createEnv({
 
 export const isDevelopment = env.NODE_ENV === 'development'
 export const isProduction = env.NODE_ENV === 'production'
+
+export const enableEmailVerification = env.MAIL_ADAPTER !== 'NONE'
