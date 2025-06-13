@@ -4,9 +4,10 @@ import {
   BadgeCheck,
   Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles
+  Moon,
+  Sparkles,
+  Sun
 } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -25,17 +26,19 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
-import { signOut, useSession } from '@/shared/lib/auth/client'
+import { signOut, useSession } from 'shared/lib/auth/client'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
+import { useTheme } from '@/hooks'
 
 export function NavUser() {
   const router = useRouter()
   const { isMobile } = useSidebar()
   const { isPending, data: session } = useSession()
   const [signingOut, setSigningOut] = useState(false)
+  const { toggleTheme } = useTheme()
 
   if (isPending) return null
 
@@ -95,23 +98,15 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
+              <DropdownMenuItem onClick={toggleTheme}>
+                <div className="relative size-4">
+                  <Moon className={'dark:invisible visible absolute'} />
+                  <Sun className={'invisible dark:visible absolute'} />
+                </div>
+                Toggle theme
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

@@ -41,7 +41,7 @@ export function LinksTable({ className, linksPromise }: LinksTableProps) {
           <TableBody>
             {!linkList.data.links.length && (
               <TableRow>
-                <TableCell colSpan={5}>No shortened links found.</TableCell>
+                <TableCell colSpan={6}>No shortened links found.</TableCell>
               </TableRow>
             )}
             {linkList.data.links.map((invoice) => (
