@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ThemeProvider } from '@/components/theme/provider'
 import { Toaster } from '@/components/ui/sonner'
 
@@ -11,6 +12,7 @@ export default function RootProviders({
       enableSystem
       disableTransitionOnChange
     >
+      <SpeedInsights />
       <Toaster position="top-right" />
       {children}
     </ThemeProvider>
