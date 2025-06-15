@@ -16,4 +16,5 @@ export interface LinkRepositoryInterface {
     per_page: number
     total_pages: number
   } | null>
+  deleteAllExpiredLinks: (tx: DBInstance) => Promise<boolean>
 }

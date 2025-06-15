@@ -6,7 +6,9 @@ import {
   eq,
   gte,
   ilike,
+  isNotNull,
   isNull,
+  lt,
   or,
   sql
 } from 'drizzle-orm'
@@ -130,6 +132,16 @@ export class LinkRepository implements LinkRepositoryInterface {
       }
     } catch {
       return null
+    }
+  }
+  async deleteAllExpiredLinks(tx: DBInstance) {
+    try {
+      await tx
+        .delete(link)
+        .where(and(isNotNull(link.id), lt(link.expiration, new Date())))
+      return true
+    } catch {
+      return false
     }
   }
 }
