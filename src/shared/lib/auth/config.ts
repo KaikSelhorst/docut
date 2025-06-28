@@ -1,9 +1,10 @@
-import { makeEmail } from 'server/helpers/email/email'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
 import { db } from 'server/db'
 import { makePasswordHasher } from 'server/helpers/cryptography/password'
+import { makeEmail } from 'server/helpers/email/email'
+import { constants } from 'shared/constants'
 import { enableEmailVerification } from 'shared/env'
 
 // Better auth use User, account,
@@ -25,6 +26,7 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
+      if (user.email === constants.APPLICATION_DEFAULT_USER_EMAIL) return
       email.send({
         to: user.email,
         from: 'noreply@docut.xyz',
