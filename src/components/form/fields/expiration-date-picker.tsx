@@ -1,4 +1,5 @@
-import { useFormContext } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar/calendar'
 import {
   FormControl,
   FormDescription,
@@ -12,29 +13,30 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { dateUtils } from '@/lib/date'
-import { CalendarIcon, X } from 'lucide-react'
-import { Calendar } from '@/components/ui/calendar/calendar'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
+import { dateUtils } from '@/lib/date'
+import { cn } from '@/lib/utils'
+import { CalendarIcon, X } from 'lucide-react'
+import { useFormContext } from 'react-hook-form'
 
 interface DefaultFieldProps {
   name: string
   defaultValue: string
   description: string
   label: string
+  maxDate?: Date
 }
 
 export function ExpirationDatePicker({
   defaultValue = '',
   description = '',
   label = '',
-  name = ''
+  name = '',
+  maxDate = undefined
 }: Partial<DefaultFieldProps>) {
   const form = useFormContext()
   return (
@@ -87,6 +89,7 @@ export function ExpirationDatePicker({
                   minDate={new Date()}
                   onChange={(date) => field.onChange(date.toDate())}
                   date={field.value}
+                  maxDate={maxDate}
                 />
               </PopoverContent>
             </Popover>
