@@ -1,12 +1,12 @@
 services:
   postgres:
     image: postgres:16
-    container_name: postgres_db_mvp
+    container_name: postgres_docut
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: doshort
+      POSTGRES_DB: docut
     ports:
       - "5432:5432"
     volumes:
