@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <section className="h-screen flex justify-center items-center">
+    <section className="grow flex justify-center items-center">
       <SignInForm />
     </section>
   )
