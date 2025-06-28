@@ -1,0 +1,67 @@
+'use client'
+import { LayoutGrid } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { Logo, LogoSVGText } from './icons/logo'
+import { ModeSwitcher } from './mode-switcher'
+import { Button } from './ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from './ui/dropdown-menu'
+
+export function SiteHeader() {
+  const [open, setOpen] = useState(false)
+  const router = useRouter()
+
+  return (
+    <header className="border-b h-14 flex items-center">
+      <div className="container mx-auto px-3 sm:px-0 flex justify-between items-center">
+        <DropdownMenu
+          open={open}
+          onOpenChange={(b) => {
+            if (!b) return setOpen(b)
+            router.push('/')
+          }}
+        >
+          <DropdownMenuTrigger
+            onContextMenu={(e) => {
+              e.preventDefault()
+              setOpen(true)
+            }}
+          >
+            <Logo size={36} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem
+              onClick={() => {
+                navigator.clipboard.writeText(LogoSVGText)
+                toast.success('Copied Logo SVG to clipboard.')
+              }}
+            >
+              <Logo />
+              Copy Logo as SVG
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <LayoutGrid />
+              Dashboard
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <nav className="flex gap-2 text-sm font-medium">
+          <Button size="sm" variant="ghost">
+            <Link href="/docs">Docs</Link>
+          </Button>
+          <Button size="sm" variant="ghost">
+            <Link href="/dashboard">Dashboard</Link>
+          </Button>
+          <ModeSwitcher />
+        </nav>
+      </div>
+    </header>
+  )
+}
