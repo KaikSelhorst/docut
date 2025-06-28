@@ -1,5 +1,5 @@
-import { type NextRequest, NextResponse } from 'next/server'
 import { getSessionCookie } from 'better-auth/cookies'
+import { type NextRequest, NextResponse } from 'next/server'
 
 const authPages = ['/sign-in', '/sign-up']
 
@@ -9,10 +9,10 @@ export async function middleware(request: NextRequest) {
   const { pathname } = new URL(request.url)
 
   if (session && authPages.some((v) => v === pathname)) {
-    return NextResponse.redirect(new URL('/', request.url))
+    return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  if (!session && pathname === '/') {
+  if (!session && pathname.includes('/dashboard')) {
     return NextResponse.redirect(new URL('/sign-in', request.url))
   }
 
