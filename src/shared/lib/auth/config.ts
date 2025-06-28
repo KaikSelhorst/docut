@@ -27,11 +27,16 @@ export const auth = betterAuth({
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       if (user.email === constants.APPLICATION_DEFAULT_USER_EMAIL) return
+
+      const confirmURL = new URL(url)
+
+      confirmURL.searchParams.set('callbackURL', '/sign-up/verified')
+
       email.send({
         to: user.email,
         from: 'noreply@docut.xyz',
         subject: 'Complete Sign-up',
-        html: `To complete your sign up access <a href="${url}">this link</a>`
+        html: `To complete your sign up access <a href="${confirmURL.toString()}">this link</a>`
       })
     },
     sendOnSignUp: enableEmailVerification,

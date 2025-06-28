@@ -77,7 +77,7 @@ export function SignUpForm({
 
     if (needEmailVerification) {
       toast.warning('Please verify your email address to continue.')
-      router.push('/sign-up/confirm-access')
+      router.push('/sign-up/verify-email')
       return
     }
 
