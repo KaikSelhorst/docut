@@ -1,39 +1,24 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { signIn, signUp } from 'shared/lib/auth/client'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { toast } from 'sonner'
-import { z } from 'shared/lib/zod'
-import { Form } from '@/components/ui/form'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { DefaultField } from '@/components/form/fields'
-
-import {
-  passwordValidator,
-  emailValidator,
-  nameValidator
-} from '@/shared/validators'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { AlertCircle } from 'lucide-react'
-
-const signInSchema = z.object({
-  email: emailValidator(),
-  password: passwordValidator().weak
-})
+import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { signInSchema, signUpForm } from 'client/schemas/auth-schema'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { signIn, signUp } from 'shared/lib/auth/client'
+import type { z } from 'shared/lib/zod'
+import { toast } from 'sonner'
 
 export function SignInForm() {
   const router = useRouter()
-  const searchParams = useSearchParams()
 
   const form = useForm({ resolver: zodResolver(signInSchema) })
 
-  const needEmailVerification = searchParams.get('eq') === 'verify-email'
-
   async function onSubmit(data: z.infer<typeof signInSchema>) {
-    toast.loading('Signing....')
+    toast.loading('Signing in...')
 
     const { error } = await signIn.email(data)
 
@@ -41,13 +26,13 @@ export function SignInForm() {
 
     if (error) {
       if (error.status === 403) {
-        toast.error('Please verify your email address')
+        toast.error('Please verify your email address to continue.')
         return
       }
       toast.error(error.message)
       return
     }
-    toast.success('Sign in completed!')
+    toast.success('Signed in successfully!')
     router.push('/')
   }
 
@@ -57,16 +42,6 @@ export function SignInForm() {
         className="grid gap-3 max-w-sm w-full"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        {needEmailVerification && (
-          <Alert variant="warning">
-            <AlertCircle />
-            <AlertTitle>Verify your email</AlertTitle>
-            <AlertDescription>
-              Please check your email inbox and click the verification link to
-              activate your account. You may need to check your spam folder.
-            </AlertDescription>
-          </Alert>
-        )}
         <h1 className="text-lg font-semibold">Sign in</h1>
         <DefaultField placeholder="Email" name="email" />
         <DefaultField placeholder="Password" name="password" type="password" />
@@ -85,11 +60,6 @@ export function SignInForm() {
   )
 }
 
-const signUpForm = signInSchema.extend({
-  name: nameValidator(),
-  password: passwordValidator().strong
-})
-
 export function SignUpForm({
   needEmailVerification
 }: { needEmailVerification: boolean }) {
@@ -106,8 +76,8 @@ export function SignUpForm({
     }
 
     if (needEmailVerification) {
-      toast.warning('Please verify your email address')
-      router.push('/sign-in?eq=verify-email')
+      toast.warning('Please verify your email address to continue.')
+      router.push('/sign-up/confirm-access')
       return
     }
 
