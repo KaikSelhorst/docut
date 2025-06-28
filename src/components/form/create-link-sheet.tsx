@@ -1,5 +1,5 @@
 'use client'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { createLink } from '@/actions/dashboard/link'
 import {
   DefaulTextAreaField,
   DefaultField,
@@ -15,31 +15,16 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
-import { useForm } from 'react-hook-form'
-import { Button } from '../ui/button'
-import { toast } from 'sonner'
+import type { z } from '@/shared/lib/zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { createLinkSchema } from 'client/schemas/link-schema'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { z } from '@/shared/lib/zod'
-import { createLink } from '@/actions/dashboard/link'
-import {
-  descriptionValidator,
-  expirationValidator,
-  titleValidator,
-  urlValidator
-} from '@/shared/validators'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { Button } from '../ui/button'
 
-const schema = z.object({
-  url: urlValidator(),
-  expiration: expirationValidator(),
-
-  seo: z.object({
-    title: titleValidator(),
-    description: descriptionValidator()
-  })
-})
-
-type Schema = z.infer<typeof schema>
+type Schema = z.infer<typeof createLinkSchema>
 
 interface CreateLinkSheetProps {
   side?: 'left' | 'right'
@@ -52,7 +37,7 @@ export function CreateLinkSheet({
 }: CreateLinkSheetProps) {
   const [open, setOpen] = useState(false)
   const router = useRouter()
-  const form = useForm({ resolver: zodResolver(schema) })
+  const form = useForm({ resolver: zodResolver(createLinkSchema) })
 
   async function onSubmit(data: Schema) {
     toast.loading('Creating link...')
