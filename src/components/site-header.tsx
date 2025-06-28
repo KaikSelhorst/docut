@@ -1,7 +1,6 @@
 'use client'
 import { LayoutGrid } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Logo, LogoSVGText } from './icons/logo'
@@ -16,25 +15,21 @@ import {
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
-  const router = useRouter()
 
   return (
     <header className="border-b h-14 flex items-center">
       <div className="container mx-auto px-3 sm:px-0 flex justify-between items-center">
-        <DropdownMenu
-          open={open}
-          onOpenChange={(b) => {
-            if (!b) return setOpen(b)
-            router.push('/')
-          }}
-        >
+        <DropdownMenu open={open} onOpenChange={(b) => setOpen(!b || false)}>
           <DropdownMenuTrigger
+            asChild
             onContextMenu={(e) => {
               e.preventDefault()
               setOpen(true)
             }}
           >
-            <Logo size={36} />
+            <Link href="/">
+              <Logo size={36} />
+            </Link>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             <DropdownMenuItem
