@@ -1,7 +1,7 @@
 import { Plus } from 'lucide-react'
 
-import { useSidebar } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
+import { useSidebar } from '@/components/ui/sidebar'
 import {
   Tooltip,
   TooltipContent,

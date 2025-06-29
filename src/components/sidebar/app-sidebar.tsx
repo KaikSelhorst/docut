@@ -1,11 +1,11 @@
 'use client'
 
-import type * as React from 'react'
 import { Link } from 'lucide-react'
+import type * as React from 'react'
 
+import { NavLink } from '@/components/sidebar/nav-link'
 import { NavMain } from '@/components/sidebar/nav-projects'
 import { NavUser } from '@/components/sidebar/nav-user'
-import { NavLink } from '@/components/sidebar/nav-link'
 import {
   Sidebar,
   SidebarContent,

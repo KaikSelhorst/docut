@@ -1,14 +1,14 @@
 'use client'
+import { cn } from '@/lib/utils'
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight
 } from 'lucide-react'
-import { Button } from '../ui/button'
-import { useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import { useMemo } from 'react'
+import { Button } from '../ui/button'
 import { PerPage } from './filters/per-page-filter'
 
 interface LinksTablePaginateProps {

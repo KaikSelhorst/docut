@@ -1,4 +1,5 @@
 'use client'
+import type { listLinks } from '@/actions/dashboard/link'
 import {
   Table,
   TableBody,
@@ -8,15 +9,14 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
+import { useSearchParams } from 'next/navigation'
 import { use } from 'react'
-import { LinksTableRow, LinksTableRowSkeleton } from './links-table-row'
-import type { listLinks } from '@/actions/dashboard/link'
 import {
   LinksTableFilter,
   LinksTableFilterSkeleton
 } from './links-table-filter'
 import { LinksTablePaginate } from './links-table-paginate'
-import { useSearchParams } from 'next/navigation'
+import { LinksTableRow, LinksTableRowSkeleton } from './links-table-row'
 
 interface LinksTableProps {
   className?: string

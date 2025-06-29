@@ -1,4 +1,3 @@
-import { useFormContext } from 'react-hook-form'
 import {
   FormControl,
   FormDescription,
@@ -9,6 +8,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { InputPassword } from '@/components/ui/input-password'
+import { useFormContext } from 'react-hook-form'
 
 interface DefaultFieldProps {
   type: React.ComponentProps<'input'>['type']

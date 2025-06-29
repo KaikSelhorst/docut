@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useDebounce } from '@/hooks'
+import { Label } from '@/components/ui/label'
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
-  SelectItem
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from '@/components/ui/select'
-import { Label } from '@/components/ui/label'
+import { useDebounce } from '@/hooks'
 import { cn } from '@/lib/utils'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 interface PerPageProps {
   paramName?: string

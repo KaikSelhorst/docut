@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import { Button } from './button'
 import { Eye, EyeClosed } from 'lucide-react'
+import { Button } from './button'
 
 function InputPassword({ className, ...props }: React.ComponentProps<'input'>) {
   const [open, setOpen] = React.useState(false)
