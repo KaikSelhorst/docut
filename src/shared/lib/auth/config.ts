@@ -4,6 +4,7 @@ import { nextCookies } from 'better-auth/next-js'
 import { db } from 'server/db'
 import { makePasswordHasher } from 'server/helpers/cryptography/password'
 import { makeEmail } from 'server/helpers/email/email'
+import { generateVerifyEmailTemplate } from 'server/helpers/email/templates'
 import { constants } from 'shared/constants'
 import { enableEmailVerification } from 'shared/env'
 
@@ -32,11 +33,25 @@ export const auth = betterAuth({
 
       confirmURL.searchParams.set('callbackURL', '/sign-up/verified')
 
+      const htmlTemplate = await generateVerifyEmailTemplate({
+        confirmURL: confirmURL.toString(),
+        userFirstname: user.name
+      })
+
+      const textTemplate = await generateVerifyEmailTemplate(
+        {
+          confirmURL: confirmURL.toString(),
+          userFirstname: user.name
+        },
+        { plainText: true }
+      )
+
       email.send({
         to: user.email,
-        from: 'noreply@docut.xyz',
+        from: 'contact@docut.xyz',
         subject: 'Complete Sign-up',
-        html: `To complete your sign up access <a href="${confirmURL.toString()}">this link</a>`
+        text: textTemplate,
+        html: htmlTemplate
       })
     },
     sendOnSignUp: enableEmailVerification,
