@@ -1,14 +1,6 @@
 'use client'
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  LogOut,
-  Moon,
-  Sparkles,
-  Sun
-} from 'lucide-react'
+import { BadgeCheck, ChevronsUpDown, LogOut, Moon, Sun } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -26,12 +18,12 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
-import { signOut, useSession } from 'shared/lib/auth/client'
-import { toast } from 'sonner'
-import { useState } from 'react'
+import { useTheme } from '@/hooks'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
-import { useTheme } from '@/hooks'
+import { useState } from 'react'
+import { signOut, useSession } from 'shared/lib/auth/client'
+import { toast } from 'sonner'
 
 export function NavUser() {
   const router = useRouter()
