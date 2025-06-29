@@ -24,6 +24,7 @@ function InputPassword({ className, ...props }: React.ComponentProps<'input'>) {
         size="icon"
         variant="ghost"
         type="button"
+        aria-label="Toggle visibility"
         className="rounded-l-none absolute right-0 top-0 text-muted-foreground"
         onClick={() => setOpen((b) => !b)}
       >
