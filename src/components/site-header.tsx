@@ -36,14 +36,17 @@ export function SiteHeader() {
               onClick={() => {
                 navigator.clipboard.writeText(LogoSVGText)
                 toast.success('Copied Logo SVG to clipboard.')
+                setOpen(false)
               }}
             >
               <Logo />
               Copy Logo as SVG
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <LayoutGrid />
-              Dashboard
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard">
+                <LayoutGrid />
+                Dashboard
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
