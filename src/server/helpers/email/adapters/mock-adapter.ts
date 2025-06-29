@@ -6,6 +6,7 @@ export class MockAdapter implements EmailSend {
     to: string
     subject: string
     html: string
+    text?: string
   }) {
     console.log(payload)
     return true

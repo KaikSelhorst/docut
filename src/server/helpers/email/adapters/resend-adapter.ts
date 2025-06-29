@@ -1,6 +1,6 @@
+import { env } from '@/shared/env'
 import { Resend } from 'resend'
 import type { EmailSend } from './protocols'
-import { env } from '@/shared/env'
 
 const resend = new Resend(env.MAIL_TOKEN)
 
@@ -10,6 +10,7 @@ export class ResendAdapter implements EmailSend {
     from: string
     to: string
     subject: string
+    text?: string
     html: string
   }) {
     const res = await resend.emails.send(payload)
