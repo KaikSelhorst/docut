@@ -4,7 +4,10 @@ import { nextCookies } from 'better-auth/next-js'
 import { db } from 'server/db'
 import { makePasswordHasher } from 'server/helpers/cryptography/password'
 import { makeEmail } from 'server/helpers/email/email'
-import { generateVerifyEmailTemplate } from 'server/helpers/email/templates'
+import {
+  generateResetPasswordEmailTemplate,
+  generateVerifyEmailTemplate
+} from 'server/helpers/email/templates'
 import { constants } from 'shared/constants'
 import { enableEmailVerification } from 'shared/env'
 
@@ -23,7 +26,36 @@ export const auth = betterAuth({
     minPasswordLength: 8,
     maxPasswordLength: 128,
     requireEmailVerification: enableEmailVerification,
-    password: { hash: passwordHasher.hash, verify: passwordHasher.compare }
+    password: { hash: passwordHasher.hash, verify: passwordHasher.compare },
+    sendResetPassword: async ({ url, token, user }) => {
+      const resetPasswordURL = new URL(url)
+
+      resetPasswordURL.searchParams.set(
+        'callbackURL',
+        `/reset-password/${token}`
+      )
+
+      const htmlTemplate = await generateResetPasswordEmailTemplate({
+        resetURL: resetPasswordURL.toString(),
+        userFirstname: user.name
+      })
+
+      const textTemplate = await generateResetPasswordEmailTemplate(
+        {
+          resetURL: resetPasswordURL.toString(),
+          userFirstname: user.name
+        },
+        { plainText: true }
+      )
+
+      email.send({
+        to: user.email,
+        from: '"Docut" <contact@docut.xyz>',
+        subject: 'Reset Password',
+        text: textTemplate,
+        html: htmlTemplate
+      })
+    }
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
@@ -48,7 +80,7 @@ export const auth = betterAuth({
 
       email.send({
         to: user.email,
-        from: 'contact@docut.xyz',
+        from: '"Docut" <contact@docut.xyz>',
         subject: 'Complete Sign-up',
         text: textTemplate,
         html: htmlTemplate
