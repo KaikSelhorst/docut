@@ -1,55 +1,41 @@
 import { listLinks } from '@/actions/dashboard/link'
-import { AppSidebar } from '@/components/sidebar/app-sidebar'
-import { LinksTable, LinksTableSkeleton } from '@/components/table/links-table'
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage
-} from '@/components/ui/breadcrumb'
-
-import { Separator } from '@/components/ui/separator'
-
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger
-} from '@/components/ui/sidebar'
+  DashboardNavbar,
+  DashboardNavbarLink
+} from '@/components/dashboard-navbar'
 import { Suspense } from 'react'
+import { PageClient } from './page-client'
+import { OverviewTableSkeleton } from './table/data-table'
 
 interface PageProps {
-  searchParams: Promise<Record<string, string>>
+  searchParams: Promise<Record<string, string | undefined>>
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const query = await searchParams
-  const linksPromise = listLinks(query)
+  const search = await searchParams
+
+  const linksRes = listLinks({
+    url: search.filter || '',
+    page: search.page || '1',
+    per_page: search.per_page || '25'
+  })
+
   return (
-    <SidebarProvider defaultOpen={false}>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-b">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Shortened links</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
-        <main className="p-4 max-w-[2000px] mx-auto w-full">
-          <Suspense key={Math.random()} fallback={<LinksTableSkeleton />}>
-            <LinksTable linksPromise={linksPromise} />
-          </Suspense>
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <>
+      <DashboardNavbar>
+        <DashboardNavbarLink href="/dashboard">Overview</DashboardNavbarLink>
+        <DashboardNavbarLink href="/dashboard/analytics">
+          Analytics
+        </DashboardNavbarLink>
+      </DashboardNavbar>
+      <div className="px-4 container mx-auto my-6">
+        <Suspense
+          fallback={<OverviewTableSkeleton />}
+          key={JSON.stringify(search)}
+        >
+          <PageClient linksPromise={linksRes} />
+        </Suspense>
+      </div>
+    </>
   )
 }
