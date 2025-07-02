@@ -33,6 +33,7 @@ async function seed() {
         .values({
           name: 'Admin',
           email: env.ADMIN_EMAIL,
+          image: `https://api.dicebear.com/9.x/glass/svg?seed=${btoa(env.ADMIN_EMAIL)}`,
           emailVerified: true,
           createdAt: new Date(),
           updatedAt: new Date(),
