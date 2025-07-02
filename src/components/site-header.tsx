@@ -55,7 +55,9 @@ export function SiteHeader() {
             <Link href="/docs">Docs</Link>
           </Button>
           <Button size="sm" variant="ghost" asChild>
-            <Link href="/dashboard">Dashboard</Link>
+            <Link href="/dashboard" prefetch={false}>
+              Dashboard
+            </Link>
           </Button>
           <ModeSwitcher />
         </nav>
