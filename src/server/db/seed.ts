@@ -1,7 +1,14 @@
 import { faker } from '@faker-js/faker'
 import { nanoid } from 'nanoid'
 import { db } from 'server/db'
-import { account, user } from 'server/db/schemas'
+import {
+  account,
+  link,
+  seo,
+  session,
+  user,
+  verification
+} from 'server/db/schemas'
 import { makePasswordHasher } from 'server/helpers/cryptography/password'
 import { env } from 'shared/env'
 import { logger } from 'shared/logger'
@@ -14,6 +21,13 @@ async function seed() {
 
   const error = await db.transaction(async (tx) => {
     try {
+      const tables = [user, link, account, seo, session, verification]
+
+      for (let i = 0; i < tables.length; i++) {
+        const table = tables[i]
+        await tx.delete(table)
+      }
+
       const [newUser] = await tx
         .insert(user)
         .values({
