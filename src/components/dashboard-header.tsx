@@ -70,7 +70,7 @@ function DashboardHeaderNavbar() {
 
   return (
     <nav className="flex items-center gap-2">
-      <Button size="sm" variant="ghost">
+      <Button size="sm" variant="ghost" asChild>
         <Link href="/docs">Docs</Link>
       </Button>
       <CreateLinkSheet side="right">
@@ -82,9 +82,7 @@ function DashboardHeaderNavbar() {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar className="rounded-md">
-            <AvatarImage
-              src={`https://api.dicebear.com/9.x/glass/svg?seed=${btoa(session?.user.email || '')}`}
-            />
+            <AvatarImage src={session?.user.image || ''} />
             <AvatarFallback>LD</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
