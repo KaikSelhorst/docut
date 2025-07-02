@@ -82,7 +82,10 @@ export function SignUpForm({
   const form = useForm({ resolver: zodResolver(signUpForm) })
 
   async function onSubmit(data: z.infer<typeof signUpForm>) {
-    const { error } = await signUp.email(data)
+    const { error } = await signUp.email({
+      ...data,
+      image: `https://api.dicebear.com/9.x/glass/svg?seed=${btoa(data.email)}`
+    })
 
     if (error) {
       toast.error(error.message)
