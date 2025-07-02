@@ -88,6 +88,7 @@ export function ShortLinkForm() {
                     className="absolute right-0 top-0 rounded-l-none"
                   >
                     <Settings size={16} />
+                    <span className="sr-only">Configure link</span>
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-lg [&>button:last-child]:top-3.5">

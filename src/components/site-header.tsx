@@ -51,10 +51,10 @@ export function SiteHeader() {
           </DropdownMenuContent>
         </DropdownMenu>
         <nav className="flex gap-2 text-sm font-medium">
-          <Button size="sm" variant="ghost">
+          <Button size="sm" variant="ghost" asChild>
             <Link href="/docs">Docs</Link>
           </Button>
-          <Button size="sm" variant="ghost">
+          <Button size="sm" variant="ghost" asChild>
             <Link href="/dashboard">Dashboard</Link>
           </Button>
           <ModeSwitcher />
