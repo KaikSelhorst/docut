@@ -21,3 +21,8 @@ export const updateDisplayNameSchema = z.object({
 })
 
 export const updateEmailSchema = z.object({ email: emailValidator() })
+
+export const deleteAccountForm = z.object({
+  delete: z.enum(['DELETE']),
+  password: passwordValidator().weak
+})

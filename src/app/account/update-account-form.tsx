@@ -1,12 +1,26 @@
 'use client'
 import { DefaultField } from '@/components/form/fields'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
+import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
+  deleteAccountForm,
   updateDisplayNameSchema,
   updateEmailSchema
 } from 'client/schemas/user-schema'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { authClient } from 'shared/lib/auth/client'
 import { toast } from 'sonner'
@@ -115,6 +129,12 @@ export function UpdateEmailForm({ email }: UpdateEmailFormProps) {
 }
 
 export function DeleteAccount() {
+  const router = useRouter()
+  const [open, setOpen] = useState(false)
+  const form = useForm({
+    resolver: zodResolver(deleteAccountForm)
+  })
+
   return (
     <section className="border rounded-md not-first:mt-6 border-destructive/50">
       <div className="p-4 space-y-3">
@@ -125,9 +145,78 @@ export function DeleteAccount() {
         </p>
       </div>
       <div className="flex justify-end border-t border-destructive/50 p-4 items-center bg-destructive/25">
-        <Button size="sm" variant="destructive">
-          Delete my account
-        </Button>
+        <Dialog
+          open={open}
+          onOpenChange={(b) => {
+            form.reset()
+            setOpen(b)
+          }}
+        >
+          <DialogTrigger asChild>
+            <Button size="sm" variant="destructive">
+              Delete my account
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Personal Account</DialogTitle>
+              <DialogDescription>
+                This will permanently delete your account and all associated
+                data.
+              </DialogDescription>
+            </DialogHeader>
+            <main>
+              <Form {...form}>
+                <form
+                  id="delete-account-form"
+                  className="space-y-3"
+                  onSubmit={form.handleSubmit(async (data) => {
+                    toast.loading('Deleting account!')
+                    const { error, data: er } = await authClient.deleteUser({
+                      password: data.password
+                    })
+
+                    toast.dismiss()
+                    if (error) {
+                      toast.error(error.message)
+                      return
+                    }
+
+                    toast.success('Account deleted!')
+                    router.push('/')
+                    router.refresh()
+                  })}
+                >
+                  <DefaultField
+                    name="password"
+                    placeholder="your-password"
+                    label="Password"
+                    type="password"
+                  />
+                  <Label onClick={() => form.setFocus('delete')}>
+                    Type <b>DELETE</b> in the box below to confirm.
+                  </Label>
+                  <DefaultField name="delete" placeholder="DELETE" />
+                </form>
+              </Form>
+            </main>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="secondary">Back</Button>
+              </DialogClose>
+              <Button
+                variant="destructive"
+                type="submit"
+                form="delete-account-form"
+                disabled={
+                  form.formState.isSubmitting || !form.formState.isValid
+                }
+              >
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   )
