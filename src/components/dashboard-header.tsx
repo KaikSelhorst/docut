@@ -83,7 +83,7 @@ function DashboardHeaderNavbar() {
         <DropdownMenuTrigger>
           <Avatar className="rounded-md">
             <AvatarImage src={session?.user.image || ''} />
-            <AvatarFallback>LD</AvatarFallback>
+            <AvatarFallback className="rounded-md">LD</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[180px]">

@@ -1,19 +1,27 @@
 'use client'
-import { LayoutGrid } from 'lucide-react'
+import { useTheme } from '@/hooks'
+import { LayoutGrid, LogOut, SunMoon } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { signOut, useSession } from 'shared/lib/auth/client'
 import { toast } from 'sonner'
 import { Logo, LogoSVGText } from './icons/logo'
-import { ModeSwitcher } from './mode-switcher'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from './ui/dropdown-menu'
 
 export function SiteHeader() {
+  const { toggleTheme } = useTheme()
+  const router = useRouter()
+  const { data: session } = useSession()
   const [open, setOpen] = useState(false)
 
   return (
@@ -43,23 +51,95 @@ export function SiteHeader() {
               Copy Logo as SVG
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/dashboard">
+              <Link href="/dashboard" prefetch={false}>
                 <LayoutGrid />
                 Dashboard
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <nav className="flex gap-2 text-sm font-medium">
+        <nav className="flex gap-2 text-sm font-medium items-center">
           <Button size="sm" variant="ghost" asChild>
             <Link href="/docs">Docs</Link>
           </Button>
-          <Button size="sm" variant="ghost" asChild>
-            <Link href="/dashboard" prefetch={false}>
-              Dashboard
-            </Link>
-          </Button>
-          <ModeSwitcher />
+          {session ? (
+            <>
+              <Button asChild variant="ghost">
+                <Link href="/dashboard" prefetch={false}>
+                  Dashboard
+                </Link>
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Avatar className="rounded-md">
+                    <AvatarImage src={session?.user.image || ''} />
+                    <AvatarFallback className="rounded-md">LD</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[180px]">
+                  <hgroup>
+                    <DropdownMenuLabel className="leading-4">
+                      {session?.user.name}
+                    </DropdownMenuLabel>
+                    <p className="text-sm text-muted-foreground px-2 mb-2">
+                      {session?.user.email}
+                    </p>
+                  </hgroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard" prefetch={false}>
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/account">Account Settings</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={toggleTheme}
+                    className="justify-between"
+                  >
+                    Switch theme <SunMoon />
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="justify-between"
+                    onSelect={(e) => {
+                      e.preventDefault()
+                      signOut({
+                        fetchOptions: {
+                          onRequest: () => {
+                            toast.loading('Signing out...')
+                          },
+                          onSuccess: () => {
+                            toast.dismiss()
+                            toast.success('Signed out successfully')
+                            router.push('/sign-in')
+                          },
+                          onError: () => {
+                            toast.dismiss()
+                            toast.error('Failed to sign out')
+                          }
+                        }
+                      })
+                    }}
+                  >
+                    Logout
+                    <LogOut />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/sign-in">Sign in</Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link href="/sign-up">Sign in</Link>
+              </Button>
+            </>
+          )}
         </nav>
       </div>
     </header>
