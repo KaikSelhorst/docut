@@ -8,7 +8,7 @@ function InputPassword({ className, ...props }: React.ComponentProps<'input'>) {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <div className="relative">
+    <div className="relative" data-input-container>
       <input
         type={open ? 'text' : 'password'}
         data-slot="input"
