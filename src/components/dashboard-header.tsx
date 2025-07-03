@@ -100,7 +100,7 @@ function DashboardHeaderNavbar() {
             <Link href="/dashboard">Dashboard</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href="/account/settings">Account Settings</Link>
+            <Link href="/account">Account Settings</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={toggleTheme} className="justify-between">
