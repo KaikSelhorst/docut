@@ -88,8 +88,8 @@ export class LinkRepository implements LinkRepositoryInterface {
   async findManyByUserId(
     tx: DBInstance,
     userId: string,
-    filters: { page: number; url: string; per_page: number } = {
-      url: '',
+    filters: { page: number; id: string; per_page: number } = {
+      id: '',
       page: 1,
       per_page: 16
     }
@@ -101,8 +101,8 @@ export class LinkRepository implements LinkRepositoryInterface {
       or(gte(link.expiration, new Date()), isNull(link.expiration)) as SQL
     )
 
-    if (filters.url) {
-      arrFilters.push(ilike(link.url, `%${filters.url}%`))
+    if (filters.id) {
+      arrFilters.push(ilike(link.id, `%${filters.id}%`))
     }
 
     const safePageSize = filters.per_page || 16

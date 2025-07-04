@@ -15,7 +15,7 @@ export default async function Page({ searchParams }: PageProps) {
   const search = await searchParams
 
   const linksRes = listLinks({
-    url: search.filter || '',
+    id: search.filter || '',
     page: search.page || '1',
     per_page: search.per_page || '25'
   })
