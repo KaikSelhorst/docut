@@ -60,7 +60,7 @@ export function SiteHeader() {
         </DropdownMenu>
         <nav className="flex gap-2 text-sm font-medium items-center">
           <Button size="sm" variant="ghost" asChild>
-            <Link href="/docs">Docs</Link>
+            <Link href="/docs/setup">Docs</Link>
           </Button>
           {session ? (
             <>
