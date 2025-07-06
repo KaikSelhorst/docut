@@ -30,8 +30,7 @@ export const columns: ColumnDef<Link>[] = [
       <DataTableColumnHeader column={column} title="Full URL" />
     ),
     accessorKey: 'url',
-    size: 200,
-    enableSorting: false
+    size: 200
   },
   {
     header: ({ column }) => (
@@ -39,8 +38,7 @@ export const columns: ColumnDef<Link>[] = [
     ),
     accessorKey: 'clicks',
     cell: ({ row }) => <div>{row.getValue('clicks')}</div>,
-    size: 180,
-    enableSorting: false
+    size: 180
   },
   {
     header: ({ column }) => (
@@ -52,8 +50,7 @@ export const columns: ColumnDef<Link>[] = [
       if (expiration === null) return <div>Permanent</div>
       return <div>{dateUtils.fromNow(expiration as string)}</div>
     },
-    size: 120,
-    enableSorting: false
+    size: 120
   },
   {
     header: ({ column }) => (
@@ -63,8 +60,7 @@ export const columns: ColumnDef<Link>[] = [
     cell: ({ row }) => (
       <div>{dateUtils.fromNow(row.getValue('updatedAt'))}</div>
     ),
-    size: 120,
-    enableSorting: false
+    size: 120
   },
   {
     header: ({ column }) => (
