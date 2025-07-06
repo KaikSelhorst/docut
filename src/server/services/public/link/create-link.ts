@@ -1,8 +1,9 @@
 import dayjs from 'dayjs'
-import { nanoid } from 'nanoid'
 import type { DBInstance } from 'server/db'
 import { parseRequest } from 'server/helpers/request'
 import { serverError, unauthorized } from 'server/helpers/response'
+import { createLink } from 'server/models/link'
+import { createSEO } from 'server/models/seo'
 import type { LinkRepository } from 'server/repository/link-repository'
 import type { SeoRepository } from 'server/repository/seo-repository'
 import type { UserRepository } from 'server/repository/user-repository'
@@ -29,15 +30,14 @@ export class CreateLink {
     if (err) return err()
 
     const link = await this.db.transaction(async (tx) => {
-      const link = await this.linkRepository.create(tx, {
-        id: nanoid(9),
-        expiration: ctx.expiration,
-        url: ctx.url,
-        userId: user.id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        clicks: 0
-      })
+      const link = await this.linkRepository.create(
+        tx,
+        createLink({
+          expiration: ctx.expiration,
+          url: ctx.url,
+          userId: user.id
+        })
+      )
 
       if (!link) {
         tx.rollback()
@@ -46,14 +46,14 @@ export class CreateLink {
 
       const ctxSEO = ctx.seo
 
-      const seo = await this.seoRepository.create(tx, {
-        id: nanoid(),
-        title: ctxSEO.title,
-        description: ctx.seo.description,
-        linkId: link.id,
-        updatedAt: new Date(),
-        createdAt: new Date()
-      })
+      const seo = await this.seoRepository.create(
+        tx,
+        createSEO({
+          description: ctxSEO.description,
+          title: ctxSEO.title,
+          linkId: link.id
+        })
+      )
 
       if (!seo) {
         tx.rollback()
