@@ -24,7 +24,7 @@ interface Success extends Paginate {
   links: Link[]
 }
 
-export async function listLinks(filters: Record<string, string>) {
+export async function listLinks(filters: Record<string, string | undefined>) {
   const { header } = await getSession()
 
   const query = makeRequestQuery(filters)
