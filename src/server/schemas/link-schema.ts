@@ -4,6 +4,7 @@ import {
   expirationValidator,
   titleValidator
 } from '@/shared/validators'
+import { pageSchema, perPageSchema, sortBy, sortDirection } from './filters'
 
 const seoSchema = z.object({
   title: titleValidator().transform((v) => v || null),
@@ -23,23 +24,9 @@ export const createLinkSchema = linkSchema
 export const updateLinkSchema = linkSchema.partial()
 
 export const listLinksSchema = z.object({
-  per_page: z
-    .string()
-    .transform((per) => {
-      const num = Number(per)
-      if (Number.isNaN(num)) return 16
-      if (num > 64) return 64
-      return num
-    })
-    .default(16),
-  page: z
-    .string()
-    .transform((v) => {
-      const parsed = Number(v)
-
-      if (typeof parsed === 'number') return parsed
-      return 1
-    })
-    .default(1),
+  per_page: perPageSchema(25),
+  page: pageSchema(1),
+  sort_by: sortBy('updated_at'),
+  sort_direction: sortDirection('desc'),
   id: z.string().default('')
 })
