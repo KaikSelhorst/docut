@@ -1,6 +1,7 @@
 import {
   type SQL,
   and,
+  asc,
   count,
   desc,
   eq,
@@ -88,10 +89,12 @@ export class LinkRepository implements LinkRepositoryInterface {
   async findManyByUserId(
     tx: DBInstance,
     userId: string,
-    filters: { page: number; id: string; per_page: number } = {
-      id: '',
-      page: 1,
-      per_page: 16
+    filters: {
+      page: number
+      id: string
+      per_page: number
+      sort_by: string
+      sort_direction: 'asc' | 'desc'
     }
   ) {
     const arrFilters: SQL[] = []
@@ -108,13 +111,37 @@ export class LinkRepository implements LinkRepositoryInterface {
     const safePageSize = filters.per_page || 16
     const safeOffset = (filters.page - 1) * safePageSize
 
+    const sortDirection = filters.sort_direction === 'desc' ? desc : asc
+
+    let orderBy: SQL = sortDirection(link.updatedAt)
+
+    switch (filters.sort_by) {
+      case 'clicks':
+        orderBy = sortDirection(link.clicks)
+        break
+      case 'url':
+        orderBy = sortDirection(link.url)
+        break
+      case 'expiration':
+        orderBy = sortDirection(link.expiration)
+        break
+      case 'created_at':
+        orderBy = sortDirection(link.createdAt)
+        break
+      case 'id':
+        orderBy = sortDirection(link.createdAt)
+        break
+      default:
+        break
+    }
+
     try {
       const queryPromise = tx
         .select()
         .from(link)
         .where(and(...arrFilters))
         .limit(safePageSize)
-        .orderBy(desc(link.updatedAt))
+        .orderBy(orderBy)
         .offset(safeOffset)
 
       const totalPromise = tx
