@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation'
 
 const links = [
   { label: 'General', href: '/account' },
-  { label: 'Authentication', href: '/account/authentication' }
+  { label: 'Authentication', href: '/account/authentication' },
+  { label: 'API Keys', href: '/account/api-keys' }
 ]
 
 export function AccountAside() {
