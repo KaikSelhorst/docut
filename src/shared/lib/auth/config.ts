@@ -1,6 +1,7 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
+import { apiKey } from 'better-auth/plugins'
 import { db } from 'server/db'
 import { makePasswordHasher } from 'server/helpers/cryptography/password'
 import { makeEmail } from 'server/helpers/email/email'
@@ -92,5 +93,5 @@ export const auth = betterAuth({
     expiresIn: 3600
   },
 
-  plugins: [nextCookies()]
+  plugins: [nextCookies(), apiKey()]
 })
