@@ -33,7 +33,7 @@ export function DefaulTextAreaField({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="grid gap-3">
           {label ? <FormLabel>{label}</FormLabel> : null}
           <FormControl>
             <Textarea

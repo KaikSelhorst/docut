@@ -34,7 +34,7 @@ export function DefaultField({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="space-y-1">
+        <FormItem className="grid gap-3">
           {label ? <FormLabel>{label}</FormLabel> : null}
           <FormControl>
             {type === 'password' ? (
