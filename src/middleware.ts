@@ -2,6 +2,7 @@ import { getSessionCookie } from 'better-auth/cookies'
 import { type NextRequest, NextResponse } from 'next/server'
 
 const authPages = ['/sign-in', '/sign-up']
+const authenticatedPages = ['/dashboard', '/account']
 
 export async function middleware(request: NextRequest) {
   const session = getSessionCookie(request)
@@ -12,7 +13,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  if (!session && pathname.includes('/dashboard')) {
+  if (!session && authenticatedPages.some((page) => pathname.includes(page))) {
     return NextResponse.redirect(new URL('/sign-in', request.url))
   }
 
