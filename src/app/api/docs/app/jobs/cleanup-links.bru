@@ -1,0 +1,11 @@
+meta {
+  name: cleanup-links
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{host}}/jobs/cleanup
+  body: none
+  auth: inherit
+}
