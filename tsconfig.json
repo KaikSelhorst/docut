@@ -19,8 +19,8 @@
       }
     ],
     "paths": {
+      "@api/*": ["./src/app/api/*"],
       "shared/*": ["./src/shared/*"],
-      "server/*": ["./src/server/*"],
       "client/*": ["./src/client/*"],
       "@/*": ["./src/*"]
     }

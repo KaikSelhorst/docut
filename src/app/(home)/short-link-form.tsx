@@ -36,7 +36,7 @@ export function ShortLinkForm() {
 
   const form = useForm({
     resolver: zodResolver(createLinkSchema),
-    defaultValues: { expiration: '' }
+    defaultValues: { expiration: dayjs().add(1, 'day').toISOString() }
   })
 
   return (
@@ -112,7 +112,6 @@ export function ShortLinkForm() {
                         <DefaultField
                           name="seo.title"
                           label="Preview Title"
-                          defaultValue="Margaret"
                           placeholder="Matt"
                           description="Also known as Open Graph (og) Title: this is the title
                         for the link preview on services like Twitter or
@@ -121,7 +120,6 @@ export function ShortLinkForm() {
                         <DefaulTextAreaField
                           name="seo.description"
                           label="Preview Description"
-                          defaultValue="Margaret"
                           placeholder="Matt"
                           description="Also known as Open Graph (og) Description: this is the
                         description for the link preview on services like

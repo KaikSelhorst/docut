@@ -16,7 +16,7 @@ interface Success {
 export async function getLink(id: string) {
   const { header } = await getSession()
 
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/private/link/${id}`, {
+  const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link/${id}`, {
     headers: { Cookie: header }
   })
 

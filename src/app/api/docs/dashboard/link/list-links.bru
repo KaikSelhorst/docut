@@ -1,0 +1,18 @@
+meta {
+  name: list-links
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/dashboard/link?per_page=2&page=0&sort_direction=asc&sort_by=clicks
+  body: none
+  auth: inherit
+}
+
+params:query {
+  per_page: 2
+  page: 0
+  sort_direction: asc
+  sort_by: clicks
+}
