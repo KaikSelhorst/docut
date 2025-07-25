@@ -13,7 +13,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  if (!session && authenticatedPages.some((page) => pathname.includes(page))) {
+  if (
+    !session &&
+    authenticatedPages.some((page) => pathname.startsWith(page))
+  ) {
     return NextResponse.redirect(new URL('/sign-in', request.url))
   }
 
