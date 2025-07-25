@@ -1,14 +1,14 @@
+import { db } from '@api/db'
+import { makePasswordHasher } from '@api/helpers/cryptography/password'
+import { makeEmail } from '@api/helpers/email/email'
+import {
+  generateResetPasswordEmailTemplate,
+  generateVerifyEmailTemplate
+} from '@api/helpers/email/templates'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
 import { apiKey } from 'better-auth/plugins'
-import { db } from 'server/db'
-import { makePasswordHasher } from 'server/helpers/cryptography/password'
-import { makeEmail } from 'server/helpers/email/email'
-import {
-  generateResetPasswordEmailTemplate,
-  generateVerifyEmailTemplate
-} from 'server/helpers/email/templates'
 import { constants } from 'shared/constants'
 import { enableEmailVerification } from 'shared/env'
 
