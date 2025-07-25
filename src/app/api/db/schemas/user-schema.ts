@@ -1,5 +1,6 @@
-import type { InferSelectModel } from 'drizzle-orm'
+import { type InferSelectModel, relations } from 'drizzle-orm'
 import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { link } from '.'
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -10,5 +11,9 @@ export const user = pgTable('user', {
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at').notNull()
 })
+
+export const userRelations = relations(user, ({ many }) => ({
+  links: many(link)
+}))
 
 export type User = InferSelectModel<typeof user>

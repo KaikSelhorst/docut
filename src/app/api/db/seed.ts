@@ -1,6 +1,4 @@
-import { faker } from '@faker-js/faker'
-import { nanoid } from 'nanoid'
-import { db } from 'server/db'
+import { db } from '@api/db'
 import {
   account,
   link,
@@ -8,8 +6,10 @@ import {
   session,
   user,
   verification
-} from 'server/db/schemas'
-import { makePasswordHasher } from 'server/helpers/cryptography/password'
+} from '@api/db/schemas'
+import { makePasswordHasher } from '@api/helpers/cryptography/password'
+import { faker } from '@faker-js/faker'
+import { nanoid } from 'nanoid'
 import { env } from 'shared/env'
 import { logger } from 'shared/logger'
 import { LinkRepository } from '../repository/link-repository'
