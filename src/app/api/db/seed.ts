@@ -8,12 +8,11 @@ import {
   verification
 } from '@api/db/schemas'
 import { makePasswordHasher } from '@api/helpers/cryptography/password'
+import { LinkRepository, SeoRepository } from '@api/repositories'
 import { faker } from '@faker-js/faker'
 import { nanoid } from 'nanoid'
 import { env } from 'shared/env'
 import { logger } from 'shared/logger'
-import { LinkRepository } from '../repository/link-repository'
-import { SeoRepository } from '../repository/seo-repository'
 
 async function seed() {
   const linkRepository = new LinkRepository()
