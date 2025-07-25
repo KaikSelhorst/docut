@@ -7,10 +7,7 @@ import { failure, success } from '../response'
 interface Success {
   id: string
   url: string
-  clicks: number
   expiration: string | null
-  createdAt: string
-  updatedAt: string
 }
 
 interface Link {
