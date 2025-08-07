@@ -4,7 +4,7 @@ import { env } from '@/shared/env'
 import { failure, success } from '../response'
 
 export async function getLinkSeo(hash: string) {
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/link/${hash}/seo`)
+  const res = await fetch(`${env.APP_URL}/api/link/${hash}/seo`)
 
   if (res.status !== 200) return failure(res)
 

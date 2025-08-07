@@ -26,7 +26,7 @@ interface Link {
 export async function updateLink(id: string, link: Link) {
   const { header } = await getSession()
 
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link/${id}`, {
+  const res = await fetch(`${env.APP_URL}/api/dashboard/link/${id}`, {
     method: 'PUT',
     headers: { Cookie: header },
     body: JSON.stringify(link)

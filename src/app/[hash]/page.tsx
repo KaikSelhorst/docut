@@ -38,7 +38,7 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { hash } = await params
 
-  const link = await fetch(`${env.BETTER_AUTH_URL}/api/link/${hash}`)
+  const link = await fetch(`${env.APP_URL}/api/link/${hash}`)
 
   if (link.status !== 200) return <Notfound />
 

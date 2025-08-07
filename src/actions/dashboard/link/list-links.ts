@@ -29,7 +29,7 @@ export async function listLinks(filters: Record<string, string | undefined>) {
 
   const query = makeRequestQuery(filters)
 
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link${query}`, {
+  const res = await fetch(`${env.APP_URL}/api/dashboard/link${query}`, {
     headers: { Cookie: header }
   })
 

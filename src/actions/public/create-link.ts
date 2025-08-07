@@ -22,7 +22,7 @@ interface Link {
 export async function createLink(link: Link) {
   const { header } = await getSession()
 
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/link`, {
+  const res = await fetch(`${env.APP_URL}/api/link`, {
     method: 'POST',
     headers: { Cookie: header },
     body: JSON.stringify(link)

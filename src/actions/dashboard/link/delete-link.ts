@@ -16,7 +16,7 @@ interface Success {
 export async function deleteLink(id: string) {
   const { header } = await getSession()
 
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link/${id}`, {
+  const res = await fetch(`${env.APP_URL}/api/dashboard/link/${id}`, {
     method: 'DELETE',
     headers: { Cookie: header }
   })
