@@ -93,5 +93,14 @@ export const auth = betterAuth({
     expiresIn: 3600
   },
 
-  plugins: [nextCookies(), apiKey()]
+  plugins: [
+    nextCookies(),
+    apiKey({
+      rateLimit: {
+        enabled: true,
+        timeWindow: 1000 * 60 * 60 * 24,
+        maxRequests: 350
+      }
+    })
+  ]
 })
