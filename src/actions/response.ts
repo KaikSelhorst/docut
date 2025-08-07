@@ -3,7 +3,7 @@ export async function failure(res: Response) {
 
   try {
     const json = await res.json()
-    message = json.error as string
+    message = json.message as string
   } catch {}
   return { success: false, error: message } as const
 }
