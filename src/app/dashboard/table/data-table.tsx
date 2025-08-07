@@ -120,9 +120,9 @@ export function OverviewTable<TData, TValue>({
     }
 
     if (filter !== defFilter) {
-      newParams.set('filter', filter)
+      newParams.set('id', filter)
     } else {
-      newParams.delete('filter')
+      newParams.delete('id')
     }
 
     if (newParams.toString() !== searchParams.toString()) {
@@ -218,7 +218,7 @@ export function OverviewTable<TData, TValue>({
 export function OverviewTableSkeleton() {
   const query = useTableFilters([
     'page',
-    'filter',
+    'id',
     'sort_by',
     'sort_direction',
     'per_page'
@@ -229,7 +229,7 @@ export function OverviewTableSkeleton() {
       columns={columnsSkeleton}
       data={Array(Number(query.per_page) || defPagination.pageSize)}
       disabled={true}
-      filter={query.filter}
+      filter={query.id}
       page={query.page}
       page_count="0"
       per_page={query.per_page}

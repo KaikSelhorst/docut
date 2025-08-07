@@ -20,7 +20,7 @@ export function PageClient({ linksPromise }: PageClientProps) {
 
   const query = useTableFilters([
     'page',
-    'filter',
+    'id',
     'sort_by',
     'sort_direction',
     'per_page'
@@ -31,7 +31,7 @@ export function PageClient({ linksPromise }: PageClientProps) {
       columns={columns}
       data={linksRes.data.links}
       page={query.page}
-      filter={query.filter}
+      filter={query.id}
       sort_by={query.sort_by}
       sort_direction={query.sort_direction}
       page_count={paginate.total_pages}
