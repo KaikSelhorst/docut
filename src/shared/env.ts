@@ -1,3 +1,4 @@
+import { vercel } from '@t3-oss/env-core/presets-zod'
 import { createEnv } from '@t3-oss/env-nextjs'
 import { z } from 'shared/lib/zod'
 
@@ -6,7 +7,7 @@ const booleanSchema = z.stringbool({
   falsy: ['0', 'false']
 })
 
-export const env = createEnv({
+const envParsed = createEnv({
   server: {
     NODE_ENV: z
       .enum(['production', 'development', 'test'])
@@ -15,7 +16,7 @@ export const env = createEnv({
     ADMIN_EMAIL: z.email().optional().default('admin@docut.xyz'),
     ADMIN_PASSWORD: z.string().optional().default('Senha123.'),
     // BetterAuth
-    BETTER_AUTH_URL: z.string().min(1).optional(),
+    BETTER_AUTH_URL: z.string().min(1),
     BETTER_AUTH_SECRET: z.string().min(1).optional(),
     // Database
     DATABASE_URL: z.string().min(1),
@@ -25,10 +26,20 @@ export const env = createEnv({
     MAIL_TOKEN: z.string().optional().default('')
   },
   client: {},
-  experimental__runtimeEnv: {}
+  experimental__runtimeEnv: {},
+  extends: [vercel()]
 })
 
-export const isDevelopment = env.NODE_ENV === 'development'
-export const isProduction = env.NODE_ENV === 'production'
+export const isDevelopment = envParsed.NODE_ENV === 'development'
+export const isProduction = envParsed.NODE_ENV === 'production'
 
-export const enableEmailVerification = env.MAIL_ADAPTER !== 'NONE'
+export const enableEmailVerification = envParsed.MAIL_ADAPTER !== 'NONE'
+
+export const APP_URL = getAppURL()
+
+function getAppURL() {
+  if (envParsed.VERCEL_URL) return `https://${envParsed.VERCEL_URL}`
+  return envParsed.BETTER_AUTH_URL
+}
+
+export const env = { ...envParsed, APP_URL } as const

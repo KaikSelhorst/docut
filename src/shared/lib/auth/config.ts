@@ -10,7 +10,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
 import { apiKey } from 'better-auth/plugins'
 import { constants } from 'shared/constants'
-import { enableEmailVerification } from 'shared/env'
+import { enableEmailVerification, env } from 'shared/env'
 
 // Better auth use User, account,
 // verification and session database tables.
@@ -19,6 +19,7 @@ const passwordHasher = makePasswordHasher()
 const email = await makeEmail()
 
 export const auth = betterAuth({
+  baseURL: env.APP_URL,
   database: drizzleAdapter(db, {
     provider: 'pg'
   }),
