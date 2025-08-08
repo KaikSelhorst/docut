@@ -1,3 +1,11 @@
+import { UpdateAccountFormSkeleton } from './update-account-form'
+
 export default function Loading() {
-  return null
+  return (
+    <>
+      <UpdateAccountFormSkeleton />
+      <UpdateAccountFormSkeleton />
+      <UpdateAccountFormSkeleton />
+    </>
+  )
 }

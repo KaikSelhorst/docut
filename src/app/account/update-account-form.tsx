@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
+import { Skeleton } from '@/components/ui/skeleton'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   deleteAccountForm,
@@ -217,6 +218,22 @@ export function DeleteAccount() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+      </div>
+    </section>
+  )
+}
+
+export function UpdateAccountFormSkeleton() {
+  return (
+    <section className="border rounded-md not-first:mt-6">
+      <div className="p-4 space-y-3 [&_input]:max-w-md">
+        <Skeleton className="h-8 w-40" />
+        <Skeleton className="h-5 w-96" />
+        <Skeleton className="h-7 invisible" />
+      </div>
+      <div className="flex justify-between border-t p-4 items-center">
+        <Skeleton className="h-5 w-96" />
+        <Skeleton className="h-9 w-16" />
       </div>
     </section>
   )
