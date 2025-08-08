@@ -25,30 +25,32 @@ class CreateLinkService {
     const linkCreated = await this.db.transaction(async (tx) => {
       const linkId = nanoid(9)
       this.logger.info(`Creating link ${linkId}`)
-      const link = await this.linkRepository.create(tx, {
-        id: linkId,
-        expiration: input.ctx.expiration,
-        url: input.ctx.url,
-        userId: session.session.userId,
-        clicks: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
+      this.logger.info(`Creating SEO metadata for link ${linkId}`)
+
+      const [link, seo] = await Promise.all([
+        await this.linkRepository.create(tx, {
+          id: linkId,
+          expiration: input.ctx.expiration,
+          url: input.ctx.url,
+          userId: session.session.userId,
+          clicks: 0,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }),
+        this.seoRepository.create(tx, {
+          createdAt: new Date(),
+          id: nanoid(),
+          linkId: linkId,
+          updatedAt: new Date(),
+          ...input.ctx.seo
+        })
+      ])
 
       if (!link) {
         this.logger.error(`Failed to create link ${linkId}`)
         tx.rollback()
         return null
       }
-
-      this.logger.info(`Creating SEO metadata for link ${linkId}`)
-      const seo = await this.seoRepository.create(tx, {
-        createdAt: new Date(),
-        id: nanoid(),
-        linkId: link.id,
-        updatedAt: new Date(),
-        ...input.ctx.seo
-      })
 
       if (!seo) {
         this.logger.error(`Failed to create SEO metadata for link ${linkId}`)
