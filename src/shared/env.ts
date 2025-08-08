@@ -22,7 +22,9 @@ export const env = createEnv({
     DRIZZLE_LOGGER: booleanSchema,
     // Mail
     MAIL_ADAPTER: z.enum(['NONE', 'RESEND']).default('NONE'),
-    MAIL_TOKEN: z.string().optional().default('')
+    MAIL_TOKEN: z.string().optional().default(''),
+    // Redis
+    REDIS_URL: z.string().min(1)
   },
   client: {},
   experimental__runtimeEnv: {}

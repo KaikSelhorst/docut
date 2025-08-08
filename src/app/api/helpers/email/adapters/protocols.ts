@@ -1,9 +1,11 @@
+export interface SendEmailPayload {
+  from: string
+  to: string
+  subject: string
+  html: string
+  text?: string
+}
+
 export interface EmailSend {
-  send(payload: {
-    from: string
-    to: string
-    subject: string
-    html: string
-    text?: string
-  }): Promise<boolean>
+  send(payload: SendEmailPayload): Promise<boolean>
 }

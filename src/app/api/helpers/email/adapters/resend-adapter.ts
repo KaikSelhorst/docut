@@ -14,6 +14,6 @@ export class ResendAdapter implements EmailSend {
     html: string
   }) {
     const res = await resend.emails.send(payload)
-    return !!res.error
+    return res.error === null
   }
 }
