@@ -1,7 +1,7 @@
 'use server'
 
+import { getDefaultHeaders } from '@/actions/get-request-props'
 import { env } from '@/shared/env'
-import { getSession } from '../../get-session'
 import { failure, success } from '../../response'
 
 interface Success {
@@ -14,11 +14,11 @@ interface Success {
 }
 
 export async function deleteLink(id: string) {
-  const { header } = await getSession()
+  const reqHeaders = await getDefaultHeaders()
 
   const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link/${id}`, {
     method: 'DELETE',
-    headers: { Cookie: header }
+    headers: reqHeaders
   })
 
   if (res.status !== 200) return failure(res)

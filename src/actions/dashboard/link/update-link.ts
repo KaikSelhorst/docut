@@ -1,7 +1,7 @@
 'use server'
 
+import { getDefaultHeaders } from '@/actions/get-request-props'
 import { env } from '@/shared/env'
-import { getSession } from '../../get-session'
 import { failure, success } from '../../response'
 
 interface Success {
@@ -24,11 +24,11 @@ interface Link {
 }
 
 export async function updateLink(id: string, link: Link) {
-  const { header } = await getSession()
+  const reqHeaders = await getDefaultHeaders()
 
   const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link/${id}`, {
     method: 'PUT',
-    headers: { Cookie: header },
+    headers: reqHeaders,
     body: JSON.stringify(link)
   })
 
