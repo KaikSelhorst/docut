@@ -1,6 +1,6 @@
 import { type InferSelectModel, relations } from 'drizzle-orm'
 import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
-import { seo, user } from '.'
+import { click, seo, user } from '.'
 import { createdAt, updatedAt } from '../helpers'
 
 export const link = pgTable('link', {
@@ -15,7 +15,7 @@ export const link = pgTable('link', {
   clicks: integer('click').notNull().default(0)
 })
 
-export const linkRelations = relations(link, ({ one }) => ({
+export const linkRelations = relations(link, ({ one, many }) => ({
   user: one(user, {
     fields: [link.userId],
     references: [user.id]
@@ -23,7 +23,8 @@ export const linkRelations = relations(link, ({ one }) => ({
   seo: one(seo, {
     fields: [link.id],
     references: [seo.linkId]
-  })
+  }),
+  clicks: many(click)
 }))
 
 export type Link = InferSelectModel<typeof link>
