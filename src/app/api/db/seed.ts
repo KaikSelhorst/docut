@@ -1,6 +1,7 @@
 import { db } from '@api/db'
 import {
   account,
+  click,
   link,
   seo,
   session,
@@ -20,7 +21,7 @@ async function seed() {
 
   const error = await db.transaction(async (tx) => {
     try {
-      const tables = [user, link, account, seo, session, verification]
+      const tables = [user, link, account, seo, session, verification, click]
 
       for (let i = 0; i < tables.length; i++) {
         const table = tables[i]
@@ -70,7 +71,7 @@ async function seed() {
       for (let i = 0; i < links.length; i++) {
         const element = links[i]
 
-        const link = await linkRepository.create(tx, {
+        const linkPromise = linkRepository.create(tx, {
           createdAt: element.createdAt,
           updatedAt: element.updatedAt,
           expiration: element.expiration,
@@ -80,20 +81,22 @@ async function seed() {
           clicks: Math.ceil(Math.random() * 3000)
         })
 
-        if (!link) {
-          throw new Error('Error on create link')
-        }
-
-        const seoLink = await seoRepository.create(tx, {
+        const seoPromise = seoRepository.create(tx, {
           createdAt: element.createdAt,
           updatedAt: element.updatedAt,
           description: element.seo.description,
           title: element.seo.title,
           id: nanoid(),
-          linkId: link.id
+          linkId: element.id
         })
 
-        if (!seoLink) {
+        const [link, seo] = await Promise.all([linkPromise, seoPromise])
+
+        if (!link) {
+          throw new Error('Error on create link')
+        }
+
+        if (!seo) {
           throw new Error('Error on create link seo')
         }
       }
