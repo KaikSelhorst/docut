@@ -1,5 +1,4 @@
 import { cookies, headers } from 'next/headers'
-import { env } from 'shared/env'
 
 async function getSession() {
   const cookie = await cookies()
@@ -18,10 +17,7 @@ async function getUserAgentAndIP() {
   const h = await headers()
 
   const agent = h.get('user-agent') as string
-  const ip =
-    env.NODE_ENV === 'development'
-      ? '127.168.0.1'
-      : (h.get('x-forwarded-for') as string)
+  const ip = h.get('x-forwarded-for') as string
 
   return { ip, agent }
 }
