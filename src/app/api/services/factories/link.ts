@@ -1,6 +1,7 @@
 import { db } from '@api/db'
 import { Logger, Session } from '@api/helpers'
 import {
+  ClickRepository,
   LinkRepository,
   SeoRepository,
   UserRepository
@@ -83,6 +84,7 @@ export function createCreatePublicLinkService() {
 export function createGetPublicLinkService() {
   const logger = new Logger('get-public-link-service')
   const linkRepository = new LinkRepository()
+  const clickRepository = new ClickRepository(new Logger('click-repository'))
 
-  return new GetPublicLinkService(logger, db, linkRepository)
+  return new GetPublicLinkService(logger, db, linkRepository, clickRepository)
 }
