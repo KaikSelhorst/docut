@@ -50,6 +50,13 @@
       "when": 1754608535129,
       "tag": "0006_majestic_maverick",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1755719928340,
+      "tag": "0007_rapid_prima",
+      "breakpoints": true
     }
   ]
 }

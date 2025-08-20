@@ -1,6 +1,6 @@
 import { getLinkSeo } from '@/actions/public/get-link-seo'
+import { getPublicLink } from '@/actions/public/get-public-link'
 import { Badge } from '@/components/ui/badge'
-import { env } from '@/shared/env'
 import type { Metadata } from 'next'
 import { RedirectTo } from './redirect-to'
 
@@ -38,13 +38,11 @@ export async function generateMetadata({
 export default async function Page({ params }: PageProps) {
   const { hash } = await params
 
-  const link = await fetch(`${env.BETTER_AUTH_URL}/api/link/${hash}`)
+  const link = await getPublicLink({ hash })
 
-  if (link.status !== 200) return <Notfound />
+  if (!link.success) return <Notfound />
 
-  const res = await link.json()
-
-  return <RedirectTo path={res.url} />
+  return <RedirectTo path={link.data.url} />
 }
 
 function Notfound() {

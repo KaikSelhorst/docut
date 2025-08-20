@@ -1,6 +1,5 @@
 'use server'
-
-import { getSession } from '@/actions/get-session'
+import { getDefaultHeaders } from '@/actions/get-request-props'
 import { makeRequestQuery } from '@/actions/request'
 import { failure, success } from '@/actions/response'
 import { env } from '@/shared/env'
@@ -25,12 +24,12 @@ interface Success extends Paginate {
 }
 
 export async function listLinks(filters: Record<string, string | undefined>) {
-  const { header } = await getSession()
+  const reqHeaders = await getDefaultHeaders()
 
   const query = makeRequestQuery(filters)
 
   const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link${query}`, {
-    headers: { Cookie: header }
+    headers: reqHeaders
   })
 
   if (res.status !== 200) return failure(res)
