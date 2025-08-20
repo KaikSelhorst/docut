@@ -7,13 +7,6 @@ const MAXMIND_GLOBAL_KEY = 'maxmind'
 
 export class MaxmindAdapter implements Lookuper {
   async lookup(h: Headers) {
-    if (!global[MAXMIND_GLOBAL_KEY]) {
-      const dirFolder = path.join(process.cwd(), 'src/app/api/data')
-      const dirFile = path.resolve(dirFolder, 'GeoLite2-City.mmdb')
-
-      global[MAXMIND_GLOBAL_KEY] = await maxmind.open(dirFile)
-    }
-
     const rawIP = getIpAddress(h)
     const ip = isLocalhost(rawIP) ? '127.0.0.1' : rawIP
     const defaultLookup = { country: null, ip: ip }
@@ -29,6 +22,13 @@ export class MaxmindAdapter implements Lookuper {
       const country = h.get('x-vercel-ip-country')
 
       return { country, ip }
+    }
+
+    if (!global[MAXMIND_GLOBAL_KEY]) {
+      const dirFolder = path.join(process.cwd(), 'src/app/api/data')
+      const dirFile = path.resolve(dirFolder, 'GeoLite2-City.mmdb')
+
+      global[MAXMIND_GLOBAL_KEY] = await maxmind.open(dirFile)
     }
 
     const res = global[MAXMIND_GLOBAL_KEY].get(ip)
