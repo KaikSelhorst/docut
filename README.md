@@ -1,34 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <picture>
+    <source srcset="./public/banner-dark.png" media="(prefers-color-scheme: dark)">
+    <source srcset="./public/banner.png" media="(prefers-color-scheme: light)">
+    <img src="./public/banner.png" alt="Docut logo">
+  </picture>
+  <h2 align="center">
+    Docut
+  </h2>
 
-## Getting Started
+## About the Project
 
-First, run the development server:
+Docut is a customizable link platform that helps you build stronger digital connections. Create short URLs, generate QR codes — all with SEO-friendly titles and descriptions for richer previews on social platforms. Integrate easily using the backend SDK and manage everything from a clean dashboard.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Why Docut
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sharing links is more than shortening a URL. Docut lets you control how links appear when shared (title, description, and preview), track engagement, create QR codes, and integrate the flow into your own services with the SDK.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contribution
 
-## Learn More
+Docut is an open-source project under the MIT License.
 
-To learn more about Next.js, take a look at the following resources:
+You can help continue its development by:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Opening pull requests on the repository: https://github.com/KaikSelhorst/docut
+- Suggesting new features and reporting issues: https://github.com/KaikSelhorst/docut/issues
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Security
+If you discover a security vulnerability within Docut, please email oficial.kaikselhorst@gmail.com.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All reports will be promptly addressed, and you'll be credited accordingly.
