@@ -11,16 +11,28 @@ export const GET = async (
   if (is) {
     const htmlContent = `
     <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <title>Exemplo</title>
-    </head>
-    <body>
-      <h1>Olá, mundo!</h1>
-      <p>Este é um HTML retornado pela API.</p>
-    </body>
-    </html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exemplo</title>
+  <!-- Twitter Card metadata -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Exemplo de Prévia">
+  <meta name="twitter:description" content="Este é um HTML retornado pela API com prévia para o Twitter!">
+  <meta name="twitter:image" content="https://exemplo.com/imagem.jpg">
+  <meta name="twitter:site" content="@SeuTwitter">
+  <!-- Open Graph metadata (fallback para Twitter e outras plataformas) -->
+  <meta property="og:title" content="Exemplo de Prévia">
+  <meta property="og:description" content="Este é um HTML retornado pela API com prévia para o Twitter!">
+  <meta property="og:image" content="https://exemplo.com/imagem.jpg">
+  <meta property="og:url" content="https://exemplo.com/api/link">
+  <meta property="og:type" content="website">
+</head>
+<body>
+  <h1>Olá, mundo!</h1>
+  <p>Este é um HTML retornado pela API.</p>
+</body>
+</html>
   `
     const headers = new Headers()
     headers.set('Content-Type', 'text/html')
