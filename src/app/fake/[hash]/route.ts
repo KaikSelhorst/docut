@@ -60,6 +60,8 @@ function generateHTMLTemplate(title: string, description: string, url: string) {
         <!-- <meta property="og:image" content="https://exemplo.com/imagem.jpg"> -->
         <meta property="og:url" content="${url}">
         <meta property="og:type" content="website">
+
+        <meta name="robots" content="noindex, nofollow">
       </head>
       <body></body>
       </html>
