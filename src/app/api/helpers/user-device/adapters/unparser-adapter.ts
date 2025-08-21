@@ -8,8 +8,8 @@ export class UAParserAdapter implements Detecter {
     const result = parser.getResult()
 
     return {
-      browser: { name: result.browser.name?.toLowerCase() || 'Unknown' },
-      os: { name: result.os.name?.toLowerCase() || 'Unknown' }
+      browser: { name: result.browser.name?.toLowerCase() || null },
+      os: { name: result.os.name?.toLowerCase() || null }
     }
   }
 }
