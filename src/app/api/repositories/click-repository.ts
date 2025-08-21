@@ -20,7 +20,9 @@ export class ClickRepository {
       await tx.insert(click).values({ ...clickValue, isUnique: !recentClick })
       return true
     } catch (e) {
-      this.logger.error(`Failed to registry for link with ID: ${clickValue.id}`)
+      this.logger.error(
+        `Failed to registry for link with ID: ${clickValue.linkId}`
+      )
       return false
     }
   }
