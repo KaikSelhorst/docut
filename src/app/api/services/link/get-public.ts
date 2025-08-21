@@ -42,7 +42,7 @@ class GetPublicLinkService {
     const reqGeo = await geo.lookup(req.headers)
     const reqDevice = await userDevice.detect(userAgent)
 
-    this.clickRepository.registerClick(this.db, {
+    await this.clickRepository.registerClick(this.db, {
       id: nanoid(),
       linkId: link.id,
       updatedAt: new Date(),
