@@ -57,6 +57,13 @@
       "when": 1755719928340,
       "tag": "0007_rapid_prima",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1755865858252,
+      "tag": "0008_red_unicorn",
+      "breakpoints": true
     }
   ]
 }
