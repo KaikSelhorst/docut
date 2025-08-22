@@ -13,7 +13,9 @@ export const click = pgTable('click', {
   referer: text('referer'),
   country: text('country'),
   city: text('city'),
-  deviceType: text('device_type'),
+  os: text('os'),
+  device: text('device'),
+  browser: text('browser'),
   isUnique: boolean('is_unique').default(true).notNull(),
   createdAt: createdAt,
   updatedAt: updatedAt

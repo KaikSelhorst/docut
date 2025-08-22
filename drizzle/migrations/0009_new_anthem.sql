@@ -1,0 +1,1 @@
+ALTER TABLE "click" RENAME COLUMN "device_type" TO "os";
