@@ -12,6 +12,7 @@ export const click = pgTable('click', {
   userAgent: text('user_agent'),
   referer: text('referer'),
   country: text('country'),
+  city: text('city'),
   deviceType: text('device_type'),
   isUnique: boolean('is_unique').default(true).notNull(),
   createdAt: createdAt,
