@@ -1,3 +1,5 @@
 export interface Lookuper {
-  lookup: (headers: Headers) => Promise<{ country: string | null; ip: string }>
+  lookup: (
+    headers: Headers
+  ) => Promise<{ country: string | null; city: string | null; ip: string }>
 }
