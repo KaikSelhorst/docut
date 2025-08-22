@@ -1,4 +1,5 @@
 import path from 'node:path'
+import { safeDecodeURIComponent } from '@api/helpers/url'
 import maxmind from 'maxmind'
 import { getIpAddress, isLocalhost } from '../helpers'
 import type { Lookuper } from './protocols'
@@ -14,14 +15,14 @@ export class MaxmindAdapter implements Lookuper {
     // Cloudflare headers
     if (h.get('cf-ipcountry')) {
       const country = h.get('cf-ipcountry')
-      const city = h.get('cf-ipcity')
+      const city = safeDecodeURIComponent(h.get('cf-ipcity'))
       return { country, city, ip }
     }
 
     // Vercel headers
     if (h.get('x-vercel-ip-country')) {
       const country = h.get('x-vercel-ip-country')
-      const city = h.get('x-vercel-ip-city')
+      const city = safeDecodeURIComponent(h.get('x-vercel-ip-city'))
 
       return { country, city, ip }
     }
@@ -38,7 +39,7 @@ export class MaxmindAdapter implements Lookuper {
     if (res)
       return {
         country: res.country.iso_code as string,
-        city: res.city?.names?.en || null,
+        city: safeDecodeURIComponent(res.city?.names?.en || null),
         ip
       }
 
