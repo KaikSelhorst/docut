@@ -48,6 +48,7 @@ class GetPublicLinkService {
       updatedAt: new Date(),
       createdAt: new Date(),
       country: reqGeo.country,
+      city: reqGeo.city,
       ipAddress: reqGeo.ip,
       deviceType: reqDevice.os.name,
       userAgent,
