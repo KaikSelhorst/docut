@@ -1,5 +1,8 @@
 import { z } from 'shared/lib/zod'
+import { makeGeolocalization } from './geolocalization'
 import { badRequest } from './response'
+import { safeDecodeURIComponent } from './url'
+import { makeUserDevice } from './user-device'
 
 async function getRequestBody(req: Request) {
   try {
@@ -55,4 +58,28 @@ async function getBodyAndQueryFromRequest<T extends zodSchema>(
   }
 
   return data as Schema<T>
+}
+
+export async function getRequestInfo(request: Request) {
+  const userDevice = makeUserDevice()
+  const geo = makeGeolocalization()
+
+  const userAgent = request.headers.get('user-agent') || ''
+  const referer = request.headers.get('referer') || null
+
+  const reqGeo = await geo.lookup(request.headers)
+  const reqDevice = await userDevice.detect(userAgent)
+
+  const city = safeDecodeURIComponent(reqGeo.city)
+  const country = safeDecodeURIComponent(reqGeo.country)
+  const ip = reqGeo.ip
+
+  return {
+    city,
+    country,
+    ip,
+    referer,
+    userAgent,
+    os: reqDevice.os.name
+  }
 }
