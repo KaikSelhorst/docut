@@ -1,7 +1,7 @@
 export const IP_ADDRESS_HEADERS = [
-  'x-forwarded-for',
   'cf-connecting-ip',
   'x-client-ip',
+  'x-forwarded-for',
   'do-connecting-ip',
   'fastly-client-ip',
   'true-client-ip',
