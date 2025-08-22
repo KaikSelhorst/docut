@@ -80,6 +80,8 @@ export async function getRequestInfo(request: Request) {
     ip,
     referer,
     userAgent,
-    os: reqDevice.os.name
+    os: reqDevice.os.name,
+    device: reqDevice.device.type,
+    browser: reqDevice.browser.name
   }
 }

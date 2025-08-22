@@ -64,6 +64,27 @@
       "when": 1755865858252,
       "tag": "0008_red_unicorn",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1755879971963,
+      "tag": "0009_new_anthem",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1755880454937,
+      "tag": "0010_ambitious_songbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1755882336680,
+      "tag": "0011_striped_jubilee",
+      "breakpoints": true
     }
   ]
 }

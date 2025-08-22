@@ -42,8 +42,10 @@ class GetPublicLinkService {
       country: reqInfo.country,
       city: reqInfo.city,
       ipAddress: reqInfo.ip,
-      deviceType: reqInfo.os,
+      os: reqInfo.os,
+      device: reqInfo.device,
       userAgent: reqInfo.userAgent,
+      browser: reqInfo.browser,
       referer: reqInfo.referer
     })
 

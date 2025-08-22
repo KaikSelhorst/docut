@@ -1,0 +1,1 @@
+ALTER TABLE "click" ADD COLUMN "browser" text;
