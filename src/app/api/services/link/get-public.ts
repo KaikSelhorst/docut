@@ -1,8 +1,7 @@
 import type { DBInstance } from '@api/db'
 import type { Logger } from '@api/helpers'
-import { makeGeolocalization } from '@api/helpers/geolocalization'
+import { getRequestInfo } from '@api/helpers/request'
 import { notFound } from '@api/helpers/response'
-import { makeUserDevice } from '@api/helpers/user-device'
 import { publicLinkToResponse } from '@api/model/convert/link-converter'
 import type { ClickRepository, LinkRepository } from '@api/repositories'
 import { nanoid } from 'nanoid'
@@ -33,26 +32,19 @@ class GetPublicLinkService {
         )
       )
 
-    const userDevice = makeUserDevice()
-    const geo = makeGeolocalization()
-
-    const userAgent = req.headers.get('user-agent') || ''
-    const referer = req.headers.get('referer') || null
-
-    const reqGeo = await geo.lookup(req.headers)
-    const reqDevice = await userDevice.detect(userAgent)
+    const reqInfo = await getRequestInfo(req)
 
     await this.clickRepository.registerClick(this.db, {
       id: nanoid(),
       linkId: link.id,
       updatedAt: new Date(),
       createdAt: new Date(),
-      country: reqGeo.country,
-      city: reqGeo.city,
-      ipAddress: reqGeo.ip,
-      deviceType: reqDevice.os.name,
-      userAgent,
-      referer
+      country: reqInfo.country,
+      city: reqInfo.city,
+      ipAddress: reqInfo.ip,
+      deviceType: reqInfo.os,
+      userAgent: reqInfo.userAgent,
+      referer: reqInfo.referer
     })
 
     this.logger.info(`Link with ID: ${params.id} retrieved successfully`)
