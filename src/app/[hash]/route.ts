@@ -5,8 +5,8 @@ import { isbot } from 'isbot'
 interface GetPublicLinkData {
   url: string
   seo: {
-    title: string
-    description: string
+    title: string | null
+    description: string | null
   }
 }
 
@@ -28,8 +28,8 @@ export const GET = async (
 
   if (is) {
     const htmlContent = generateHTMLTemplate(
-      linkData.seo.title,
-      linkData.seo.description,
+      linkData.seo.title || '',
+      linkData.seo.description || '',
       linkData.url
     )
     const headers = new Headers()
