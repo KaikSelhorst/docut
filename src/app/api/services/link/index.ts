@@ -5,3 +5,4 @@ export * from './delete'
 export * from './create-public'
 export * from './update'
 export * from './get-public'
+export * from "./get-metrics"

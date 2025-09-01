@@ -10,6 +10,7 @@ import {
   CreateLinkPublicService,
   CreateLinkService,
   DeleteLinkService,
+  GetLinkMetricsService,
   GetLinkService,
   GetPublicLinkService,
   ListLinksService,
@@ -87,4 +88,12 @@ export function createGetPublicLinkService() {
   const clickRepository = new ClickRepository(new Logger('click-repository'))
 
   return new GetPublicLinkService(logger, db, linkRepository, clickRepository)
+}
+
+export function createGetLinkMetricsService() {
+  const logger = new Logger('get-link-metrics-service')
+  const session = new Session(new Logger('Session'))
+  const clickRepository = new ClickRepository(new Logger('click-repository'))
+
+  return new GetLinkMetricsService(logger, session, db, clickRepository)
 }
