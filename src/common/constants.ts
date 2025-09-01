@@ -43,3 +43,11 @@ export const MOBILE_OS = [
   'iOS',
   'Windows Mobile'
 ] as const
+
+export const METRIC_TYPES = [
+  'country',
+  'os',
+  'device',
+  'browser',
+  'city'
+] as const
