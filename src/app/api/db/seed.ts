@@ -8,14 +8,23 @@ import {
   user,
   verification
 } from '@api/db/schemas'
+import { Logger } from '@api/helpers'
 import { makePasswordHasher } from '@api/helpers/cryptography/password'
-import { LinkRepository, SeoRepository } from '@api/repositories'
+import { getRequestInfo } from '@api/helpers/request'
+import {
+  ClickRepository,
+  LinkRepository,
+  SeoRepository
+} from '@api/repositories'
 import { faker } from '@faker-js/faker'
 import { nanoid } from 'nanoid'
 import { env } from 'shared/env'
 import { logger } from 'shared/logger'
 
 async function seed() {
+  const clickRepository = new ClickRepository(
+    new Logger('click-repository-seed')
+  )
   const linkRepository = new LinkRepository()
   const seoRepository = new SeoRepository()
 
@@ -54,7 +63,7 @@ async function seed() {
         })
         .returning()
 
-      const links = Array(100)
+      const links = Array(300)
         .fill('')
         .map(() => ({
           id: nanoid(9),
@@ -98,6 +107,35 @@ async function seed() {
 
         if (!seo) {
           throw new Error('Error on create link seo')
+        }
+
+        const req = new Request({
+          url: link.url,
+          headers: new Headers({
+            'x-forwarded-for': faker.internet.ipv4(),
+            'user-agent': faker.internet.userAgent()
+          })
+        } as any)
+
+        const reqInfo = await getRequestInfo(req)
+
+        const registred = await clickRepository.registerClick(tx, {
+          linkId: link.id,
+          userAgent: reqInfo.userAgent,
+          browser: reqInfo.browser,
+          city: reqInfo.city,
+          country: reqInfo.country,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          device: reqInfo.device,
+          id: nanoid(),
+          ipAddress: reqInfo.ip,
+          os: reqInfo.os,
+          referer: reqInfo.referer
+        })
+
+        if (!registred) {
+          throw new Error('Error on create link click')
         }
       }
 
