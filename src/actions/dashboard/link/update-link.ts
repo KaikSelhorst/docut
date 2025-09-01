@@ -1,7 +1,7 @@
 'use server'
 
 import { getDefaultHeaders } from '@/actions/get-request-props'
-import { env } from '@/shared/env'
+import { routes } from '@/actions/routes'
 import { failure, success } from '../../response'
 
 interface Success {
@@ -25,8 +25,9 @@ interface Link {
 
 export async function updateLink(id: string, link: Link) {
   const reqHeaders = await getDefaultHeaders()
+  const route = routes.link.put.withParams({ id }).toString()
 
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link/${id}`, {
+  const res = await fetch(route, {
     method: 'PUT',
     headers: reqHeaders,
     body: JSON.stringify(link)

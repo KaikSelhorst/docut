@@ -1,8 +1,7 @@
 'use server'
 import { getDefaultHeaders } from '@/actions/get-request-props'
-import { makeRequestQuery } from '@/actions/request'
 import { failure, success } from '@/actions/response'
-import { env } from '@/shared/env'
+import { routes } from '@/actions/routes'
 
 interface Link {
   id: string
@@ -26,11 +25,9 @@ interface Success extends Paginate {
 export async function listLinks(filters: Record<string, string | undefined>) {
   const reqHeaders = await getDefaultHeaders()
 
-  const query = makeRequestQuery(filters)
+  const route = routes.link.list.withSearchParams(filters).toString()
 
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link${query}`, {
-    headers: reqHeaders
-  })
+  const res = await fetch(route, { headers: reqHeaders })
 
   if (res.status !== 200) return failure(res)
   return success<Success>(res)
