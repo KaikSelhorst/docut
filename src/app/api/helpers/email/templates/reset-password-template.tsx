@@ -18,7 +18,7 @@ interface ResetPasswordProps {
   resetURL: string
 }
 
-const baseUrl = env.BETTER_AUTH_URL ? env.BETTER_AUTH_URL : ''
+const baseUrl = env.APP_URL ? env.APP_URL : ''
 
 export const ResetPasswordEmailTemplate = ({
   userFirstname,

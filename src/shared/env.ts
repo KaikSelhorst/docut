@@ -1,4 +1,5 @@
 import { createEnv } from '@t3-oss/env-nextjs'
+import { vercel } from '@t3-oss/env-nextjs/presets-zod'
 import { z } from 'shared/lib/zod'
 
 const booleanSchema = z.stringbool({
@@ -6,7 +7,7 @@ const booleanSchema = z.stringbool({
   falsy: ['0', 'false']
 })
 
-export const env = createEnv({
+const envParsed = createEnv({
   server: {
     NODE_ENV: z
       .enum(['production', 'development', 'test'])
@@ -27,10 +28,22 @@ export const env = createEnv({
     REDIS_URL: z.string().min(1)
   },
   client: {},
-  experimental__runtimeEnv: {}
+  experimental__runtimeEnv: {},
+  extends: [vercel()]
 })
 
-export const isDevelopment = env.NODE_ENV === 'development'
-export const isProduction = env.NODE_ENV === 'production'
+export const isDevelopment = envParsed.NODE_ENV === 'development'
+export const isProduction = envParsed.NODE_ENV === 'production'
 
-export const enableEmailVerification = env.MAIL_ADAPTER !== 'NONE'
+export const enableEmailVerification = envParsed.MAIL_ADAPTER !== 'NONE'
+
+function getApplicationURL() {
+  return envParsed.VERCEL_URL
+    ? `https://${envParsed.VERCEL_URL}`
+    : envParsed.BETTER_AUTH_URL
+}
+
+export const env = {
+  ...envParsed,
+  APP_URL: getApplicationURL()
+}
