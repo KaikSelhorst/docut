@@ -17,8 +17,10 @@ class Session {
           error: null
         }
       this.logger.error('Session not found!')
+      console.log(session)
       return { session, error: unauthorized }
     } catch (error) {
+      console.log(error)
       if (error instanceof APIError) {
         const message = error.body?.message
         console.log(error.body)
