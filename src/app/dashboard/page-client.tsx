@@ -11,7 +11,7 @@ interface PageClientProps {
 
 export function PageClient({ linksPromise }: PageClientProps) {
   const linksRes = use(linksPromise)
-
+  console.log(linksRes)
   if (!linksRes.success) {
     return <div>Page Error</div>
   }

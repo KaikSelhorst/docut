@@ -27,8 +27,10 @@ export async function listLinks(filters: Record<string, string | undefined>) {
 
   const route = routes.link.list.withSearchParams(filters).toString()
 
-  const res = await fetch(route, { headers: reqHeaders })
+  console.log(route)
 
+  const res = await fetch(route, { headers: reqHeaders })
+  console.log(res.status, res.url)
   if (res.status !== 200) return failure(res)
   return success<Success>(res)
 }
