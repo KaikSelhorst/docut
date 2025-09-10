@@ -5,7 +5,7 @@ import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { nextCookies } from 'better-auth/next-js'
 import { apiKey } from 'better-auth/plugins'
-import { enableEmailVerification } from 'shared/env'
+import { enableEmailVerification, env } from 'shared/env'
 import { sendEmail } from './helpers/send-email'
 
 // Better auth use User, account,
@@ -15,6 +15,7 @@ const passwordHasher = makePasswordHasher()
 const emailClient = new QueueClient()
 
 export const auth = betterAuth({
+  baseURL: env.APP_URL,
   database: drizzleAdapter(db, {
     provider: 'pg'
   }),
