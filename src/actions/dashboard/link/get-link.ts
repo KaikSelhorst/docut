@@ -1,7 +1,7 @@
 'use server'
 
 import { getDefaultHeaders } from '@/actions/get-request-props'
-import { env } from '@/shared/env'
+import { routes } from '@/actions/routes'
 import { failure, success } from '../../response'
 
 interface Success {
@@ -16,9 +16,9 @@ interface Success {
 export async function getLink(id: string) {
   const reqHeaders = await getDefaultHeaders()
 
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/dashboard/link/${id}`, {
-    headers: reqHeaders
-  })
+  const route = routes.link.get.withParams({ id }).toString()
+
+  const res = await fetch(route, { headers: reqHeaders })
 
   if (res.status !== 200) return failure(res)
   return success<Success>(res)

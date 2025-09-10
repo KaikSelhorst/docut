@@ -1,0 +1,15 @@
+meta {
+  name: get-browser
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/dashboard/link/metrics/:type
+  body: none
+  auth: inherit
+}
+
+params:path {
+  type: browser
+}

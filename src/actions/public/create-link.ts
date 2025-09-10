@@ -1,8 +1,7 @@
 'use server'
-
-import { env } from '@/shared/env'
 import { getDefaultHeaders } from '../get-request-props'
 import { failure, success } from '../response'
+import { routes } from '../routes'
 
 interface Success {
   id: string
@@ -22,7 +21,9 @@ interface Link {
 export async function createLink(link: Link) {
   const reqHeaders = await getDefaultHeaders()
 
-  const res = await fetch(`${env.BETTER_AUTH_URL}/api/link`, {
+  const route = routes.link.postPublic.toString()
+
+  const res = await fetch(route, {
     method: 'POST',
     headers: reqHeaders,
     body: JSON.stringify(link)

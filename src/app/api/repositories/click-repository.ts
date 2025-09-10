@@ -3,6 +3,22 @@ import { type Click, click } from '@api/db/schemas'
 import type { Logger } from '@api/helpers'
 import { and, eq, sql } from 'drizzle-orm'
 
+const metricsQueries = {
+  city: (tx: DBInstance) =>
+    tx
+      .select({ city: click.city, country: click.country })
+      .from(click)
+      .groupBy(click.city, click.country),
+  browser: (tx: DBInstance) =>
+    tx.select({ browser: click.browser }).from(click).groupBy(click.browser),
+  country: (tx: DBInstance) =>
+    tx.select({ country: click.country }).from(click).groupBy(click.country),
+  device: (tx: DBInstance) =>
+    tx.select({ device: click.device }).from(click).groupBy(click.device),
+  os: (tx: DBInstance) =>
+    tx.select({ os: click.os }).from(click).groupBy(click.os)
+}
+
 export class ClickRepository {
   constructor(private readonly logger: Logger) {}
 
@@ -24,6 +40,18 @@ export class ClickRepository {
         `Failed to registry for link with ID: ${clickValue.linkId}`
       )
       return false
+    }
+  }
+
+  async getMetrics(
+    tx: DBInstance,
+    type: 'country' | 'os' | 'device' | 'browser' | 'city'
+  ) {
+    try {
+      return await metricsQueries[type](tx)
+    } catch {
+      this.logger.error(`Failed to get ${type} metrics`)
+      return null
     }
   }
 }
