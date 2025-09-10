@@ -26,6 +26,8 @@ export async function getDefaultHeaders() {
   const sessionCookie = await getSession()
   const { agent, ip } = await getUserAgentAndIP()
 
+  console.log(sessionCookie)
+
   const requestHeaders = new Headers()
 
   requestHeaders.set('Cookie', sessionCookie)
