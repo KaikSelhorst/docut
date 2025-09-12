@@ -1,22 +1,31 @@
 import type { DBInstance } from '@api/db'
 import { type Click, click } from '@api/db/schemas'
 import type { Logger } from '@api/helpers'
-import { and, eq, sql } from 'drizzle-orm'
+import { and, count, eq, sql } from 'drizzle-orm'
 
 const metricsQueries = {
   city: (tx: DBInstance) =>
     tx
-      .select({ city: click.city, country: click.country })
+      .select({ city: click.city, country: click.country, total: count() })
       .from(click)
       .groupBy(click.city, click.country),
   browser: (tx: DBInstance) =>
-    tx.select({ browser: click.browser }).from(click).groupBy(click.browser),
+    tx
+      .select({ browser: click.browser, total: count() })
+      .from(click)
+      .groupBy(click.browser),
   country: (tx: DBInstance) =>
-    tx.select({ country: click.country }).from(click).groupBy(click.country),
+    tx
+      .select({ country: click.country, total: count() })
+      .from(click)
+      .groupBy(click.country),
   device: (tx: DBInstance) =>
-    tx.select({ device: click.device }).from(click).groupBy(click.device),
+    tx
+      .select({ device: click.device, total: count() })
+      .from(click)
+      .groupBy(click.device),
   os: (tx: DBInstance) =>
-    tx.select({ os: click.os }).from(click).groupBy(click.os)
+    tx.select({ os: click.os, total: count() }).from(click).groupBy(click.os)
 }
 
 export class ClickRepository {
