@@ -8,7 +8,10 @@ const link = {
   list: new RouteBuilder(`${env.BETTER_AUTH_URL}/api/dashboard/link`),
   put: new RouteBuilder(`${env.BETTER_AUTH_URL}/api/dashboard/link/:id`),
   postPublic: new RouteBuilder(`${env.BETTER_AUTH_URL}/api/link`),
-  getPublic: new RouteBuilder(`${env.BETTER_AUTH_URL}/api/link/:id`)
+  getPublic: new RouteBuilder(`${env.BETTER_AUTH_URL}/api/link/:id`),
+  getAnalytics: new RouteBuilder(
+    `${env.BETTER_AUTH_URL}/api/dashboard/link/metrics/:type`
+  )
 }
 
 export const routes = {
