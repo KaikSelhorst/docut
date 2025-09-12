@@ -10,9 +10,15 @@ export class UAParserAdapter implements Detecter {
 
     const device = getDevice(result.os.name || null)
 
+    let osName = result.os.name
+
+    if (result.os.name === 'Windows') {
+      osName = `${osName} ${result.os.version}`
+    }
+
     return {
       browser: { name: result.browser.name?.toLowerCase() || null },
-      os: { name: result.os.name?.toLowerCase() || null },
+      os: { name: osName || null },
       device: { type: device }
     }
   }
