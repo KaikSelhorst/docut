@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/chart'
 import dayjs from 'dayjs'
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
+import { ChartTableError } from './chart-table'
 
 const chartConfig = {
   visitors: {
@@ -26,7 +27,13 @@ export function VisitorsChart({
 }: {
   data: Awaited<ReturnType<typeof getVisitors>>
 }) {
-  if (!data.success) return 'Error'
+  if (!data.success)
+    return (
+      <ChartTableError
+        message={data.error}
+        className="flex justify-center items-center"
+      />
+    )
 
   return (
     <ChartContainer config={chartConfig} className="h-[320px] w-full">

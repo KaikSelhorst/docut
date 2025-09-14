@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import type { JSX } from 'react'
 
 interface ChartTable {
@@ -65,4 +66,20 @@ export function ChartTable({
   )
 }
 
-1010 / 505
+export function ChartTableError({
+  message = 'Error',
+  className
+}: { message?: string; className?: string }) {
+  return (
+    <div
+      className={cn(
+        'p-4 max-h-[400px] overflow-y-auto bg-destructive/2 min-h-[330px]',
+        className
+      )}
+    >
+      <div className="flex justify-center items-center h-full">
+        <p className="text-destructive">{message}</p>
+      </div>
+    </div>
+  )
+}

@@ -1,16 +1,14 @@
 import type { getBrowsers } from '@/actions/dashboard/link/analytic'
 import { BROWSERS } from '@/common/constants'
 import Image from 'next/image'
-import { ChartTable } from './chart-table'
+import { ChartTable, ChartTableError } from './chart-table'
 
 export function BrowsersTable({
   data
 }: {
   data: Awaited<ReturnType<typeof getBrowsers>>
 }) {
-  if (!data.success) {
-    return 'Error'
-  }
+  if (!data.success) return <ChartTableError message={data.error} />
 
   return (
     <ChartTable

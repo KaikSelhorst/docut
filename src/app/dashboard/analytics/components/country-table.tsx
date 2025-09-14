@@ -1,14 +1,14 @@
 import type { getCountry } from '@/actions/dashboard/link/analytic'
 import Image from 'next/image'
 import enUS from '../../../../../public/intl/country/en-US.json'
-import { ChartTable } from './chart-table'
+import { ChartTable, ChartTableError } from './chart-table'
 
 export function CountryTable({
   data
 }: {
   data: Awaited<ReturnType<typeof getCountry>>
 }) {
-  if (!data.success) return null
+  if (!data.success) return <ChartTableError message={data.error} />
 
   return (
     <ChartTable

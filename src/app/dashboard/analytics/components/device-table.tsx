@@ -1,13 +1,13 @@
 import type { getDevice } from '@/actions/dashboard/link/analytic'
 import Image from 'next/image'
-import { ChartTable } from './chart-table'
+import { ChartTable, ChartTableError } from './chart-table'
 
 export function DeviceTable({
   data
 }: {
   data: Awaited<ReturnType<typeof getDevice>>
 }) {
-  if (!data.success) return 'Error'
+  if (!data.success) return <ChartTableError message={data.error} />
 
   return (
     <ChartTable

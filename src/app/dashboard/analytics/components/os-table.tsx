@@ -1,13 +1,13 @@
 import type { getOs } from '@/actions/dashboard/link/analytic'
 import Image from 'next/image'
-import { ChartTable } from './chart-table'
+import { ChartTable, ChartTableError } from './chart-table'
 
 export function OSTable({
   data
 }: {
   data: Awaited<ReturnType<typeof getOs>>
 }) {
-  if (!data.success) return 'error'
+  if (!data.success) return <ChartTableError message={data.error} />
 
   return (
     <ChartTable
