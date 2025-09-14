@@ -22,7 +22,7 @@ export function CityTable({
         return (
           <div className="flex gap-2 items-center">
             <Image
-              src={`/images/country/${countryName}.png`}
+              src={`/images/country/${countryName.toLowerCase()}.png`}
               width={16}
               height={16}
               alt=""

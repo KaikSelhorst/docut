@@ -22,7 +22,7 @@ export function BrowsersTable({
         return (
           <div className="flex gap-2 items-center">
             <Image
-              src={`/images/browser/${browserName}.png`}
+              src={`/images/browser/${browserName.toLowerCase()}.png`}
               width={16}
               height={16}
               alt=""

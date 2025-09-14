@@ -19,7 +19,7 @@ export function CountryTable({
       renderKey={({ country }) => (
         <div className="flex gap-2 items-center">
           <Image
-            src={`/images/country/${country ? country : 'unknown'}.png`}
+            src={`/images/country/${country ? String(country).toLowerCase() : 'unknown'}.png`}
             width={16}
             height={16}
             alt=""

@@ -21,7 +21,7 @@ export function OSTable({
         return (
           <div className="flex gap-2 items-center">
             <Image
-              src={`/images/os/${deviceName}.png`}
+              src={`/images/os/${deviceName.toLowerCase()}.png`}
               width={16}
               height={16}
               alt=""

@@ -22,7 +22,7 @@ export function DeviceTable({
           <div className="flex gap-2 items-center">
             <Image
               title={deviceName}
-              src={`/images/device/${deviceName}.png`}
+              src={`/images/device/${deviceName.toLowerCase()}.png`}
               width={16}
               height={16}
               alt=""
