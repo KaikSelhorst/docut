@@ -17,8 +17,8 @@ const metricsQueries = {
   )
   SELECT
     d.date,
-    COALESCE(SUM(t.is_unique::integer), 0) AS views,
-    COALESCE(COUNT(t.id), 0) AS visitors
+    COALESCE(SUM(t.is_unique::integer), 0) AS visitors,
+    COALESCE(COUNT(t.id), 0) AS views
   FROM
     dias d
   LEFT JOIN
