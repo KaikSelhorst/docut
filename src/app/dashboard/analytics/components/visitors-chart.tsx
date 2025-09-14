@@ -62,16 +62,16 @@ export function VisitorsChart({
         />
         <ChartLegend content={<ChartLegendContent />} />
         <Bar
-          dataKey="views"
           stackId="a"
-          fill="var(--color-views)"
+          dataKey="visitors"
+          fill="var(--color-visitors)"
           radius={1}
           width={24}
         />
         <Bar
+          dataKey="views"
           stackId="a"
-          dataKey="visitors"
-          fill="var(--color-visitors)"
+          fill="var(--color-views)"
           radius={1}
           width={24}
         />
