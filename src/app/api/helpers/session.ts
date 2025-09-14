@@ -21,9 +21,7 @@ class Session {
     } catch (error) {
       if (error instanceof APIError) {
         const message = error.body?.message
-        console.log(error.body)
         if (message) this.logger.error(message)
-
         return { session: null, error: () => unauthorized(message) }
       }
 

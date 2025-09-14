@@ -7,7 +7,7 @@ import * as tar from 'tar'
 
 const DB_FILE = 'GeoLite2-City'
 const url = `https://raw.githubusercontent.com/GitSquared/node-geolite2-redist/master/redist/${DB_FILE}.tar.gz`
-const destDir = path.resolve(__dirname, '../app/api/data')
+const destDir = path.resolve(process.cwd(), 'tmp')
 
 function ensureDir(dir: string): void {
   if (!fs.existsSync(dir)) {

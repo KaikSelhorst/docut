@@ -1,3 +1,5 @@
+export const DEFAULT_LIST_DAYS = 60
+
 export const IP_ADDRESS_HEADERS = [
   'x-forwarded-for',
   'cf-connecting-ip',
@@ -49,5 +51,40 @@ export const METRIC_TYPES = [
   'os',
   'device',
   'browser',
-  'city'
+  'city',
+  'visitors'
 ] as const
+
+export const BROWSERS = {
+  android: 'Android',
+  aol: 'AOL',
+  bb10: 'BlackBerry 10',
+  beaker: 'Beaker',
+  chrome: 'Chrome',
+  'mobile-chrome': 'Chrome(mobile)',
+  'chromium-webview': 'Chrome (webview)',
+  crios: 'Chrome (iOS)',
+  curl: 'Curl',
+  edge: 'Edge',
+  'edge-chromium': 'Edge (Chromium)',
+  'edge-ios': 'Edge (iOS)',
+  facebook: 'Facebook',
+  firefox: 'Firefox',
+  fxios: 'Firefox (iOS)',
+  ie: 'IE',
+  instagram: 'Instagram',
+  ios: 'iOS',
+  'ios-webview': 'iOS (webview)',
+  kakaotalk: 'KakaoTalk',
+  miui: 'MIUI',
+  opera: 'Opera',
+  'opera-mini': 'Opera Mini',
+  phantomjs: 'PhantomJS',
+  safari: 'Safari',
+  'mobile-safari': 'Safari(mobile)',
+  samsung: 'Samsung',
+  searchbot: 'Searchbot',
+  silk: 'Silk',
+  yandexbrowser: 'Yandex',
+  unknown: 'Unknown'
+}

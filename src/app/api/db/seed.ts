@@ -1,3 +1,4 @@
+import { DEFAULT_LIST_DAYS } from '@/common/constants'
 import { db } from '@api/db'
 import {
   account,
@@ -119,23 +120,28 @@ async function seed() {
 
         const reqInfo = await getRequestInfo(req)
 
-        const registred = await clickRepository.registerClick(tx, {
-          linkId: link.id,
-          userAgent: reqInfo.userAgent,
-          browser: reqInfo.browser,
-          city: reqInfo.city,
-          country: reqInfo.country,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          device: reqInfo.device,
-          id: nanoid(),
-          ipAddress: reqInfo.ip,
-          os: reqInfo.os,
-          referer: reqInfo.referer
-        })
+        const date = faker.date.recent({ days: DEFAULT_LIST_DAYS })
 
-        if (!registred) {
-          throw new Error('Error on create link click')
+        for (let index = 0; index < Math.ceil(Math.random() * 6); index++) {
+          const registred = await clickRepository.registerClick(tx, {
+            linkId: link.id,
+            userAgent: reqInfo.userAgent,
+            browser: reqInfo.browser,
+            city: reqInfo.city,
+            country: reqInfo.country,
+            createdAt: date,
+            updatedAt: date,
+            device: reqInfo.device,
+            id: nanoid(),
+            ipAddress: reqInfo.ip,
+            os: reqInfo.os,
+            referer: reqInfo.referer,
+            isUnique: !index
+          })
+
+          if (!registred) {
+            throw new Error('Error on create link click')
+          }
         }
       }
 

@@ -1,0 +1,15 @@
+meta {
+  name: get-visitors
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{host}}/dashboard/link/metrics/:type
+  body: none
+  auth: inherit
+}
+
+params:path {
+  type: visitors
+}

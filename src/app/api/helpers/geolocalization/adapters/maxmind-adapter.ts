@@ -28,7 +28,7 @@ export class MaxmindAdapter implements Lookuper {
     }
 
     if (!global[MAXMIND_GLOBAL_KEY]) {
-      const dirFolder = path.join(process.cwd(), 'src/app/api/data')
+      const dirFolder = path.join(process.cwd(), 'tmp')
       const dirFile = path.resolve(dirFolder, 'GeoLite2-City.mmdb')
 
       global[MAXMIND_GLOBAL_KEY] = await maxmind.open(dirFile)
