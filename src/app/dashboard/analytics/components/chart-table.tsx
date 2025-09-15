@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
 import type { JSX } from 'react'
+import { cn } from '@/lib/utils'
 
 interface ChartTable {
   title: string
@@ -69,7 +69,10 @@ export function ChartTable({
 export function ChartTableError({
   message = 'Error',
   className
-}: { message?: string; className?: string }) {
+}: {
+  message?: string
+  className?: string
+}) {
   return (
     <div
       className={cn(

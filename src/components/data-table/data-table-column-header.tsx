@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
 import type { Column } from '@tanstack/react-table'
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -16,7 +16,8 @@ export function DataTableColumnHeader<TData, TValue>({
   if (!column.getCanSort()) return <div className={cn(className)}>{title}</div>
 
   return (
-    <div
+    <button
+      type="button"
       className={cn(
         column.getCanSort() &&
           'flex h-full cursor-pointer items-center justify-between gap-2 select-none'
@@ -48,6 +49,6 @@ export function DataTableColumnHeader<TData, TValue>({
           />
         )
       }[column.getIsSorted() as string] ?? null}
-    </div>
+    </button>
   )
 }

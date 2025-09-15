@@ -1,3 +1,4 @@
+import dayjs, { type Dayjs } from 'dayjs'
 import {
   Select,
   SelectContent,
@@ -6,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import dayjs, { type Dayjs } from 'dayjs'
 
 const dataRange = [
   [

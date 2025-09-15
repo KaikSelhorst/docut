@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 import type { getVisitors } from '@/actions/dashboard/link/analytic'
 import {
   type ChartConfig,
@@ -7,8 +9,6 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '@/components/ui/chart'
-import dayjs from 'dayjs'
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 import { ChartTableError } from './chart-table'
 
 const chartConfig = {
@@ -79,18 +79,3 @@ export function VisitorsChart({
     </ChartContainer>
   )
 }
-
-function generateStackedData(days: number) {
-  return new Array(days).fill(null).map((_, i) => {
-    return {
-      date: dayjs()
-        .add(i + 1, 'day')
-        .toISOString()
-        .split('T')[0],
-      views: Math.ceil(Math.random() * i + 4),
-      visitors: Math.ceil(Math.random() * i + 2)
-    }
-  })
-}
-
-const stackedData = generateStackedData(60)

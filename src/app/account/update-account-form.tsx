@@ -1,4 +1,15 @@
 'use client'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  deleteAccountForm,
+  updateDisplayNameSchema,
+  updateEmailSchema
+} from 'client/schemas/user-schema'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { authClient } from 'shared/lib/auth/client'
+import { toast } from 'sonner'
 import { DefaultField } from '@/components/form/fields'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,17 +25,6 @@ import {
 import { Form } from '@/components/ui/form'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
-import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  deleteAccountForm,
-  updateDisplayNameSchema,
-  updateEmailSchema
-} from 'client/schemas/user-schema'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { authClient } from 'shared/lib/auth/client'
-import { toast } from 'sonner'
 
 interface UpdateDisplayNameProps {
   displayName: string
@@ -173,7 +173,7 @@ export function DeleteAccount() {
                   className="space-y-3"
                   onSubmit={form.handleSubmit(async (data) => {
                     toast.loading('Deleting account!')
-                    const { error, data: er } = await authClient.deleteUser({
+                    const { error } = await authClient.deleteUser({
                       password: data.password
                     })
 

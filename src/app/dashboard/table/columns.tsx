@@ -1,7 +1,7 @@
+import type { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { Skeleton } from '@/components/ui/skeleton'
 import { dateUtils } from '@/lib/date'
-import type { ColumnDef } from '@tanstack/react-table'
 import {
   DataTableActions,
   DataTableActionsSkeleton

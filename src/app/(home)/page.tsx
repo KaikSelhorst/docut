@@ -1,5 +1,5 @@
-import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
+import { Badge } from '@/components/ui/badge'
 import { ShortLinkForm } from './short-link-form'
 
 export default function Page() {

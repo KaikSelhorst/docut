@@ -1,4 +1,4 @@
-import { type Options, hash, verify } from '@node-rs/argon2'
+import { hash, type Options, verify } from '@node-rs/argon2'
 import type { HashComparer, Hasher } from './protocols'
 
 const argon2Options = {
@@ -9,6 +9,7 @@ const argon2Options = {
 } as Options
 
 export class Argon2Adapter implements Hasher, HashComparer {
+  // biome-ignore lint/correctness/noUnusedFunctionParameters: this implements the protocol
   async hash(plaintext: string, salt?: string): Promise<string> {
     return hash(plaintext, argon2Options)
   }

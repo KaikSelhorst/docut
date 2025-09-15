@@ -1,9 +1,9 @@
+import { Suspense } from 'react'
 import { listLinks } from '@/actions/dashboard/link'
 import {
   DashboardNavbar,
   DashboardNavbarLink
 } from '@/components/dashboard-navbar'
-import { Suspense } from 'react'
 import { PageClient } from './page-client'
 import { OverviewTableSkeleton } from './table/data-table'
 

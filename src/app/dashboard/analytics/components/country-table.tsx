@@ -1,5 +1,5 @@
-import type { getCountry } from '@/actions/dashboard/link/analytic'
 import Image from 'next/image'
+import type { getCountry } from '@/actions/dashboard/link/analytic'
 import enUS from '../../../../../public/intl/country/en-US.json'
 import { ChartTable, ChartTableError } from './chart-table'
 
