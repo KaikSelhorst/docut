@@ -1,6 +1,6 @@
-import { success } from '@/actions/response'
 import { createGetPublicLinkService } from '@api/services/factories/link'
 import { isbot } from 'isbot'
+import { success } from '@/actions/response'
 
 interface GetPublicLinkData {
   url: string

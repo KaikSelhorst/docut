@@ -26,15 +26,13 @@ export default async function Page() {
   ])
 
   return (
-    <>
-      <PageClient
-        visitorsData={visitorsData}
-        countryData={countryData}
-        browsersData={browsersData}
-        cityData={cityData}
-        deviceData={deviceData}
-        osData={osData}
-      />
-    </>
+    <PageClient
+      visitorsData={visitorsData}
+      countryData={countryData}
+      browsersData={browsersData}
+      cityData={cityData}
+      deviceData={deviceData}
+      osData={osData}
+    />
   )
 }

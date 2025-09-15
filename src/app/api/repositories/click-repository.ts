@@ -1,9 +1,9 @@
-import { DEFAULT_LIST_DAYS } from '@/common/constants'
 import type { DBInstance } from '@api/db'
 import { type Click, click, link } from '@api/db/schemas'
 import type { Logger } from '@api/helpers'
 import dayjs from 'dayjs'
 import { and, count, desc, eq, gte, sql } from 'drizzle-orm'
+import { DEFAULT_LIST_DAYS } from '@/common/constants'
 
 const whereFilter = (userId: string) =>
   and(
@@ -117,7 +117,7 @@ export class ClickRepository {
         isUnique
       })
       return true
-    } catch (e) {
+    } catch {
       this.logger.error(
         `Failed to registry for link with ID: ${clickValue.linkId}`
       )

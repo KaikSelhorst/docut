@@ -2,8 +2,8 @@ import * as fs from 'node:fs'
 import type * as http from 'node:http' // Import http for IncomingMessage
 import * as https from 'node:https'
 import * as path from 'node:path'
-import * as zlib from 'zlib'
 import * as tar from 'tar'
+import * as zlib from 'zlib'
 
 const DB_FILE = 'GeoLite2-City'
 const url = `https://raw.githubusercontent.com/GitSquared/node-geolite2-redist/master/redist/${DB_FILE}.tar.gz`

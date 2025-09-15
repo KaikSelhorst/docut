@@ -1,7 +1,4 @@
 'use client'
-import { DefaultField } from '@/components/form/fields'
-import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { updatePasswordSchema } from 'client/schemas/user-schema'
 import { SquareArrowOutUpRight } from 'lucide-react'
@@ -9,6 +6,9 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { authClient } from 'shared/lib/auth/client'
 import { toast } from 'sonner'
+import { DefaultField } from '@/components/form/fields'
+import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
 
 export function UpdatePassword() {
   const form = useForm({ resolver: zodResolver(updatePasswordSchema) })

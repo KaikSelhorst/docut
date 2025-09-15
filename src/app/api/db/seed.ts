@@ -1,4 +1,3 @@
-import { DEFAULT_LIST_DAYS } from '@/common/constants'
 import { db } from '@api/db'
 import {
   account,
@@ -21,6 +20,7 @@ import { faker } from '@faker-js/faker'
 import { nanoid } from 'nanoid'
 import { env } from 'shared/env'
 import { logger } from 'shared/logger'
+import { DEFAULT_LIST_DAYS } from '@/common/constants'
 
 async function seed() {
   const clickRepository = new ClickRepository(

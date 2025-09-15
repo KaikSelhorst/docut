@@ -1,5 +1,5 @@
-import type { getDevice } from '@/actions/dashboard/link/analytic'
 import Image from 'next/image'
+import type { getDevice } from '@/actions/dashboard/link/analytic'
 import { ChartTable, ChartTableError } from './chart-table'
 
 export function DeviceTable({

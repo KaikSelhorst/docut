@@ -1,25 +1,20 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "vcs": {
     "clientKind": "git",
     "enabled": true,
     "useIgnoreFile": true
   },
-  "overrides": [{ "ignore": ["node_modules", "dist"] }],
+  "overrides": [{ "includes": ["**", "!**/node_modules", "!**/dist"] }],
   "files": {
-    "ignore": [".vscode/*", "drizzle/migrations/*"]
+    "includes": ["**", "!**/.vscode/**/*", "!**/drizzle/migrations/**/*"]
   },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
-      "nursery": {
-        "noUnknownPseudoClass": "off",
-        "noUnknownTypeSelector": "off"
-      },
+      "nursery": {},
       "complexity": {
         "noVoid": "warn",
         "noStaticOnlyClass": {
@@ -34,14 +29,24 @@
         "noImplicitAnyLet": "off"
       },
       "correctness": {
-        "noUnusedImports": "error"
+        "noUnusedImports": "error",
+        "noUnknownPseudoClass": "off",
+        "noUnknownTypeSelector": "off"
       },
       "style": {
         "noNonNullAssertion": "off",
         "noNamespace": "off",
         "noParameterAssign": "off",
         "noInferrableTypes": "warn",
-        "noNegationElse": "error"
+        "noNegationElse": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noUselessElse": "error"
       }
     }
   },
@@ -51,7 +56,7 @@
     "indentWidth": 2,
     "lineWidth": 80,
     "lineEnding": "lf",
-    "ignore": []
+    "includes": ["**"]
   },
   "javascript": {
     "formatter": {

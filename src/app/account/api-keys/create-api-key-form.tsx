@@ -1,7 +1,4 @@
 'use client'
-import { DefaultField, DefaultSelectField } from '@/components/form/fields'
-import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createApiKeySchema } from 'client/schemas/api-key-schema'
 import dayjs from 'dayjs'
@@ -10,6 +7,9 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { authClient } from 'shared/lib/auth/client'
 import { toast } from 'sonner'
+import { DefaultField, DefaultSelectField } from '@/components/form/fields'
+import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
 
 export function CreateApiKeyForm() {
   const [isCopied, setIsCopied] = useState(false)

@@ -1,8 +1,5 @@
 'use client'
 
-import { DefaultField } from '@/components/form/fields'
-import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   forgotPasswordSchema,
@@ -10,13 +7,15 @@ import {
   signInSchema,
   signUpForm
 } from 'client/schemas/auth-schema'
-
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { authClient, signIn, signUp } from 'shared/lib/auth/client'
 import type { z } from 'shared/lib/zod'
 import { toast } from 'sonner'
+import { DefaultField } from '@/components/form/fields'
+import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
 
 export function SignInForm() {
   const router = useRouter()
@@ -76,7 +75,9 @@ export function SignInForm() {
 
 export function SignUpForm({
   needEmailVerification
-}: { needEmailVerification: boolean }) {
+}: {
+  needEmailVerification: boolean
+}) {
   const router = useRouter()
 
   const form = useForm({ resolver: zodResolver(signUpForm) })

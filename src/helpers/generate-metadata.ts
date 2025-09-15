@@ -1,5 +1,5 @@
-import { seoMetadata } from '@/common/seo-config'
 import type { Metadata } from 'next'
+import { seoMetadata } from '@/common/seo-config'
 
 export function generateMetadata(): Metadata {
   return {

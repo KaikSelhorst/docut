@@ -1,7 +1,7 @@
 import { type InferSelectModel, relations } from 'drizzle-orm'
 import { boolean, pgTable, text } from 'drizzle-orm/pg-core'
-import { link } from '.'
 import { createdAt, updatedAt } from '../helpers'
+import { link } from '.'
 
 export const click = pgTable('click', {
   id: text('id').primaryKey(),

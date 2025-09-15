@@ -1,7 +1,6 @@
 import type { DBInstance } from '@api/db'
 import { type Link, link } from '@api/db/schemas'
 import {
-  type SQL,
   and,
   asc,
   desc,
@@ -12,6 +11,7 @@ import {
   isNull,
   lt,
   or,
+  type SQL,
   sql
 } from 'drizzle-orm'
 

@@ -1,8 +1,8 @@
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { SiteHeader } from '@/components/site-header'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
 
 export default function Notfound() {
   return (

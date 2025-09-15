@@ -1,4 +1,17 @@
 'use client'
+import {
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  type PaginationState,
+  type SortingState,
+  useReactTable
+} from '@tanstack/react-table'
+import { X } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
+import { useDebounceCallback } from 'usehooks-ts'
 import { DataTablePagination } from '@/components/data-table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,19 +24,6 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { useTableFilters } from '@/hooks'
-import {
-  type ColumnDef,
-  type PaginationState,
-  type SortingState,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  useReactTable
-} from '@tanstack/react-table'
-import { X } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
-import { useDebounceCallback } from 'usehooks-ts'
 import { columnsSkeleton } from './columns'
 
 interface DataTableProps<TData, TValue> {

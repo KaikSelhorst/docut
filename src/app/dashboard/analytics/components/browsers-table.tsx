@@ -1,6 +1,6 @@
+import Image from 'next/image'
 import type { getBrowsers } from '@/actions/dashboard/link/analytic'
 import { BROWSERS } from '@/common/constants'
-import Image from 'next/image'
 import { ChartTable, ChartTableError } from './chart-table'
 
 export function BrowsersTable({
