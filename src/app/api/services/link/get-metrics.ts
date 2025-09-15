@@ -18,7 +18,12 @@ class GetLinkMetricsService {
     const metricType = this.validateMetricType(params.type)
     if (metricType instanceof Response) return metricType
 
-    const res = await this.clickRepository.getMetrics(this.db, metricType)
+    const res = await this.clickRepository.getMetrics(
+      this.db,
+      metricType,
+      session.session.userId
+    )
+
     if (!res) return serverError(`Failed to retrieve ${metricType} metrics`)
 
     return Response.json({ data: res })

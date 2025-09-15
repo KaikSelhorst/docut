@@ -23,7 +23,7 @@ export function ChartTable({
   const total = data.reduce((acc, curr) => acc + Number(curr[totalKey]), 0)
 
   return (
-    <div className="p-4 max-h-[400px] overflow-y-auto">
+    <div className="p-4 max-h-[400px] overflow-y-auto min-h-[330px]">
       <table className="table-fixed w-full">
         <thead>
           <tr className="leading-10 [&_th]:px-1">
