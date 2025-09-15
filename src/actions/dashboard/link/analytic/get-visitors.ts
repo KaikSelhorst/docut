@@ -15,7 +15,10 @@ export async function getVisitors() {
     .withParams({ type: 'visitors' })
     .toString()
 
-  const res = await fetch(route, { headers: reqHeaders })
+  const res = await fetch(route, {
+    headers: reqHeaders,
+    next: { revalidate: 30 }
+  })
   if (res.status !== 200) return failure(res)
   return success<Success>(res)
 }
