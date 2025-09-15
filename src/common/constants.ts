@@ -1,3 +1,19 @@
+import { faker } from '@faker-js/faker'
+
+export const SMTP_DEFAULT_CONFIG = {
+  HOST: 'non-host',
+  PORT: 0,
+  SECURE: false,
+  USER: 'non-user',
+  PASSWORD: btoa(faker.finance.ethereumAddress())
+}
+
+export const APP_USER = {
+  EMAIL: 'init-application@init.init',
+  PASSWORD: btoa(faker.finance.ethereumAddress()),
+  NAME: 'init-application'
+}
+
 export const DEFAULT_LIST_DAYS = 60
 
 export const IP_ADDRESS_HEADERS = [

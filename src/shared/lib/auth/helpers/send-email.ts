@@ -3,6 +3,7 @@ import {
   generateResetPasswordEmailTemplate,
   generateVerifyEmailTemplate
 } from '@api/helpers/email/templates'
+import { APP_USER } from '@/common/constants'
 
 interface Payload {
   token: string
@@ -11,6 +12,8 @@ interface Payload {
 }
 
 export async function resetPassword(client: QueueClient, payload: Payload) {
+  if (payload.user.email === APP_USER.EMAIL) return
+
   const resetPasswordURL = new URL(payload.url)
 
   const body = {
@@ -34,6 +37,8 @@ export async function resetPassword(client: QueueClient, payload: Payload) {
 }
 
 export async function emailVerification(client: QueueClient, payload: Payload) {
+  if (payload.user.email === APP_USER.EMAIL) return
+
   const confirmURL = new URL(payload.url)
 
   confirmURL.searchParams.set('callbackURL', '/sign-up/verified')
