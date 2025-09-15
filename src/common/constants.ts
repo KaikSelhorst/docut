@@ -1,3 +1,11 @@
+import { faker } from '@faker-js/faker'
+
+export const APP_USER = {
+  EMAIL: 'init-application@init.init',
+  PASSWORD: btoa(faker.finance.ethereumAddress()),
+  NAME: 'init-application'
+}
+
 export const DEFAULT_LIST_DAYS = 60
 
 export const IP_ADDRESS_HEADERS = [

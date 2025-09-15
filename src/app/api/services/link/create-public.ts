@@ -11,8 +11,8 @@ import type {
 import { createLink } from '@api/schemas/link-schema'
 import dayjs from 'dayjs'
 import { nanoid } from 'nanoid'
-import { constants } from 'shared/constants'
 import { auth } from 'shared/lib/auth/config'
+import { APP_USER } from '@/common/constants'
 
 class CreateLinkPublicService {
   constructor(
@@ -114,16 +114,16 @@ class CreateLinkPublicService {
 
     const defaultUserExist = await this.userRepository.findByEmail(
       this.db,
-      constants.APPLICATION_DEFAULT_USER_EMAIL
+      APP_USER.EMAIL
     )
 
     if (defaultUserExist) return defaultUserExist
 
     const newDefaultUser = await auth.api.signUpEmail({
       body: {
-        email: constants.APPLICATION_DEFAULT_USER_EMAIL,
-        name: constants.APPLICATION_DEFAULT_USER_NAME,
-        password: constants.APPLICATION_DEFAULT_USER_PASSWORD
+        email: APP_USER.EMAIL,
+        name: APP_USER.NAME,
+        password: APP_USER.PASSWORD
       }
     })
 
