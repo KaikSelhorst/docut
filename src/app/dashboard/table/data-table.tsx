@@ -233,6 +233,8 @@ export function OverviewTableSkeleton() {
       page={query.page}
       page_count="0"
       per_page={query.per_page}
+      sort_by={query.sort_by}
+      sort_direction={query.sort_direction}
     />
   )
 }
