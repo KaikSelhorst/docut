@@ -1,4 +1,5 @@
 import { db } from '@api/db'
+import { makeCacheClient } from '@api/helpers/cache'
 import { makePasswordHasher } from '@api/helpers/cryptography/password'
 import { QueueClient } from '@api/helpers/email'
 import { betterAuth } from 'better-auth'
@@ -8,11 +9,9 @@ import { apiKey } from 'better-auth/plugins'
 import { enableEmailVerification } from 'shared/env'
 import { sendEmail } from './helpers/send-email'
 
-// Better auth use User, account,
-// verification and session database tables.
-
 const passwordHasher = makePasswordHasher()
 const emailClient = new QueueClient()
+const cacheClient = makeCacheClient()
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -42,12 +41,20 @@ export const auth = betterAuth({
     expiresIn: 3600
   },
 
+  secondaryStorage: {
+    get: cacheClient.get,
+    set: async (key, data, ttl) => {
+      await cacheClient.save(key, data, ttl)
+    },
+    delete: async (key) => {
+      await cacheClient.delete(key)
+    }
+  },
   plugins: [
     nextCookies(),
     apiKey({
       rateLimit: {
         enabled: true,
-        timeWindow: 1000 * 60 * 60 * 24,
         maxRequests: 350
       }
     })
