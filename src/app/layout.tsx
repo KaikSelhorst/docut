@@ -2,9 +2,6 @@ import RootProviders from '@/components/providers'
 import { fontMono, fontSans } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 import './globals.css'
-import { generateMetadata } from '@/helpers/generate-metadata'
-
-export const metadata = generateMetadata()
 
 interface Layout {
   children: React.ReactNode
