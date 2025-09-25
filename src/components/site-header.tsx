@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { signOut, useSession } from 'shared/lib/auth/client'
 import { toast } from 'sonner'
 import { useTheme } from '@/hooks'
+import { cn } from '@/lib/utils'
 import { Logo, LogoSVGText } from './icons/logo'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
@@ -18,14 +19,18 @@ import {
   DropdownMenuTrigger
 } from './ui/dropdown-menu'
 
-export function SiteHeader() {
+interface SiteHeaderProps {
+  className?: string
+}
+
+export function SiteHeader({ className }: SiteHeaderProps) {
   const { toggleTheme } = useTheme()
   const router = useRouter()
   const { data: session } = useSession()
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="border-b h-14 flex items-center">
+    <header className={cn('border-b h-14 flex items-center', className)}>
       <div className="container mx-auto px-3 sm:px-0 flex justify-between items-center">
         <DropdownMenu open={open} onOpenChange={(b) => setOpen(!b || false)}>
           <DropdownMenuTrigger
@@ -60,7 +65,7 @@ export function SiteHeader() {
         </DropdownMenu>
         <nav className="flex gap-2 text-sm font-medium items-center">
           <Button size="sm" variant="ghost" asChild>
-            <Link href="/docs/setup">Docs</Link>
+            <Link href="/docs">Docs</Link>
           </Button>
           {session ? (
             <>
