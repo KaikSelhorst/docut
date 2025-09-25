@@ -169,7 +169,6 @@ export function DeleteAccount() {
             <main>
               <Form {...form}>
                 <form
-                  id="delete-account-form"
                   className="space-y-3"
                   onSubmit={form.handleSubmit(async (data) => {
                     toast.loading('Deleting account!')
