@@ -26,7 +26,8 @@
         "noEmptyInterface": "off",
         "noExplicitAny": "off",
         "useAwait": "off",
-        "noImplicitAnyLet": "off"
+        "noImplicitAnyLet": "off",
+        "noUnknownAtRules": "off"
       },
       "correctness": {
         "noUnusedImports": "error",
