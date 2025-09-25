@@ -71,7 +71,7 @@ function DashboardHeaderNavbar() {
   return (
     <nav className="flex items-center gap-2">
       <Button size="sm" variant="ghost" asChild>
-        <Link href="/docs/setup">Docs</Link>
+        <Link href="/docs">Docs</Link>
       </Button>
       <CreateLinkSheet side="right">
         <Button size="sm">
