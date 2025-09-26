@@ -22,6 +22,9 @@
         },
         "noUselessCatch": "off"
       },
+      "a11y": {
+        "noSvgWithoutTitle": "off"
+      },
       "suspicious": {
         "noEmptyInterface": "off",
         "noExplicitAny": "off",
@@ -30,6 +33,7 @@
         "noUnknownAtRules": "off"
       },
       "correctness": {
+        "useUniqueElementIds": "off",
         "noUnusedImports": "error",
         "noUnknownPseudoClass": "off",
         "noUnknownTypeSelector": "off"

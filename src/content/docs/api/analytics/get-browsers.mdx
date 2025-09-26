@@ -1,0 +1,190 @@
+---
+title: "Get Browsers"
+description: "Retrieve browser usage analytics for your links"
+---
+
+# Get Browsers
+
+Retrieve analytics data showing the browser distribution of your link clicks.
+
+## Endpoint
+
+```
+GET /api/dashboard/link/metrics/browser
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "data": [
+    {
+      "browser": "Chrome",
+      "total": 2150
+    },
+    {
+      "browser": "Safari",
+      "total": 890
+    },
+    {
+      "browser": "Firefox",
+      "total": 456
+    },
+    {
+      "browser": "Edge",
+      "total": 234
+    },
+    {
+      "browser": "Mobile Safari",
+      "total": 123
+    },
+    {
+      "browser": null,
+      "total": 45
+    }
+  ]
+}
+```
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "error": {
+    "message": "Invalid metric type",
+    "code": "INVALID_METRIC_TYPE"
+  }
+}
+```
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required",
+    "code": "UNAUTHORIZED"
+  }
+}
+```
+
+## Response Fields
+
+| Field     | Type   | Description                                        |
+| --------- | ------ | -------------------------------------------------- |
+| `browser` | string | Browser name (e.g., "Chrome", "Safari", "Firefox") |
+| `total`   | number | Total number of clicks from this browser           |
+
+## Supported Browsers
+
+The API recognizes the following browsers:
+
+### Desktop Browsers
+
+- Chrome
+- Firefox
+- Safari
+- Edge
+- Edge (Chromium)
+- Internet Explorer
+- Opera
+- Yandex
+
+### Mobile Browsers
+
+- Chrome (mobile)
+- Mobile Safari
+- Firefox (iOS)
+- Edge (iOS)
+- Samsung Internet
+- Opera Mini
+
+### Other
+
+- null (for unrecognized browsers)
+
+## Data Period
+
+- Analytics data includes clicks from the **last 60 days**
+- Data is aggregated across all your links
+- Results are sorted by total clicks in descending order
+
+## Example Usage
+
+### JavaScript
+
+```javascript
+const response = await fetch("/api/dashboard/link/metrics/browser", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+
+const analytics = await response.json();
+console.log("Browser analytics:", analytics.data);
+
+// Find most popular browser
+const topBrowser = analytics.data[0];
+console.log(
+  `Most popular browser: ${topBrowser.browser} with ${topBrowser.total} clicks`,
+);
+```
+
+## Use Cases
+
+### Browser Market Share Analysis
+
+```javascript
+// Calculate browser market share
+const totalClicks = analytics.data.reduce(
+  (sum, browser) => sum + browser.total,
+  0,
+);
+
+analytics.data.forEach((browser) => {
+  const percentage = ((browser.total / totalClicks) * 100).toFixed(2);
+  console.log(`${browser.browser}: ${browser.total} clicks (${percentage}%)`);
+});
+```
+
+### Mobile vs Desktop Analysis
+
+```javascript
+// Separate mobile and desktop browsers
+const mobileBrowsers = [
+  "Mobile Safari",
+  "Chrome (mobile)",
+  "Samsung Internet",
+  "Opera Mini",
+];
+const desktopBrowsers = ["Chrome", "Firefox", "Safari", "Edge", "Opera"];
+
+const mobileClicks = analytics.data
+  .filter((browser) => mobileBrowsers.includes(browser.browser))
+  .reduce((sum, browser) => sum + browser.total, 0);
+
+const desktopClicks = analytics.data
+  .filter((browser) => desktopBrowsers.includes(browser.browser))
+  .reduce((sum, browser) => sum + browser.total, 0);
+
+console.log(`Mobile: ${mobileClicks} clicks`);
+console.log(`Desktop: ${desktopClicks} clicks`);
+```
+
+## Notes
+
+- Browser detection is based on User-Agent strings
+- Some browsers may be grouped together (e.g., different Chrome versions)
+- Unknown browsers are categorized as "Unknown"
+- Data is updated in real-time as clicks occur
+- Only includes clicks from the last 60 days
+- Results are automatically sorted by click count (highest first)

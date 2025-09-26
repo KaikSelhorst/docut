@@ -1,0 +1,114 @@
+---
+title: "Delete Link"
+description: "Delete a shortened link permanently"
+---
+
+# Delete Link
+
+Permanently delete a shortened link and all its associated data, including analytics and SEO metadata.
+
+## Endpoint
+
+```
+DELETE /api/dashboard/link/{id}
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Path Parameters
+
+| Parameter | Type   | Required | Description                                 |
+| --------- | ------ | -------- | ------------------------------------------- |
+| `id`      | string | Yes      | The unique identifier of the link to delete |
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "message": "Link deleted successfully"
+}
+```
+
+### Error Responses
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required",
+    "code": "UNAUTHORIZED"
+  }
+}
+```
+
+#### 404 Not Found
+
+```json
+{
+  "error": {
+    "message": "Link not found!",
+    "code": "NOT_FOUND"
+  }
+}
+```
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/dashboard/link/abc123def", {
+  method: "DELETE",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+
+if (response.ok) {
+  const result = await response.json();
+  console.log("Link deleted:", result.message);
+} else {
+  console.error("Failed to delete link");
+}
+```
+
+## Important Notes
+
+### ⚠️ Permanent Deletion
+
+- **This action cannot be undone**
+- The link will immediately become inaccessible
+- All analytics data associated with the link will be permanently deleted
+- SEO metadata will be permanently deleted
+
+### Access Control
+
+- You can only delete links that belong to your account
+- Attempting to delete a link that doesn't exist will return a 404 error
+- Attempting to delete another user's link will return a 404 error (for security)
+
+### Impact on Existing Links
+
+- Any existing bookmarks or shared links using this shortened URL will immediately stop working
+- The shortened URL will return a 404 error for all future requests
+- Consider updating any documentation or communications that reference this link before deletion
+
+## Best Practices
+
+1. **Verify the link ID** before deletion
+2. **Export analytics data** if you need to keep historical information
+3. **Update any references** to the link in your documentation or communications
+4. **Consider archiving** instead of deletion if you might need the data later
+
+## Alternative: Disable Instead of Delete
+
+If you want to temporarily disable a link without permanent deletion, consider:
+
+1. **Update the expiration** to a past date
+2. **Update the URL** to point to a "link disabled" page
+3. **Use the update endpoint** to modify the link behavior
+
+This approach allows you to restore the link later if needed.

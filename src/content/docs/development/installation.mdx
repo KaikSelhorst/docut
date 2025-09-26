@@ -1,0 +1,332 @@
+---
+title: Local Development Setup
+---
+
+This guide will walk you through setting up Docut for local development. This is ideal for contributors, developers, or anyone who wants to run Docut on their local machine.
+
+## Prerequisites
+
+Before installing Docut locally, make sure you have the following installed:
+
+- **Node.js** (version 18 or higher)
+- **Bun** (recommended package manager)
+- **PostgreSQL** (version 14 or higher)
+- **Redis** (version 6 or higher)
+
+## Quick Start with Docker
+
+The easiest way to get started is using Docker Compose:
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/KaikSelhorst/docut.git
+cd docut
+```
+
+### 2. Start Services with Docker
+
+```bash
+# Start PostgreSQL and Redis
+bun run dockerup
+```
+
+This will start:
+- PostgreSQL on port `5432`
+- Redis on port `6379`
+
+### 3. Install Dependencies
+
+```bash
+bun install
+```
+
+### 4. Set Up Environment Variables
+
+Create a `.env` file in the root directory:
+
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file with your development configuration:
+
+```bash
+# Database
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/docut"
+REDIS_URL="redis://localhost:6379"
+
+# Authentication
+BETTER_AUTH_SECRET="your-secret-key-here"
+BETTER_AUTH_URL="http://localhost:3000"
+
+# Admin
+ADMIN_EMAIL="admin@docut.xyz"
+ADMIN_PASSWORD="Senha123."
+
+# Email (optional for development)
+SMTP_HOST="non-host"
+SMTP_PORT="0"
+SMTP_SECURE="false"
+SMTP_USER="non-user"
+SMTP_PASSWORD="non-password"
+
+# Environment
+NODE_ENV="development"
+DEBUG="true"
+DRIZZLE_LOGGER="true"
+```
+
+### 5. Run Database Migrations
+
+```bash
+bun run db:migrate
+```
+
+### 6. Seed the Database (Optional)
+
+```bash
+bun run db:seed
+```
+
+### 7. Start the Development Server
+
+```bash
+bun run dev
+```
+
+Docut will be available at `http://localhost:3000`.
+
+## Manual Installation
+
+If you prefer to set up services manually:
+
+### 1. Install PostgreSQL
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+```
+
+**macOS (with Homebrew):**
+```bash
+brew install postgresql
+brew services start postgresql
+```
+
+**Windows:**
+Download and install from [postgresql.org](https://www.postgresql.org/download/windows/)
+
+### 2. Create Database
+
+```bash
+# Connect to PostgreSQL
+sudo -u postgres psql
+
+# Create database and user
+CREATE DATABASE docut;
+CREATE USER docut_user WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE docut TO docut_user;
+\q
+```
+
+### 3. Install Redis
+
+**Ubuntu/Debian:**
+```bash
+sudo apt install redis-server
+sudo systemctl start redis-server
+```
+
+**macOS (with Homebrew):**
+```bash
+brew install redis
+brew services start redis
+```
+
+**Windows:**
+Download from [redis.io](https://redis.io/download) or use WSL
+
+### 4. Configure Environment Variables
+
+Update your `.env` file with the correct database credentials:
+
+```bash
+DATABASE_URL="postgresql://docut_user:your_password@localhost:5432/docut"
+REDIS_URL="redis://localhost:6379"
+```
+
+## Development Workflow
+
+### Available Scripts
+
+```bash
+# Development
+bun run dev              # Start development server
+bun run build            # Build for production
+bun run start            # Start production server
+
+# Database
+bun run db:generate      # Generate new migration
+bun run db:migrate       # Apply migrations
+bun run db:push          # Push schema changes (dev only)
+bun run db:studio        # Open Drizzle Studio
+bun run db:seed          # Seed database with sample data
+
+# Docker
+bun run dockerup         # Start Docker services
+bun run dockerdown       # Stop Docker services
+
+# Utilities
+bun run lint             # Run linter
+bun run lint:fix         # Fix linting issues
+bun run build:geo        # Build GeoIP database
+```
+
+### Database Management
+
+#### Running Migrations
+
+```bash
+# Generate new migration
+bun run db:generate
+
+# Apply migrations
+bun run db:migrate
+
+# Push schema changes (development only)
+bun run db:push
+```
+
+#### Database Studio
+
+Access the Drizzle Studio for database management:
+
+```bash
+bun run db:studio
+```
+
+This will open a web interface at `http://localhost:4983` where you can view and edit your database.
+
+### Code Quality
+
+#### Linting
+
+```bash
+# Check for linting issues
+bun run lint
+
+# Fix linting issues automatically
+bun run lint:fix
+```
+
+#### Type Checking
+
+TypeScript type checking is integrated into the development workflow and will show errors in your IDE and during build.
+
+## Development Tips
+
+### Hot Reload
+
+The development server supports hot reload for:
+- React components
+- API routes
+- Configuration changes
+
+### Environment Variables
+
+For development, you can use these default values:
+
+```bash
+# Development defaults
+NODE_ENV="development"
+DEBUG="true"
+DRIZZLE_LOGGER="true"
+```
+
+### Database Seeding
+
+Use the seed script to populate your database with sample data:
+
+```bash
+bun run db:seed
+```
+
+This creates:
+- Sample users
+- Test links
+- Analytics data
+
+## Troubleshooting
+
+### Common Issues
+
+**Database Connection Error:**
+- Verify PostgreSQL is running
+- Check DATABASE_URL format
+- Ensure database exists and user has permissions
+
+**Redis Connection Error:**
+- Verify Redis is running
+- Check REDIS_URL format
+- Test connection: `redis-cli ping`
+
+**Port Already in Use:**
+- Change the port in your environment variables
+- Kill existing processes: `lsof -ti:3000 | xargs kill -9`
+
+**Migration Errors:**
+- Ensure database is empty or properly backed up
+- Check for conflicting schema changes
+- Run `bun run db:check` to verify schema
+
+### Logs and Debugging
+
+Enable debug logging by setting:
+
+```bash
+DEBUG="true"
+DRIZZLE_LOGGER="true"
+```
+
+Check application logs for detailed error information.
+
+## Contributing
+
+### Setting Up for Contribution
+
+1. **Fork the repository** on GitHub
+2. **Clone your fork** locally
+3. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+4. **Make your changes** and test them
+5. **Commit your changes**:
+   ```bash
+   git commit -m "Add your feature"
+   ```
+6. **Push to your fork**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+7. **Create a Pull Request** on GitHub
+
+### Code Style
+
+- Follow the existing code style
+- Use TypeScript for type safety
+- Write tests for new features
+- Update documentation as needed
+
+## Next Steps
+
+After setting up your development environment:
+
+1. **Explore the codebase** - Familiarize yourself with the project structure
+2. **Run tests** - Ensure everything is working correctly
+3. **Make your first contribution** - Pick an issue and start coding
+4. **Join the community** - Connect with other contributors
+
+For production deployment, see the [Deploy to Vercel](/docs/setup/deploy/vercel) guide.

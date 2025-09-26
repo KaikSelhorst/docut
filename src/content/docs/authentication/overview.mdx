@@ -1,0 +1,138 @@
+---
+title: Authentication Overview
+---
+
+Docut uses Better Auth for authentication and user management, providing a secure and flexible system for handling user accounts, sessions, and access control.
+
+## Authentication Methods
+
+### Supported Methods
+
+Docut currently supports:
+
+- **Email and Password** - Traditional email/password authentication
+- **Email Verification** - Optional email verification for new accounts
+- **Password Reset** - Secure password reset via email
+- **API Keys** - Programmatic access with rate limiting
+
+## User Registration
+
+### Public Registration
+
+Users can create accounts through the public registration form:
+
+1. Visit `/sign-up`
+2. Fill in name, email, and password
+3. If email verification is enabled, check email for verification link
+4. Click verification link to activate account
+
+### Admin User Creation
+
+The first admin user is created automatically during setup using environment variables:
+
+```bash
+ADMIN_EMAIL="admin@your-domain.com"
+ADMIN_PASSWORD="your-secure-password"
+```
+
+## Email Verification
+
+Email verification can be enabled/disabled via environment configuration:
+
+```bash
+# Enable email verification (requires SMTP configuration)
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT="587"
+SMTP_SECURE="true"
+SMTP_USER="your-email@gmail.com"
+SMTP_PASSWORD="your-app-password"
+```
+
+When enabled:
+- New users receive verification emails
+- Accounts are activated after email verification
+- Verification links expire after 1 hour
+
+## Password Requirements
+
+- **Minimum length:** 8 characters
+- **Maximum length:** 128 characters
+- **Security:** Passwords are hashed using Argon2
+
+## User Management
+
+### User Profile
+
+Each user has the following profile information:
+
+- **ID** - Unique identifier
+- **Name** - Display name
+- **Email** - Email address (unique)
+- **Email Verified** - Verification status
+- **Image** - Profile picture (optional)
+- **Created At** - Account creation timestamp
+- **Updated At** - Last profile update
+
+### Account Settings
+
+Users can manage their accounts through the `/account` page:
+
+- **Update Profile** - Change name and email
+- **Change Password** - Update password
+- **Delete Account** - Permanently delete account and all data
+
+## Session Management
+
+### Session Configuration
+
+- **Cookie-based sessions** with secure HTTP-only cookies
+- **Session caching** enabled for better performance
+- **Automatic expiration** after inactivity
+- **IP and User Agent tracking** for security
+
+### Session Security
+
+- Sessions are tied to IP addresses and user agents
+- Automatic logout on suspicious activity
+- Secure cookie settings in production
+
+## User Roles and Permissions
+
+### Current Role System
+
+Docut currently supports:
+
+- **Regular Users** - Can create and manage their own links
+- **Admin Users** - Full system access (future feature)
+
+### Link Ownership
+
+- Users can only access their own links
+- Links are automatically associated with the creating user
+- Admin users can access all links (when implemented)
+
+## Account Recovery
+
+### Password Reset
+
+Users can reset forgotten passwords:
+
+1. Visit `/forgot-password`
+2. Enter email address
+3. Check email for reset link
+4. Click link and set new password
+5. Reset links expire after 1 hour
+
+### Email Verification Resend
+
+If verification email is lost:
+
+1. Try logging in with unverified account
+2. System will offer to resend verification
+3. Check email for new verification link
+
+## Next Steps
+
+- Learn about [API Authentication](/docs/authentication/api-keys) for programmatic access
+- Review [Security Features](/docs/authentication/security) for best practices
+- Check [Troubleshooting](/docs/authentication/troubleshooting) for common issues
