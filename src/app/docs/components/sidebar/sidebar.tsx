@@ -2,6 +2,7 @@
 import { useSearchContext } from 'fumadocs-ui/provider'
 import { ChevronDownIcon, Search } from 'lucide-react'
 import { Suspense, useState } from 'react'
+import { RouteBadge } from '@/components/ui/route-badge'
 import { cn } from '@/lib/utils'
 import { AsideLink } from '../aside-link'
 import { contents } from './sidebar-routes'
@@ -74,10 +75,18 @@ export function Sidebar() {
                                 className="break-words text-nowrap w-[--fd-sidebar-width] [&>div>div]:hover:!bg-fd-muted"
                                 activeClassName="[&>div>div]:!bg-fd-muted"
                               >
-                                <div className="min-w-4">
-                                  <listItem.icon className="text-stone-950 dark:text-white" />
-                                </div>
-                                {listItem.title}
+                                {!listItem.isRoute && (
+                                  <div className="min-w-4">
+                                    <listItem.icon className="text-stone-950 dark:text-white" />
+                                  </div>
+                                )}
+                                <span className="flex-1">{listItem.title}</span>
+                                {listItem.isRoute && listItem.method && (
+                                  <RouteBadge
+                                    method={listItem.method}
+                                    className="ml-2"
+                                  />
+                                )}
                                 {/*{listItem.isNew && <NewBadge />}*/}
                               </AsideLink>
                             )}

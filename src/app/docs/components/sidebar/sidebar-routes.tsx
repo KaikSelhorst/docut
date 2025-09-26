@@ -23,6 +23,8 @@ interface Content {
     icon: ((props?: SVGProps<any>) => ReactNode) | LucideIcon
     group?: boolean
     isNew?: boolean
+    isRoute?: boolean
+    method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   }[]
 }
 
@@ -59,7 +61,10 @@ function contentToPageTree(content: Content): PageTree.Folder {
       type: 'page',
       url: item.href,
       name: item.title,
-      icon: <item.icon />
+      icon: <item.icon />,
+      isNew: item.isNew,
+      isRoute: item.isRoute,
+      method: item.method
     }))
   }
 }
@@ -165,6 +170,135 @@ export const contents: Content[] = [
         title: 'Local Setup',
         href: '/docs/development/installation',
         icon: () => <Wrench className="size-4" />
+      }
+    ]
+  },
+  {
+    title: 'API Reference',
+    href: '/docs/api/overview',
+    Icon: () => <KeySquare className="w-5 h-5" />,
+    list: [
+      {
+        title: 'Links',
+        href: '',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        group: true
+      },
+      {
+        title: 'Create Link',
+        href: '/docs/api/create-link',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'POST'
+      },
+      {
+        title: 'Get Link',
+        href: '/docs/api/get-link',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
+      },
+      {
+        title: 'Update Link',
+        href: '/docs/api/update-link',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'PUT'
+      },
+      {
+        title: 'Delete Link',
+        href: '/docs/api/delete-link',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'DELETE'
+      },
+      {
+        title: 'List Links',
+        href: '/docs/api/list-links',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
+      },
+      {
+        title: 'Analytics',
+        href: '',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        group: true
+      },
+      {
+        title: 'Get Countries',
+        href: '/docs/api/analytics/get-countries',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
+      },
+      {
+        title: 'Get Browsers',
+        href: '/docs/api/analytics/get-browsers',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
+      },
+      {
+        title: 'Get Cities',
+        href: '/docs/api/analytics/get-cities',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
+      },
+      {
+        title: 'Get Devices',
+        href: '/docs/api/analytics/get-devices',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
+      },
+      {
+        title: 'Get Operating Systems',
+        href: '/docs/api/analytics/get-operating-systems',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
+      },
+      {
+        title: 'Get Visitors',
+        href: '/docs/api/analytics/get-visitors',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
+      },
+      {
+        title: 'Public API',
+        href: '',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        group: true
+      },
+      {
+        title: 'Create Public Link',
+        href: '/docs/api/create-public-link',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'POST'
+      },
+      {
+        title: 'Get Public Link',
+        href: '/docs/api/get-public-link',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
+      },
+      {
+        title: 'System',
+        href: '',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        group: true
+      },
+      {
+        title: 'Health Check',
+        href: '/docs/api/health',
+        icon: () => <KeySquare className="w-4 h-4 text-current" />,
+        isRoute: true,
+        method: 'GET'
       }
     ]
   },
