@@ -1,0 +1,86 @@
+---
+title: API Authentication
+---
+
+Docut provides API key authentication for programmatic access, allowing you to integrate link shortening functionality into your applications.
+
+## API Keys Overview
+
+API keys provide secure access to Docut's REST API with built-in rate limiting and usage tracking.
+
+### Key Features
+
+- **Rate Limiting** - 350 requests per day by default
+- **Custom Limits** - Configurable per key
+- **Expiration** - Optional expiration dates
+- **Permissions** - Granular permission control
+- **Usage Tracking** - Monitor API usage and remaining requests
+
+## Creating API Keys
+
+### Through the Dashboard
+
+1. Log into your Docut account
+2. Navigate to Account Settings
+3. Go to the "API Keys" section
+4. Click "Generate New Key"
+5. Give your key a descriptive name
+6. Copy and store the key securely
+
+### API Key Configuration
+
+When creating an API key, you can configure:
+
+- **Name** - Descriptive name for the key
+- **Rate Limit** - Custom request limits
+- **Expiration** - Optional expiration date
+- **Permissions** - Specific API access permissions
+
+## Using API Keys
+
+### Authentication Header
+
+Include the API key in the Authorization header:
+
+```bash
+curl -H "Authorization: Bearer your-api-key" \
+     https://your-domain.com/api/dashboard/link
+```
+
+### JavaScript Example
+
+```javascript
+const response = await fetch('https://your-domain.com/api/dashboard/link', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer your-api-key',
+    'Content-Type': 'application/json'
+  }
+});
+
+const data = await response.json();
+```
+
+## Rate Limiting
+
+### Default Limits
+
+- **Requests per day:** 350
+- **Time window:** 24 hours
+- **Refill mechanism:** Automatic daily refill
+
+### Rate Limit Headers
+
+API responses include rate limit information:
+
+```http
+X-RateLimit-Limit: 350
+X-RateLimit-Remaining: 249
+X-RateLimit-Reset: 1640995200
+```
+
+## Next Steps
+
+- Review [Security Features](/docs/authentication/security) for additional security considerations
+- Check [Troubleshooting](/docs/authentication/troubleshooting) for common API issues
+- Explore the [API Documentation](/docs/api) for detailed endpoint information

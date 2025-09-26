@@ -1,0 +1,171 @@
+---
+title: "List Links"
+description: "Retrieve a paginated list of all your shortened links"
+---
+
+# List Links
+
+Retrieve a paginated list of all your shortened links with optional filtering and sorting.
+
+## Endpoint
+
+```
+GET /api/dashboard/link
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Query Parameters
+
+| Parameter        | Type   | Required | Default    | Description                        |
+| ---------------- | ------ | -------- | ---------- | ---------------------------------- |
+| `page`           | number | No       | 1          | Page number for pagination         |
+| `per_page`       | number | No       | 25         | Number of links per page (max 100) |
+| `sort_by`        | string | No       | updated_at | Field to sort by                   |
+| `sort_direction` | string | No       | desc       | Sort direction (asc or desc)       |
+| `id`             | string | No       | ""         | Filter by link ID (partial match)  |
+
+### Sort Fields
+
+Available fields for sorting:
+
+- `created_at` - Sort by creation date
+- `updated_at` - Sort by last update date
+- `clicks` - Sort by click count
+- `url` - Sort by original URL
+
+### Sort Directions
+
+- `asc` - Ascending order
+- `desc` - Descending order
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "data": [
+    {
+      "id": "abc123def",
+      "url": "https://example.com/very-long-url",
+      "expiration": "2024-12-31T23:59:59.000Z",
+      "clicks": 42,
+      "createdAt": "2024-01-15T10:30:00.000Z",
+      "updatedAt": "2024-01-15T10:30:00.000Z",
+      "seo": {
+        "id": "seo123",
+        "linkId": "abc123def",
+        "title": "Custom Page Title",
+        "description": "Custom page description for SEO",
+        "createdAt": "2024-01-15T10:30:00.000Z",
+        "updatedAt": "2024-01-15T10:30:00.000Z"
+      }
+    },
+    {
+      "id": "xyz789ghi",
+      "url": "https://another-example.com/another-long-url",
+      "expiration": null,
+      "clicks": 15,
+      "createdAt": "2024-01-14T09:15:00.000Z",
+      "updatedAt": "2024-01-14T09:15:00.000Z",
+      "seo": {
+        "id": "seo456",
+        "linkId": "xyz789ghi",
+        "title": null,
+        "description": null,
+        "createdAt": "2024-01-14T09:15:00.000Z",
+        "updatedAt": "2024-01-14T09:15:00.000Z"
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "per_page": 25,
+    "total": 2,
+    "total_pages": 1
+  }
+}
+```
+
+### Error Responses
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required",
+    "code": "UNAUTHORIZED"
+  }
+}
+```
+
+## Example Usage
+
+```javascript
+// Get all links with pagination
+const response = await fetch("/api/dashboard/link?page=1&per_page=25", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+
+const result = await response.json();
+console.log("Links:", result.data);
+console.log("Pagination:", result.pagination);
+
+// Get links sorted by clicks (most popular first)
+const popularLinks = await fetch(
+  "/api/dashboard/link?sort_by=clicks&sort_direction=desc",
+  {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer YOUR_API_KEY",
+    },
+  },
+);
+
+const popularResult = await popularLinks.json();
+console.log("Most popular links:", popularResult.data);
+```
+
+## Pagination
+
+The response includes pagination information to help you navigate through large lists of links:
+
+| Field         | Type   | Description              |
+| ------------- | ------ | ------------------------ |
+| `page`        | number | Current page number      |
+| `per_page`    | number | Number of items per page |
+| `total`       | number | Total number of links    |
+| `total_pages` | number | Total number of pages    |
+
+## Filtering
+
+### Search by ID
+
+Use the `id` parameter to search for links with a specific ID pattern:
+
+```
+GET /api/dashboard/link?id=abc
+```
+
+This will return all links whose ID contains "abc".
+
+## Performance Tips
+
+1. **Use pagination** for large datasets
+2. **Limit per_page** to reasonable numbers (25-50)
+3. **Use sorting** to get the most relevant links first
+4. **Cache results** when possible to reduce API calls
+
+## Notes
+
+- Only links belonging to your account will be returned
+- The maximum `per_page` value is 100
+- Empty results will return an empty array with pagination info
+- All timestamps are in ISO 8601 format

@@ -1,0 +1,165 @@
+---
+title: "Get Cities"
+description: "Retrieve city-level geographic analytics for your links"
+---
+
+# Get Cities
+
+Retrieve analytics data showing the geographic distribution of your link clicks by city.
+
+## Endpoint
+
+```
+GET /api/dashboard/link/metrics/city
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "data": [
+    {
+      "city": "New York",
+      "country": "United States",
+      "total": 450
+    },
+    {
+      "city": "São Paulo",
+      "country": "Brazil",
+      "total": 320
+    },
+    {
+      "city": "London",
+      "country": "United Kingdom",
+      "total": 280
+    },
+    {
+      "city": "Los Angeles",
+      "country": "United States",
+      "total": 250
+    },
+    {
+      "city": "Berlin",
+      "country": "Germany",
+      "total": 180
+    },
+    {
+      "city": null,
+      "country": null,
+      "total": 45
+    }
+  ]
+}
+```
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "error": {
+    "message": "Invalid metric type",
+    "code": "INVALID_METRIC_TYPE"
+  }
+}
+```
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required",
+    "code": "UNAUTHORIZED"
+  }
+}
+```
+
+## Response Fields
+
+| Field     | Type   | Description                                    |
+| --------- | ------ | ---------------------------------------------- |
+| `city`    | string | City name (e.g., "New York", "São Paulo")      |
+| `country` | string | Country name (e.g., "United States", "Brazil") |
+| `total`   | number | Total number of clicks from this city          |
+
+## Data Period
+
+- Analytics data includes clicks from the **last 60 days**
+- Data is aggregated across all your links
+- Results are sorted by total clicks in descending order
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/dashboard/link/metrics/city", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+
+const analytics = await response.json();
+console.log("City analytics:", analytics.data);
+
+// Find top city
+const topCity = analytics.data[0];
+console.log(
+  `Top city: ${topCity.city}, ${topCity.country} with ${topCity.total} clicks`,
+);
+```
+
+## Use Cases
+
+### Top Cities Analysis
+
+```javascript
+// Get top 10 cities
+const topCities = analytics.data.slice(0, 10);
+console.log("Top 10 cities:", topCities);
+```
+
+### Country-City Breakdown
+
+```javascript
+// Group cities by country
+const citiesByCountry = analytics.data.reduce((acc, city) => {
+  if (!acc[city.country]) {
+    acc[city.country] = [];
+  }
+  acc[city.country].push(city);
+  return acc;
+}, {});
+
+console.log("Cities by country:", citiesByCountry);
+```
+
+### Geographic Heatmap Data
+
+```javascript
+// Prepare data for geographic visualization
+const heatmapData = analytics.data.map((city) => ({
+  location: `${city.city}, ${city.country}`,
+  clicks: city.total,
+  city: city.city,
+  country: city.country,
+}));
+
+console.log("Heatmap data:", heatmapData);
+```
+
+## Notes
+
+- City names are standardized and may include accented characters
+- Unknown or undetectable locations appear as "Unknown"
+- Data is updated in real-time as clicks occur
+- Only includes clicks from the last 60 days
+- Results are automatically sorted by click count (highest first)
+- City detection accuracy depends on IP geolocation data quality

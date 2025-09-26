@@ -1,0 +1,167 @@
+---
+title: "Update Link"
+description: "Update an existing shortened link"
+---
+
+# Update Link
+
+Update the properties of an existing shortened link, including the URL, SEO metadata, and expiration date.
+
+## Endpoint
+
+```
+PUT /api/dashboard/link/{id}
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Path Parameters
+
+| Parameter | Type   | Required | Description                                 |
+| --------- | ------ | -------- | ------------------------------------------- |
+| `id`      | string | Yes      | The unique identifier of the link to update |
+
+## Request Body
+
+All fields are optional. Only include the fields you want to update.
+
+```json
+{
+  "url": "https://example.com/new-url",
+  "expiration": "2025-12-31T23:59:59Z",
+  "seo": {
+    "title": "Updated Page Title",
+    "description": "Updated page description"
+  }
+}
+```
+
+### Parameters
+
+| Parameter         | Type   | Required | Description                                                               |
+| ----------------- | ------ | -------- | ------------------------------------------------------------------------- |
+| `url`             | string | No       | The new URL to redirect to (must be a valid URL)                          |
+| `expiration`      | string | No       | ISO 8601 datetime when the link should expire (null to remove expiration) |
+| `seo.title`       | string | No       | Custom title for the shortened link page                                  |
+| `seo.description` | string | No       | Custom description for the shortened link page                            |
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "id": "abc123def",
+  "url": "https://example.com/new-url",
+  "expiration": "2025-12-31T23:59:59.000Z",
+  "clicks": 42,
+  "createdAt": "2024-01-15T10:30:00.000Z",
+  "updatedAt": "2024-01-15T11:45:00.000Z",
+  "seo": {
+    "id": "seo123",
+    "linkId": "abc123def",
+    "title": "Updated Page Title",
+    "description": "Updated page description",
+    "createdAt": "2024-01-15T10:30:00.000Z",
+    "updatedAt": "2024-01-15T11:45:00.000Z"
+  }
+}
+```
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "error": {
+    "message": "Invalid URL format",
+    "code": "INVALID_URL"
+  }
+}
+```
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required",
+    "code": "UNAUTHORIZED"
+  }
+}
+```
+
+#### 404 Not Found
+
+```json
+{
+  "error": {
+    "message": "Link not found!",
+    "code": "NOT_FOUND"
+  }
+}
+```
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/dashboard/link/abc123def", {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+  body: JSON.stringify({
+    url: "https://example.com/new-url",
+    expiration: "2025-12-31T23:59:59Z",
+    seo: {
+      title: "Updated Page Title",
+      description: "Updated page description",
+    },
+  }),
+});
+
+const updatedLink = await response.json();
+console.log("Updated link:", updatedLink);
+```
+
+## Partial Updates
+
+You can update only specific fields without affecting others:
+
+### Update only the URL
+
+```json
+{
+  "url": "https://example.com/new-destination"
+}
+```
+
+### Update only SEO metadata
+
+```json
+{
+  "seo": {
+    "title": "New Title Only"
+  }
+}
+```
+
+### Remove expiration
+
+```json
+{
+  "expiration": null
+}
+```
+
+## Notes
+
+- Only the fields you include in the request body will be updated
+- The `updatedAt` timestamp will be automatically updated
+- You can only update links that belong to your account
+- The link ID remains the same after updates
+- Click count and creation date are not affected by updates

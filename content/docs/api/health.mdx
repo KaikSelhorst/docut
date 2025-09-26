@@ -1,0 +1,110 @@
+---
+title: "Health Check"
+description: "Check the API health status"
+---
+
+# Health Check
+
+Check the current health status of the API and its dependencies.
+
+## Endpoint
+
+```
+GET /api/health
+```
+
+## Authentication
+
+**No authentication required** - this is a public endpoint.
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "status": "OK"
+}
+```
+
+### Error Response (503 Service Unavailable)
+
+```json
+{
+  "status": "ERROR",
+  "message": "Service temporarily unavailable"
+}
+```
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/health");
+const health = await response.json();
+
+if (response.ok) {
+  console.log("API is healthy:", health.status);
+} else {
+  console.log("API is unhealthy:", health.message);
+}
+```
+
+## Use Cases
+
+### Monitoring and Alerting
+
+```javascript
+// Simple health check for monitoring
+const checkAPIHealth = async () => {
+  try {
+    const response = await fetch("/api/health");
+    return response.ok;
+  } catch (error) {
+    console.error("Health check failed:", error);
+    return false;
+  }
+};
+
+// Use in monitoring systems
+setInterval(async () => {
+  const isHealthy = await checkAPIHealth();
+  if (!isHealthy) {
+    // Send alert to monitoring system
+    console.log("API health check failed - sending alert");
+  }
+}, 60000); // Check every minute
+```
+
+### Load Balancer Health Checks
+
+```bash
+# Configure load balancer to use this endpoint
+# Example for nginx:
+# location /health {
+#   proxy_pass http://backend/api/health;
+#   proxy_set_header Host $host;
+# }
+```
+
+### Docker Health Checks
+
+```dockerfile
+# Add to your Dockerfile
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/api/health || exit 1
+```
+
+## Response Codes
+
+| Status Code | Description                    |
+| ----------- | ------------------------------ |
+| `200`       | API is healthy and operational |
+| `503`       | API is experiencing issues     |
+
+## Notes
+
+- This endpoint is designed to be lightweight and fast
+- It doesn't perform deep health checks of all dependencies
+- Use this for basic uptime monitoring
+- The endpoint is cached for performance
+- No rate limiting applies to this endpoint

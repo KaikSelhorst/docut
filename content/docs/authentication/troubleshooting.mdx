@@ -1,0 +1,362 @@
+---
+title: Authentication Troubleshooting
+---
+
+This guide helps you resolve common authentication and user management issues in Docut.
+
+## Login Issues
+
+### Cannot Log In
+
+**Symptoms:**
+- Login form shows "Invalid credentials"
+- User exists but cannot authenticate
+
+**Solutions:**
+
+1. **Verify credentials:**
+   - Check email address spelling
+   - Ensure password is correct
+   - Try password reset if unsure
+
+2. **Check email verification:**
+   - Verify email address if verification is enabled
+   - Check spam folder for verification emails
+   - Request new verification email
+
+3. **Clear browser data:**
+   - Clear cookies and cache
+   - Try incognito/private browsing mode
+   - Test with different browser
+
+4. **Check system time:**
+   - Ensure system clock is synchronized
+   - Time drift can cause session issues
+
+### Account Locked
+
+**Symptoms:**
+- Account appears to be locked
+- Cannot access account despite correct credentials
+
+**Solutions:**
+
+1. **Wait for unlock:**
+   - Account may be temporarily locked after failed attempts
+   - Wait 15-30 minutes before retrying
+
+2. **Contact support:**
+   - If account remains locked, contact support
+   - Provide account email and issue description
+
+## Email Issues
+
+### Verification Email Not Received
+
+**Symptoms:**
+- No verification email after registration
+- Email not in inbox or spam folder
+
+**Solutions:**
+
+1. **Check spam folder:**
+   - Look in spam/junk folder
+   - Add Docut to safe senders list
+
+2. **Verify email address:**
+   - Double-check email address spelling
+   - Try different email address
+
+3. **Check SMTP configuration:**
+   - Verify SMTP settings in environment variables
+   - Test email delivery with admin tools
+
+4. **Request resend:**
+   - Use "Resend verification" option
+   - Wait a few minutes between requests
+
+### Password Reset Email Not Received
+
+**Symptoms:**
+- No password reset email after request
+- Reset link not working
+
+**Solutions:**
+
+1. **Check email address:**
+   - Ensure using correct email address
+   - Check for typos in email
+
+2. **Check email delivery:**
+   - Look in spam folder
+   - Verify SMTP configuration
+
+3. **Link expiration:**
+   - Reset links expire after 1 hour
+   - Request new reset link if expired
+
+4. **Browser issues:**
+   - Try different browser
+   - Clear browser cache
+
+## API Authentication Issues
+
+### Invalid API Key
+
+**Symptoms:**
+- 401 Unauthorized errors
+- "Invalid API key" messages
+
+**Solutions:**
+
+1. **Verify API key:**
+   - Check key is copied correctly
+   - Ensure no extra spaces or characters
+
+2. **Check key status:**
+   - Verify key is active and not expired
+   - Check if key was revoked
+
+3. **Authorization header:**
+   - Ensure proper "Bearer " prefix
+   - Check header format: `Authorization: Bearer your-key`
+
+4. **Generate new key:**
+   - Create new API key if current one is compromised
+   - Update applications with new key
+
+### Rate Limit Exceeded
+
+**Symptoms:**
+- 429 Too Many Requests errors
+- API requests being blocked
+
+**Solutions:**
+
+1. **Check rate limits:**
+   - Review current usage in dashboard
+   - Wait for rate limit reset
+
+2. **Optimize requests:**
+   - Reduce request frequency
+   - Implement request caching
+   - Batch multiple operations
+
+3. **Upgrade limits:**
+   - Contact support for higher limits
+   - Consider premium plan for more requests
+
+4. **Implement retry logic:**
+   - Add exponential backoff
+   - Handle rate limit responses gracefully
+
+## Session Issues
+
+### Session Expired
+
+**Symptoms:**
+- Unexpected logout
+- "Session expired" messages
+
+**Solutions:**
+
+1. **Re-login:**
+   - Simply log in again
+   - Sessions expire for security
+
+2. **Check session settings:**
+   - Verify session timeout configuration
+   - Check for session conflicts
+
+3. **Clear browser data:**
+   - Clear cookies and cache
+   - Restart browser
+
+### Multiple Device Issues
+
+**Symptoms:**
+- Logged out on other devices
+- Session conflicts between devices
+
+**Solutions:**
+
+1. **Single session policy:**
+   - Docut may limit concurrent sessions
+   - Log in on one device at a time
+
+2. **Clear all sessions:**
+   - Log out from all devices
+   - Log in fresh on desired device
+
+## Database Issues
+
+### User Not Found
+
+**Symptoms:**
+- User exists but cannot be found
+- Database connection errors
+
+**Solutions:**
+
+1. **Check database connection:**
+   - Verify DATABASE_URL is correct
+   - Ensure database is running
+
+2. **Check user data:**
+   - Verify user exists in database
+   - Check for data corruption
+
+3. **Database permissions:**
+   - Ensure database user has proper permissions
+   - Check database access logs
+
+### Migration Issues
+
+**Symptoms:**
+- Database schema errors
+- Migration failures
+
+**Solutions:**
+
+1. **Run migrations:**
+   ```bash
+   bun run db:migrate
+   ```
+
+2. **Check migration status:**
+   ```bash
+   bun run db:check
+   ```
+
+3. **Reset database:**
+   - Backup data first
+   - Drop and recreate database
+   - Run migrations again
+
+## Environment Configuration Issues
+
+### Missing Environment Variables
+
+**Symptoms:**
+- Application startup errors
+- Authentication not working
+
+**Solutions:**
+
+1. **Check .env file:**
+   - Ensure all required variables are set
+   - Verify variable names and values
+
+2. **Required variables:**
+   - DATABASE_URL
+   - REDIS_URL
+   - BETTER_AUTH_SECRET
+
+3. **Restart application:**
+   - Restart after changing environment variables
+   - Check application logs for errors
+
+### SMTP Configuration Issues
+
+**Symptoms:**
+- Email sending failures
+- SMTP connection errors
+
+**Solutions:**
+
+1. **Verify SMTP settings:**
+   - Check host, port, and credentials
+   - Test SMTP connection
+
+2. **Common SMTP issues:**
+   - Wrong port (587 vs 465)
+   - Incorrect authentication
+   - Firewall blocking SMTP
+
+3. **Test email delivery:**
+   - Use SMTP testing tools
+   - Check email provider settings
+
+## Performance Issues
+
+### Slow Authentication
+
+**Symptoms:**
+- Long login times
+- Slow API responses
+
+**Solutions:**
+
+1. **Check Redis connection:**
+   - Verify Redis is running
+   - Check Redis performance
+
+2. **Database performance:**
+   - Check database query performance
+   - Ensure proper indexing
+
+3. **Network issues:**
+   - Check network latency
+   - Verify DNS resolution
+
+### High Memory Usage
+
+**Symptoms:**
+- Application using excessive memory
+- System performance degradation
+
+**Solutions:**
+
+1. **Check session storage:**
+   - Review session cache size
+   - Clear expired sessions
+
+2. **Database connections:**
+   - Check connection pool size
+   - Monitor active connections
+
+3. **Application monitoring:**
+   - Use monitoring tools
+   - Check for memory leaks
+
+## Getting Help
+
+### Before Contacting Support
+
+1. **Check logs:**
+   - Review application logs
+   - Check browser console for errors
+
+2. **Gather information:**
+   - Error messages
+   - Steps to reproduce
+   - Browser and system information
+
+3. **Try basic troubleshooting:**
+   - Clear browser cache
+   - Try different browser
+   - Check network connectivity
+
+### Contact Information
+
+For additional help:
+
+- **Email:** oficial.kaikselhorst@gmail.com
+- **GitHub Issues:** [Create an issue](https://github.com/KaikSelhorst/docut/issues)
+- **Documentation:** Check other documentation sections
+
+### Reporting Issues
+
+When reporting issues, include:
+
+- **Error messages** - Exact error text
+- **Steps to reproduce** - Detailed reproduction steps
+- **Environment details** - OS, browser, version
+- **Logs** - Relevant log entries
+- **Expected behavior** - What should happen
+
+## Next Steps
+
+- Review [Authentication Overview](/docs/authentication/overview) for basic concepts
+- Check [API Authentication](/docs/authentication/api-keys) for API-specific issues
+- Learn about [Security Features](/docs/authentication/security) for security-related problems

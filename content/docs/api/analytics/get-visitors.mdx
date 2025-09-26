@@ -1,0 +1,224 @@
+---
+title: "Get Visitors"
+description: "Retrieve visitor analytics with daily breakdown"
+---
+
+# Get Visitors
+
+Retrieve detailed visitor analytics showing daily visitor counts and page views over the last 60 days.
+
+## Endpoint
+
+```
+GET /api/dashboard/link/metrics/visitors
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "data": [
+    {
+      "date": "2024-01-01",
+      "visitors": 25,
+      "views": 45
+    },
+    {
+      "date": "2024-01-02",
+      "visitors": 18,
+      "views": 32
+    },
+    {
+      "date": "2024-01-03",
+      "visitors": 42,
+      "views": 78
+    },
+    {
+      "date": "2024-01-04",
+      "visitors": 0,
+      "views": 0
+    },
+    {
+      "date": "2024-01-05",
+      "visitors": 35,
+      "views": 62
+    }
+  ]
+}
+```
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "error": {
+    "message": "Invalid metric type",
+    "code": "INVALID_METRIC_TYPE"
+  }
+}
+```
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required",
+    "code": "UNAUTHORIZED"
+  }
+}
+```
+
+## Response Fields
+
+| Field      | Type   | Description                                     |
+| ---------- | ------ | ----------------------------------------------- |
+| `date`     | string | Date in YYYY-MM-DD format                       |
+| `visitors` | number | Number of unique visitors (based on IP address) |
+| `views`    | number | Total number of page views                      |
+
+## Data Period
+
+- Analytics data includes the **last 60 days**
+- Data is aggregated across all your links
+- Results are sorted by date in ascending order
+- Days with no activity show 0 visitors and 0 views
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/dashboard/link/metrics/visitors", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+
+const analytics = await response.json();
+console.log("Visitor analytics:", analytics.data);
+
+// Calculate total visitors and views
+const totalVisitors = analytics.data.reduce(
+  (sum, day) => sum + day.visitors,
+  0,
+);
+const totalViews = analytics.data.reduce((sum, day) => sum + day.views, 0);
+
+console.log(`Total visitors: ${totalVisitors}`);
+console.log(`Total views: ${totalViews}`);
+```
+
+## Use Cases
+
+### Daily Analytics Dashboard
+
+```javascript
+// Create daily analytics summary
+const dailyStats = analytics.data.map((day) => ({
+  date: day.date,
+  visitors: day.visitors,
+  views: day.views,
+  viewsPerVisitor: day.visitors > 0 ? (day.views / day.visitors).toFixed(2) : 0,
+}));
+
+console.log("Daily stats:", dailyStats);
+```
+
+### Weekly Trends
+
+```javascript
+// Calculate weekly totals
+const weeklyData = [];
+for (let i = 0; i < analytics.data.length; i += 7) {
+  const week = analytics.data.slice(i, i + 7);
+  const weekVisitors = week.reduce((sum, day) => sum + day.visitors, 0);
+  const weekViews = week.reduce((sum, day) => sum + day.views, 0);
+
+  weeklyData.push({
+    week: Math.floor(i / 7) + 1,
+    visitors: weekVisitors,
+    views: weekViews,
+  });
+}
+
+console.log("Weekly trends:", weeklyData);
+```
+
+### Peak Day Analysis
+
+```javascript
+// Find peak days
+const peakVisitorsDay = analytics.data.reduce((max, day) =>
+  day.visitors > max.visitors ? day : max,
+);
+
+const peakViewsDay = analytics.data.reduce((max, day) =>
+  day.views > max.views ? day : max,
+);
+
+console.log(
+  `Peak visitors day: ${peakVisitorsDay.date} with ${peakVisitorsDay.visitors} visitors`,
+);
+console.log(
+  `Peak views day: ${peakViewsDay.date} with ${peakViewsDay.views} views`,
+);
+```
+
+### Growth Analysis
+
+```javascript
+// Calculate growth trends
+const firstWeek = analytics.data.slice(0, 7);
+const lastWeek = analytics.data.slice(-7);
+
+const firstWeekVisitors = firstWeek.reduce((sum, day) => sum + day.visitors, 0);
+const lastWeekVisitors = lastWeek.reduce((sum, day) => sum + day.visitors, 0);
+
+const growthRate = (
+  ((lastWeekVisitors - firstWeekVisitors) / firstWeekVisitors) *
+  100
+).toFixed(2);
+console.log(`Visitor growth rate: ${growthRate}%`);
+```
+
+## Data Visualization
+
+### Chart.js Example
+
+```javascript
+// Prepare data for Chart.js
+const chartData = {
+  labels: analytics.data.map((day) => day.date),
+  datasets: [
+    {
+      label: "Visitors",
+      data: analytics.data.map((day) => day.visitors),
+      borderColor: "rgb(75, 192, 192)",
+      tension: 0.1,
+    },
+    {
+      label: "Views",
+      data: analytics.data.map((day) => day.views),
+      borderColor: "rgb(255, 99, 132)",
+      tension: 0.1,
+    },
+  ],
+};
+```
+
+## Notes
+
+- **Visitors** are counted based on unique IP addresses per day
+- **Views** represent total page loads (including repeat visits)
+- A visitor can generate multiple views on the same day
+- Days with no activity are included with 0 values
+- Data is updated in real-time as clicks occur
+- The 60-day period provides a good balance between data availability and performance

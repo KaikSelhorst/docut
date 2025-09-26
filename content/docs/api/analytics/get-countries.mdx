@@ -1,0 +1,139 @@
+---
+title: "Get Countries"
+description: "Retrieve geographic distribution analytics by country"
+---
+
+# Get Countries
+
+Retrieve analytics data showing the geographic distribution of your link clicks by country.
+
+## Endpoint
+
+```
+GET /api/dashboard/link/metrics/country
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "data": [
+    {
+      "country": "United States",
+      "total": 1250
+    },
+    {
+      "country": "Brazil",
+      "total": 890
+    },
+    {
+      "country": "United Kingdom",
+      "total": 456
+    },
+    {
+      "country": "Germany",
+      "total": 234
+    },
+    {
+      "country": "France",
+      "total": 123
+    }
+  ]
+}
+```
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "error": {
+    "message": "Invalid metric type",
+    "code": "INVALID_METRIC_TYPE"
+  }
+}
+```
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required",
+    "code": "UNAUTHORIZED"
+  }
+}
+```
+
+## Response Fields
+
+| Field     | Type   | Description                                    |
+| --------- | ------ | ---------------------------------------------- |
+| `country` | string | Country name (e.g., "United States", "Brazil") |
+| `total`   | number | Total number of clicks from this country       |
+
+## Data Period
+
+- Analytics data includes clicks from the **last 60 days**
+- Data is aggregated across all your links
+- Results are sorted by total clicks in descending order
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/dashboard/link/metrics/country", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+
+const analytics = await response.json();
+console.log("Country analytics:", analytics.data);
+
+// Find top country
+const topCountry = analytics.data[0];
+console.log(
+  `Top country: ${topCountry.country} with ${topCountry.total} clicks`,
+);
+```
+
+## Use Cases
+
+### Geographic Analysis
+
+```javascript
+// Analyze geographic distribution
+const totalClicks = analytics.data.reduce(
+  (sum, country) => sum + country.total,
+  0,
+);
+
+analytics.data.forEach((country) => {
+  const percentage = ((country.total / totalClicks) * 100).toFixed(2);
+  console.log(`${country.country}: ${country.total} clicks (${percentage}%)`);
+});
+```
+
+### Top Countries
+
+```javascript
+// Get top 5 countries
+const topCountries = analytics.data.slice(0, 5);
+console.log("Top 5 countries:", topCountries);
+```
+
+## Notes
+
+- Country names are standardized (e.g., "United States" not "USA")
+- Unknown or undetectable countries may appear as "Unknown"
+- Data is updated in real-time as clicks occur
+- Only includes clicks from the last 60 days
+- Results are automatically sorted by click count (highest first)
