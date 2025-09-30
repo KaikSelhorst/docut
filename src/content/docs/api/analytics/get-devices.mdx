@@ -1,0 +1,199 @@
+---
+title: "Get Devices"
+description: "Retrieve device type analytics for your links"
+---
+
+# Get Devices
+
+Retrieve analytics data showing the device type distribution of your link clicks.
+
+## Endpoint
+
+```
+GET /api/dashboard/link/metrics/device
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "data": [
+    {
+      "device": "Desktop",
+      "total": 1850
+    },
+    {
+      "device": "Mobile",
+      "total": 1420
+    },
+    {
+      "device": "Tablet",
+      "total": 380
+    },
+    {
+      "device": null,
+      "total": 45
+    }
+  ]
+}
+```
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "error": {
+    "message": "Invalid metric type"
+  }
+}
+```
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required"
+  }
+}
+```
+
+## Response Fields
+
+| Field    | Type   | Description                                       |
+| -------- | ------ | ------------------------------------------------- |
+| `device` | string | Device type (e.g., "Desktop", "Mobile", "Tablet") |
+| `total`  | number | Total number of clicks from this device type      |
+
+## Device Categories
+
+The API categorizes devices into the following types:
+
+### Desktop
+
+- Traditional desktop computers
+- Laptops
+- Workstations
+
+### Mobile
+
+- Smartphones
+- Feature phones
+- Mobile devices with small screens
+
+### Tablet
+
+- Tablets
+- Large mobile devices
+- Convertible devices in tablet mode
+
+### Null
+
+- Devices that cannot be properly categorized
+- Unrecognized device types
+
+## Data Period
+
+- Analytics data includes clicks from the **last 60 days**
+- Data is aggregated across all your links
+- Results are sorted by total clicks in descending order
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/dashboard/link/metrics/device", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+
+const analytics = await response.json();
+console.log("Device analytics:", analytics.data);
+
+// Find most popular device type
+const topDevice = analytics.data[0];
+console.log(
+  `Most popular device: ${topDevice.device} with ${topDevice.total} clicks`,
+);
+```
+
+## Use Cases
+
+### Device Distribution Analysis
+
+```javascript
+// Calculate device distribution percentages
+const totalClicks = analytics.data.reduce(
+  (sum, device) => sum + device.total,
+  0,
+);
+
+analytics.data.forEach((device) => {
+  const percentage = ((device.total / totalClicks) * 100).toFixed(2);
+  console.log(`${device.device}: ${device.total} clicks (${percentage}%)`);
+});
+```
+
+### Mobile vs Desktop Comparison
+
+```javascript
+// Compare mobile vs desktop usage
+const mobileClicks = analytics.data
+  .filter((device) => device.device === "Mobile")
+  .reduce((sum, device) => sum + device.total, 0);
+
+const desktopClicks = analytics.data
+  .filter((device) => device.device === "Desktop")
+  .reduce((sum, device) => sum + device.total, 0);
+
+const mobilePercentage = (
+  (mobileClicks / (mobileClicks + desktopClicks)) *
+  100
+).toFixed(2);
+const desktopPercentage = (
+  (desktopClicks / (mobileClicks + desktopClicks)) *
+  100
+).toFixed(2);
+
+console.log(`Mobile: ${mobilePercentage}%`);
+console.log(`Desktop: ${desktopPercentage}%`);
+```
+
+### Responsive Design Insights
+
+```javascript
+// Analyze device trends for responsive design decisions
+const deviceData = analytics.data.reduce((acc, device) => {
+  acc[device.device] = device.total;
+  return acc;
+}, {});
+
+console.log("Device breakdown:", deviceData);
+
+// Determine if mobile-first approach is needed
+const mobileRatio =
+  deviceData.Mobile / (deviceData.Desktop + deviceData.Mobile);
+if (mobileRatio > 0.5) {
+  console.log("Mobile-first design recommended");
+} else {
+  console.log("Desktop-first design is appropriate");
+}
+```
+
+## Notes
+
+- Device detection is based on User-Agent strings and screen size analysis
+- Some devices may be misclassified due to User-Agent spoofing
+- Unknown devices are categorized as "Unknown"
+- Data is updated in real-time as clicks occur
+- Only includes clicks from the last 60 days
+- Results are automatically sorted by click count (highest first)

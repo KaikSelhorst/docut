@@ -1,0 +1,301 @@
+---
+title: Deploy to Vercel
+---
+
+This guide will walk you through deploying Docut to Vercel, a popular platform for hosting Next.js applications. Vercel provides excellent performance, automatic deployments, and easy scaling.
+
+## Prerequisites
+
+Before deploying to Vercel, you'll need:
+
+- **Vercel account** - Sign up at [vercel.com](https://vercel.com)
+- **GitHub account** - For repository hosting
+- **PostgreSQL database** - Vercel Postgres, Supabase, or external database
+- **Redis instance** - Upstash Redis or external Redis service
+
+## Quick Deploy (One-Click)
+
+The fastest way to deploy Docut is using the one-click deploy button:
+
+<a href="https://vercel.com/new/clone?repository-url=https://github.com/KaikSelhorst/docut" target="_blank" rel="noopener noreferrer">
+  <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+</a>
+
+This will:
+1. Fork the repository to your GitHub account
+2. Create a new Vercel project
+3. Set up the basic configuration
+4. Deploy the application
+
+## Manual Deploy
+
+### 1. Fork the Repository
+
+1. Go to [Docut GitHub repository](https://github.com/KaikSelhorst/docut)
+2. Click the "Fork" button in the top-right corner
+3. Select your GitHub account as the destination
+
+### 2. Create Vercel Project
+
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Click "New Project"
+3. Import your forked Docut repository
+4. Configure the project settings
+
+### 3. Set Up Database
+
+#### Option A: Vercel Postgres (Recommended)
+
+1. In your Vercel project dashboard, go to the "Storage" tab
+2. Click "Create Database" → "Postgres"
+3. Choose a name for your database
+4. Note the connection details
+
+#### Option B: External Database
+
+You can use external database providers:
+
+- **Supabase** - [supabase.com](https://supabase.com)
+- **PlanetScale** - [planetscale.com](https://planetscale.com)
+- **Railway** - [railway.app](https://railway.app)
+- **Neon** - [neon.tech](https://neon.tech)
+
+### 4. Set Up Redis
+
+#### Option A: Upstash Redis (Recommended)
+
+1. Go to [Upstash Console](https://console.upstash.com)
+2. Create a new Redis database
+3. Choose the region closest to your Vercel deployment
+4. Note the connection details
+
+#### Option B: External Redis
+
+You can use other Redis providers:
+
+- **Redis Cloud** - [redis.com](https://redis.com)
+- **Railway Redis** - [railway.app](https://railway.app)
+- **AWS ElastiCache** - [aws.amazon.com](https://aws.amazon.com)
+
+### 5. Configure Environment Variables
+
+In your Vercel project dashboard, go to "Settings" → "Environment Variables" and add:
+
+#### Required Variables
+
+```bash
+# Database
+DATABASE_URL="postgresql://username:password@host:port/database"
+
+# Redis
+REDIS_URL="redis://username:password@host:port"
+
+# Authentication
+BETTER_AUTH_SECRET="your-very-secure-secret-key"
+BETTER_AUTH_URL="https://your-domain.vercel.app"
+
+# Admin
+ADMIN_EMAIL="admin@your-domain.com"
+ADMIN_PASSWORD="your-secure-admin-password"
+```
+
+#### Email Configuration (Optional)
+
+```bash
+# SMTP Configuration
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT="587"
+SMTP_SECURE="true"
+SMTP_USER="your-email@gmail.com"
+SMTP_PASSWORD="your-app-password"
+```
+
+#### Environment Settings
+
+```bash
+# Environment
+NODE_ENV="production"
+DEBUG="false"
+DRIZZLE_LOGGER="false"
+```
+
+### 6. Deploy
+
+1. Click "Deploy" in your Vercel project
+2. Wait for the deployment to complete
+3. Your Docut instance will be available at `https://your-project.vercel.app`
+
+## Post-Deployment Setup
+
+### 1. Run Database Migrations
+
+After deployment, you need to run database migrations:
+
+1. Go to your Vercel project dashboard
+2. Go to "Functions" tab
+3. Find the migration function or use Vercel CLI:
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Login to Vercel
+vercel login
+
+# Link to your project
+vercel link
+
+# Run migrations
+vercel env pull .env.local
+bun run db:migrate
+```
+
+### 2. Create Admin User
+
+The admin user will be created automatically using the environment variables you set.
+
+### 3. Configure Custom Domain (Optional)
+
+1. In your Vercel project dashboard, go to "Settings" → "Domains"
+2. Add your custom domain
+3. Configure DNS settings as instructed
+4. Update `BETTER_AUTH_URL` environment variable with your custom domain
+
+## Environment Variables Reference
+
+### Database Configuration
+
+```bash
+# Vercel Postgres example
+DATABASE_URL="postgres://default:password@ep-xxx.us-east-1.postgres.vercel-storage.com/verceldb"
+
+# Supabase example
+DATABASE_URL="postgresql://postgres:password@db.xxx.supabase.co:5432/postgres"
+```
+
+### Redis Configuration
+
+```bash
+# Upstash Redis example
+REDIS_URL="redis://default:password@xxx.upstash.io:6379"
+
+# Redis Cloud example
+REDIS_URL="redis://default:password@xxx.c1.us-east-1-1.ec2.cloud.redislabs.com:12345"
+```
+
+### Authentication Configuration
+
+```bash
+# Generate a secure secret
+BETTER_AUTH_SECRET="your-very-long-random-secret-key-here"
+
+# Your Vercel domain
+BETTER_AUTH_URL="https://your-project.vercel.app"
+```
+
+## Monitoring and Maintenance
+
+### Vercel Analytics
+
+Enable Vercel Analytics to monitor your application:
+
+1. Go to your project dashboard
+2. Go to "Analytics" tab
+3. Enable analytics for your domain
+
+### Logs and Debugging
+
+Access your application logs:
+
+1. Go to your Vercel project dashboard
+2. Go to "Functions" tab
+3. Click on any function to view logs
+
+### Performance Monitoring
+
+Monitor your application performance:
+
+1. Use Vercel's built-in performance monitoring
+2. Set up alerts for errors and performance issues
+3. Monitor database and Redis usage
+
+## Scaling and Optimization
+
+### Automatic Scaling
+
+Vercel automatically scales your application based on traffic. For high-traffic applications:
+
+1. **Upgrade to Pro plan** for better performance
+2. **Use Edge Functions** for global distribution
+3. **Optimize database queries** to reduce response times
+
+### Caching
+
+Optimize performance with caching:
+
+1. **Enable Vercel's Edge Network** for static assets
+2. **Use Redis caching** for frequently accessed data
+3. **Implement API response caching**
+
+### Database Optimization
+
+For high-traffic applications:
+
+1. **Use connection pooling** for database connections
+2. **Optimize database queries** and add indexes
+3. **Consider read replicas** for read-heavy workloads
+
+## Troubleshooting
+
+### Common Issues
+
+**Build Failures:**
+- Check environment variables are set correctly
+- Verify all required dependencies are in package.json
+- Check build logs for specific errors
+
+**Database Connection Issues:**
+- Verify DATABASE_URL is correct
+- Check database is accessible from Vercel
+- Ensure database user has proper permissions
+
+**Redis Connection Issues:**
+- Verify REDIS_URL is correct
+- Check Redis instance is running
+- Ensure Redis is accessible from Vercel
+
+**Authentication Issues:**
+- Verify BETTER_AUTH_SECRET is set
+- Check BETTER_AUTH_URL matches your domain
+- Ensure SMTP configuration is correct
+
+### Getting Help
+
+If you encounter issues:
+
+1. **Check Vercel logs** for error messages
+2. **Verify environment variables** are set correctly
+3. **Test database and Redis connections**
+4. **Contact support** with specific error details
+
+## Cost Optimization
+
+### Vercel Pricing
+
+- **Hobby Plan** - Free tier with limitations
+- **Pro Plan** - $20/month for production use
+- **Enterprise** - Custom pricing for large organizations
+
+### Database Costs
+
+- **Vercel Postgres** - Pay-as-you-use pricing
+- **External providers** - Various pricing models
+- **Optimize queries** to reduce database usage
+
+### Redis Costs
+
+- **Upstash** - Pay-per-request pricing
+- **Redis Cloud** - Fixed monthly pricing
+- **Monitor usage** to optimize costs
+
+For local development, see the [Local Development Setup](/docs/development/installation) guide.

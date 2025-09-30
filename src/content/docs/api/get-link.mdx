@@ -1,0 +1,100 @@
+---
+title: "Get Link"
+description: "Retrieve detailed information about a specific link"
+---
+
+# Get Link
+
+Retrieve detailed information about a specific shortened link, including its metadata and analytics.
+
+## Endpoint
+
+```
+GET /api/dashboard/link/{id}
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Path Parameters
+
+| Parameter | Type   | Required | Description                       |
+| --------- | ------ | -------- | --------------------------------- |
+| `id`      | string | Yes      | The unique identifier of the link |
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "id": "abc123def",
+  "url": "https://example.com/very-long-url",
+  "expiration": "2024-12-31T23:59:59.000Z",
+  "clicks": 42,
+  "createdAt": "2024-01-15T10:30:00.000Z",
+  "updatedAt": "2024-01-15T10:30:00.000Z",
+  "seo": {
+    "id": "seo123",
+    "linkId": "abc123def",
+    "title": "Custom Page Title",
+    "description": "Custom page description for SEO",
+    "createdAt": "2024-01-15T10:30:00.000Z",
+    "updatedAt": "2024-01-15T10:30:00.000Z"
+  }
+}
+```
+
+### Error Responses
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required"
+  }
+}
+```
+
+#### 404 Not Found
+
+```json
+{
+  "error": {
+    "message": "Link not found!"
+  }
+}
+```
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/dashboard/link/abc123def", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+
+const link = await response.json();
+console.log("Link details:", link);
+```
+
+## Response Fields
+
+| Field             | Type           | Description                                                     |
+| ----------------- | -------------- | --------------------------------------------------------------- |
+| `id`              | string         | Unique identifier for the link                                  |
+| `url`             | string         | The original URL that was shortened                             |
+| `expiration`      | string \| null | ISO 8601 datetime when the link expires (null if no expiration) |
+| `clicks`          | number         | Total number of clicks on this link                             |
+| `createdAt`       | string         | ISO 8601 datetime when the link was created                     |
+| `updatedAt`       | string         | ISO 8601 datetime when the link was last updated                |
+| `seo.id`          | string         | Unique identifier for the SEO metadata                          |
+| `seo.linkId`      | string         | ID of the associated link                                       |
+| `seo.title`       | string \| null | Custom title for the link page                                  |
+| `seo.description` | string \| null | Custom description for the link page                            |
+| `seo.createdAt`   | string         | ISO 8601 datetime when SEO metadata was created                 |
+| `seo.updatedAt`   | string         | ISO 8601 datetime when SEO metadata was last updated            |

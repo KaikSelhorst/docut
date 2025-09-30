@@ -1,0 +1,186 @@
+---
+title: "Create Public Link"
+description: "Create a shortened link without authentication"
+---
+
+# Create Public Link
+
+Create a shortened link without requiring authentication. This endpoint is designed for public use and has different rate limits.
+
+## Endpoint
+
+```
+POST /api/link
+```
+
+## Authentication
+
+**No authentication required** - this is a public endpoint.
+
+## Request Body
+
+```json
+{
+  "url": "https://example.com/very-long-url",
+  "expiration": "2024-12-31T23:59:59Z",
+  "seo": {
+    "title": "Custom Page Title",
+    "description": "Custom page description for SEO"
+  }
+}
+```
+
+### Parameters
+
+| Parameter         | Type   | Required | Description                                    |
+| ----------------- | ------ | -------- | ---------------------------------------------- |
+| `url`             | string | Yes      | The URL to shorten (must be a valid URL)       |
+| `expiration`      | string | No       | ISO 8601 datetime when the link should expire  |
+| `seo.title`       | string | No       | Custom title for the shortened link page       |
+| `seo.description` | string | No       | Custom description for the shortened link page |
+
+## Response
+
+### Success Response (201 Created)
+
+```json
+{
+  "id": "abc123def",
+  "url": "https://example.com/very-long-url",
+  "expiration": "2024-12-31T23:59:59.000Z",
+  "clicks": 0,
+  "createdAt": "2024-01-15T10:30:00.000Z",
+  "updatedAt": "2024-01-15T10:30:00.000Z",
+  "seo": {
+    "id": "seo123",
+    "linkId": "abc123def",
+    "title": "Custom Page Title",
+    "description": "Custom page description for SEO",
+    "createdAt": "2024-01-15T10:30:00.000Z",
+    "updatedAt": "2024-01-15T10:30:00.000Z"
+  }
+}
+```
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "error": {
+    "message": "Invalid URL format"
+  }
+}
+```
+
+#### 429 Too Many Requests
+
+```json
+{
+  "error": {
+    "message": "Rate limit exceeded"
+  }
+}
+```
+
+## Rate Limits
+
+Public endpoints have stricter rate limits:
+
+- **100 requests per hour** per IP address
+- Rate limit headers are included in responses:
+
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 99
+X-RateLimit-Reset: 1640995200
+```
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/link", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    url: "https://example.com/very-long-url",
+    expiration: "2024-12-31T23:59:59Z",
+    seo: {
+      title: "My Custom Link",
+      description: "This is a custom shortened link",
+    },
+  }),
+});
+
+const link = await response.json();
+console.log("Created link:", link);
+```
+
+## Use Cases
+
+### Simple URL Shortening
+
+```javascript
+// Simple URL shortening without metadata
+const response = await fetch("/api/link", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    url: "https://very-long-domain.com/very/long/path/to/resource",
+  }),
+});
+
+const link = await response.json();
+console.log(`Shortened URL: https://your-domain.com/${link.id}`);
+```
+
+### Temporary Links
+
+```javascript
+// Create a link that expires in 24 hours
+const expiration = new Date();
+expiration.setHours(expiration.getHours() + 24);
+
+const response = await fetch("/api/link", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    url: "https://example.com/temporary-resource",
+    expiration: expiration.toISOString(),
+  }),
+});
+
+const link = await response.json();
+console.log("Temporary link created:", link);
+```
+
+## Limitations
+
+### Public vs Authenticated Links
+
+| Feature          | Public Links            | Authenticated Links      |
+| ---------------- | ----------------------- | ------------------------ |
+| **Rate Limit**   | 100/hour                | 1000/hour                |
+| **Analytics**    | Basic click tracking    | Full analytics dashboard |
+| **Management**   | No management interface | Full CRUD operations     |
+| **Expiration**   | Supported               | Supported                |
+| **SEO Metadata** | Supported               | Supported                |
+
+### Best Practices
+
+1. **Use for simple shortening** - Perfect for one-off link shortening
+2. **Respect rate limits** - Monitor your usage to avoid hitting limits
+3. **Consider authentication** - For frequent use, consider creating an account
+4. **Handle errors gracefully** - Always check for rate limit and validation errors
+
+## Notes
+
+- The generated link ID is 9 characters long and URL-safe
+- If no expiration date is provided, the link will never expire
+- SEO metadata is optional but recommended for better link presentation
+- The link will be immediately available for use after creation
+- Public links are associated with a system user account
+- All clicks are tracked and can be viewed through analytics endpoints (if you have access)

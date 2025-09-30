@@ -1,0 +1,164 @@
+---
+title: Environment Variables
+---
+
+Docut requires several environment variables to function properly. This document outlines all the required and optional environment variables you need to configure for your Docut installation.
+
+## Required Variables
+
+### DATABASE_URL
+
+The PostgreSQL database connection string. This is required for storing links, analytics data, and user information.
+
+```bash
+DATABASE_URL="postgresql://username:password@localhost:5432/docut"
+```
+
+### REDIS_URL
+
+The Redis connection string used for caching and session management.
+
+```bash
+REDIS_URL="redis://localhost:6379"
+```
+
+## Authentication Variables
+
+### BETTER_AUTH_SECRET
+
+A secure secret key for Better Auth authentication. Generate a random string for production use.
+
+```bash
+BETTER_AUTH_SECRET="your-secret-key-here"
+```
+
+### BETTER_AUTH_URL
+
+The base URL for your Docut installation (optional, defaults to current domain).
+
+```bash
+BETTER_AUTH_URL="https://your-domain.com"
+```
+
+## Admin Configuration
+
+### ADMIN_EMAIL
+
+Email address for the default admin user (optional, defaults to `admin@docut.xyz`).
+
+```bash
+ADMIN_EMAIL="admin@your-domain.com"
+```
+
+### ADMIN_PASSWORD
+
+Password for the default admin user (optional, defaults to `Senha123.`).
+
+```bash
+ADMIN_PASSWORD="your-secure-password"
+```
+
+## Email Configuration (SMTP)
+
+### SMTP_HOST
+
+SMTP server hostname for sending emails (defaults to `non-host`).
+
+```bash
+SMTP_HOST="smtp.gmail.com"
+```
+
+### SMTP_PORT
+
+SMTP server port (defaults to `0`).
+
+```bash
+SMTP_PORT="587"
+```
+
+### SMTP_SECURE
+
+Whether to use SSL/TLS for SMTP connection (defaults to `false`).
+
+```bash
+SMTP_SECURE="true"
+```
+
+### SMTP_USER
+
+SMTP username for authentication (defaults to `non-user`).
+
+```bash
+SMTP_USER="your-email@gmail.com"
+```
+
+### SMTP_PASSWORD
+
+SMTP password for authentication (defaults to a random string).
+
+```bash
+SMTP_PASSWORD="your-app-password"
+```
+
+## Development Variables
+
+### NODE_ENV
+
+The environment mode (defaults to `development`).
+
+```bash
+NODE_ENV="production"
+```
+
+### DEBUG
+
+Enable debug logging (optional).
+
+```bash
+DEBUG="true"
+```
+
+### DRIZZLE_LOGGER
+
+Enable Drizzle ORM query logging (optional).
+
+```bash
+DRIZZLE_LOGGER="true"
+```
+
+## Example .env File
+
+Here's a complete example of a `.env` file for a production Docut installation:
+
+```bash
+# Database
+DATABASE_URL="postgresql://docut_user:secure_password@localhost:5432/docut"
+REDIS_URL="redis://localhost:6379"
+
+# Authentication
+BETTER_AUTH_SECRET="your-very-secure-secret-key-here"
+BETTER_AUTH_URL="https://your-domain.com"
+
+# Admin
+ADMIN_EMAIL="admin@your-domain.com"
+ADMIN_PASSWORD="your-secure-admin-password"
+
+# Email (Gmail example)
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT="587"
+SMTP_SECURE="true"
+SMTP_USER="your-email@gmail.com"
+SMTP_PASSWORD="your-app-password"
+
+# Environment
+NODE_ENV="production"
+DEBUG="false"
+DRIZZLE_LOGGER="false"
+```
+
+## Security Notes
+
+- Always use strong, unique passwords and secrets in production
+- Never commit your `.env` file to version control
+- Use environment-specific values for different deployments
+- Consider using a secrets management service for production deployments

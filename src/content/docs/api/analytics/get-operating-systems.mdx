@@ -1,0 +1,229 @@
+---
+title: "Get Operating Systems"
+description: "Retrieve operating system analytics for your links"
+---
+
+# Get Operating Systems
+
+Retrieve analytics data showing the operating system distribution of your link clicks.
+
+## Endpoint
+
+```
+GET /api/dashboard/link/metrics/os
+```
+
+## Authentication
+
+Requires authentication. Include your session cookie or API key in the request.
+
+## Response
+
+### Success Response (200 OK)
+
+```json
+{
+  "data": [
+    {
+      "os": "Windows",
+      "total": 1850
+    },
+    {
+      "os": "Mac OS",
+      "total": 890
+    },
+    {
+      "os": "iOS",
+      "total": 650
+    },
+    {
+      "os": "Android",
+      "total": 580
+    },
+    {
+      "os": "Linux",
+      "total": 120
+    },
+    {
+      "os": null,
+      "total": 45
+    }
+  ]
+}
+```
+
+### Error Responses
+
+#### 400 Bad Request
+
+```json
+{
+  "error": {
+    "message": "Invalid metric type"
+  }
+}
+```
+
+#### 401 Unauthorized
+
+```json
+{
+  "error": {
+    "message": "Authentication required"
+  }
+}
+```
+
+## Response Fields
+
+| Field   | Type   | Description                                              |
+| ------- | ------ | -------------------------------------------------------- |
+| `os`    | string | Operating system name (e.g., "Windows", "Mac OS", "iOS") |
+| `total` | number | Total number of clicks from this operating system        |
+
+## Supported Operating Systems
+
+The API recognizes the following operating systems:
+
+### Desktop Operating Systems
+
+- Windows 11
+- Windows 10
+- Windows 8.1
+- Windows 8
+- Windows 7
+- Windows Vista
+- Windows XP
+- Windows Server 2003
+- Windows 2000
+- Windows 98
+- Windows 95
+- Windows ME
+- Windows 3.11
+- Mac OS
+- Linux
+- Chrome OS
+- BeOS
+- Open BSD
+- OS/2
+- QNX
+- Sun OS
+
+### Mobile Operating Systems
+
+- iOS
+- Android
+- BlackBerry OS
+- Amazon OS
+- Windows Mobile
+
+### Other
+
+- null (for unrecognized operating systems)
+
+## Data Period
+
+- Analytics data includes clicks from the **last 60 days**
+- Data is aggregated across all your links
+- Results are sorted by total clicks in descending order
+
+## Example Usage
+
+```javascript
+const response = await fetch("/api/dashboard/link/metrics/os", {
+  method: "GET",
+  headers: {
+    Authorization: "Bearer YOUR_API_KEY",
+  },
+});
+
+const analytics = await response.json();
+console.log("OS analytics:", analytics.data);
+
+// Find most popular OS
+const topOS = analytics.data[0];
+console.log(`Most popular OS: ${topOS.os} with ${topOS.total} clicks`);
+```
+
+## Use Cases
+
+### OS Market Share Analysis
+
+```javascript
+// Calculate OS market share
+const totalClicks = analytics.data.reduce((sum, os) => sum + os.total, 0);
+
+analytics.data.forEach((os) => {
+  const percentage = ((os.total / totalClicks) * 100).toFixed(2);
+  console.log(`${os.os}: ${os.total} clicks (${percentage}%)`);
+});
+```
+
+### Mobile vs Desktop OS Analysis
+
+```javascript
+// Separate mobile and desktop operating systems
+const mobileOS = [
+  "iOS",
+  "Android",
+  "BlackBerry OS",
+  "Amazon OS",
+  "Windows Mobile",
+];
+const desktopOS = [
+  "Windows 11",
+  "Windows 10",
+  "Windows 8.1",
+  "Windows 8",
+  "Windows 7",
+  "Windows Vista",
+  "Windows XP",
+  "Mac OS",
+  "Linux",
+  "Chrome OS",
+];
+
+const mobileClicks = analytics.data
+  .filter((os) => mobileOS.includes(os.os))
+  .reduce((sum, os) => sum + os.total, 0);
+
+const desktopClicks = analytics.data
+  .filter((os) => desktopOS.includes(os.os))
+  .reduce((sum, os) => sum + os.total, 0);
+
+console.log(`Mobile OS: ${mobileClicks} clicks`);
+console.log(`Desktop OS: ${desktopClicks} clicks`);
+```
+
+### Platform-Specific Insights
+
+```javascript
+// Analyze specific platforms
+const windowsClicks =
+  analytics.data.find((os) => os.os === "Windows 11")?.total || 0;
+const windows10Clicks =
+  analytics.data.find((os) => os.os === "Windows 10")?.total || 0;
+const windows7Clicks =
+  analytics.data.find((os) => os.os === "Windows 7")?.total || 0;
+const macClicks = analytics.data.find((os) => os.os === "Mac OS")?.total || 0;
+const linuxClicks = analytics.data.find((os) => os.os === "Linux")?.total || 0;
+
+console.log(`Windows 11: ${windowsClicks} clicks`);
+console.log(`Windows 10: ${windows10Clicks} clicks`);
+console.log(`Windows 7: ${windows7Clicks} clicks`);
+console.log(`Mac OS: ${macClicks} clicks`);
+console.log(`Linux: ${linuxClicks} clicks`);
+
+// Calculate platform diversity
+const platformCount = analytics.data.filter((os) => os.total > 0).length;
+console.log(`Platform diversity: ${platformCount} different OS detected`);
+```
+
+## Notes
+
+- OS detection is based on User-Agent strings
+- Windows versions are detected separately (Windows 11, Windows 10, Windows 7, etc.)
+- Unknown operating systems are categorized as "null"
+- Data is updated in real-time as clicks occur
+- Only includes clicks from the last 60 days
+- Results are automatically sorted by click count (highest first)
