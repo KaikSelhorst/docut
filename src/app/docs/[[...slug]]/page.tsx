@@ -1,6 +1,7 @@
 import defaultMdxComponents from 'fumadocs-ui/mdx'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { seoMetadata } from '@/common/seo-config'
 import { CodeBlock, Pre } from '@/components/ui/code-block'
 import { source } from '@/lib/source'
 import {
@@ -65,6 +66,9 @@ export async function generateMetadata(
 
   return {
     title: page.data.title,
-    description: page.data.description
+    description: page.data.description,
+    icons: {
+      icon: seoMetadata.favicon
+    }
   }
 }
