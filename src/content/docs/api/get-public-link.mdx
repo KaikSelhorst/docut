@@ -39,8 +39,7 @@ The API will redirect you to the original URL with appropriate HTTP status codes
 ```json
 {
   "error": {
-    "message": "Link not found",
-    "code": "NOT_FOUND"
+    "message": "Link not found"
   }
 }
 ```
@@ -86,11 +85,13 @@ When a link is accessed, the following information is automatically tracked:
 
 ### Click Data
 
-- **IP Address** - For geographic analysis
-- **User Agent** - For browser and device detection
-- **Referrer** - The page that linked to the shortened URL
-- **Timestamp** - When the click occurred
-- **Geographic Data** - Country and city (if available)
+| Field | Description
+| --- | --- |
+| IP Address | For geographic analysis 
+| User Agent | For browser and device detection 
+| Referrer | The page that linked to the shortened URL 
+| Timestamp | When the click occurred 
+| Geographic Data | Country and city (if available) 
 
 ### Unique Visitor Detection
 
@@ -167,6 +168,5 @@ const checkLink = async (linkId) => {
 
 - All clicks are tracked automatically for analytics purposes
 - Geographic and device information is collected for analytics
-- Links are cached for performance, so changes may take a few minutes to propagate
 - The redirect happens server-side for better performance and SEO
 - Rate limiting applies to link access (100 requests per hour per IP)

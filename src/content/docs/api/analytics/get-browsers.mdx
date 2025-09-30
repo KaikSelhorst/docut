@@ -59,8 +59,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Invalid metric type",
-    "code": "INVALID_METRIC_TYPE"
+    "message": "Invalid metric type"
   }
 }
 ```
@@ -70,8 +69,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Authentication required",
-    "code": "UNAUTHORIZED"
+    "message": "Authentication required"
   }
 }
 ```
@@ -184,7 +182,7 @@ console.log(`Desktop: ${desktopClicks} clicks`);
 
 - Browser detection is based on User-Agent strings
 - Some browsers may be grouped together (e.g., different Chrome versions)
-- Unknown browsers are categorized as "Unknown"
+- Unknown browsers are categorized as "null"
 - Data is updated in real-time as clicks occur
 - Only includes clicks from the last 60 days
 - Results are automatically sorted by click count (highest first)

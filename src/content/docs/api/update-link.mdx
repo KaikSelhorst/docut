@@ -77,8 +77,7 @@ All fields are optional. Only include the fields you want to update.
 ```json
 {
   "error": {
-    "message": "Invalid URL format",
-    "code": "INVALID_URL"
+    "message": "Invalid URL format"
   }
 }
 ```
@@ -88,8 +87,7 @@ All fields are optional. Only include the fields you want to update.
 ```json
 {
   "error": {
-    "message": "Authentication required",
-    "code": "UNAUTHORIZED"
+    "message": "Authentication required"
   }
 }
 ```
@@ -99,8 +97,7 @@ All fields are optional. Only include the fields you want to update.
 ```json
 {
   "error": {
-    "message": "Link not found!",
-    "code": "NOT_FOUND"
+    "message": "Link not found!"
   }
 }
 ```
@@ -163,5 +160,4 @@ You can update only specific fields without affecting others:
 - Only the fields you include in the request body will be updated
 - The `updatedAt` timestamp will be automatically updated
 - You can only update links that belong to your account
-- The link ID remains the same after updates
 - Click count and creation date are not affected by updates

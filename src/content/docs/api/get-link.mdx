@@ -53,8 +53,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Authentication required",
-    "code": "UNAUTHORIZED"
+    "message": "Authentication required"
   }
 }
 ```
@@ -64,8 +63,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Link not found!",
-    "code": "NOT_FOUND"
+    "message": "Link not found!"
   }
 }
 ```
@@ -100,9 +98,3 @@ console.log("Link details:", link);
 | `seo.description` | string \| null | Custom description for the link page                            |
 | `seo.createdAt`   | string         | ISO 8601 datetime when SEO metadata was created                 |
 | `seo.updatedAt`   | string         | ISO 8601 datetime when SEO metadata was last updated            |
-
-## Notes
-
-- You can only retrieve links that belong to your account
-- The `clicks` field shows the total number of times the link has been accessed
-- If the link has expired, it will still be returned but may not be accessible publicly

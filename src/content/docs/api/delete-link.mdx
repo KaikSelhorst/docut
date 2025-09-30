@@ -40,8 +40,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Authentication required",
-    "code": "UNAUTHORIZED"
+    "message": "Authentication required"
   }
 }
 ```
@@ -51,8 +50,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Link not found!",
-    "code": "NOT_FOUND"
+    "message": "Link not found!"
   }
 }
 ```
@@ -99,9 +97,8 @@ if (response.ok) {
 ## Best Practices
 
 1. **Verify the link ID** before deletion
-2. **Export analytics data** if you need to keep historical information
-3. **Update any references** to the link in your documentation or communications
-4. **Consider archiving** instead of deletion if you might need the data later
+2. **Update any references** to the link in your documentation or communications
+
 
 ## Alternative: Disable Instead of Delete
 

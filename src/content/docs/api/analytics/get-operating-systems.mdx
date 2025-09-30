@@ -59,8 +59,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Invalid metric type",
-    "code": "INVALID_METRIC_TYPE"
+    "message": "Invalid metric type"
   }
 }
 ```
@@ -70,8 +69,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Authentication required",
-    "code": "UNAUTHORIZED"
+    "message": "Authentication required"
   }
 }
 ```
@@ -121,7 +119,7 @@ The API recognizes the following operating systems:
 
 ### Other
 
-- Unknown (for unrecognized operating systems)
+- null (for unrecognized operating systems)
 
 ## Data Period
 
@@ -225,7 +223,7 @@ console.log(`Platform diversity: ${platformCount} different OS detected`);
 
 - OS detection is based on User-Agent strings
 - Windows versions are detected separately (Windows 11, Windows 10, Windows 7, etc.)
-- Unknown operating systems are categorized as "Unknown"
+- Unknown operating systems are categorized as "null"
 - Data is updated in real-time as clicks occur
 - Only includes clicks from the last 60 days
 - Results are automatically sorted by click count (highest first)

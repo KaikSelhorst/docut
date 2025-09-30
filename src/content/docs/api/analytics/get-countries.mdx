@@ -25,23 +25,23 @@ Requires authentication. Include your session cookie or API key in the request.
 {
   "data": [
     {
-      "country": "United States",
+      "country": "US",
       "total": 1250
     },
     {
-      "country": "Brazil",
+      "country": "BR",
       "total": 890
     },
     {
-      "country": "United Kingdom",
+      "country": "GB",
       "total": 456
     },
     {
-      "country": "Germany",
+      "country": "DE",
       "total": 234
     },
     {
-      "country": "France",
+      "country": "FR",
       "total": 123
     }
   ]
@@ -55,8 +55,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Invalid metric type",
-    "code": "INVALID_METRIC_TYPE"
+    "message": "Invalid metric type"
   }
 }
 ```
@@ -66,18 +65,17 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Authentication required",
-    "code": "UNAUTHORIZED"
+    "message": "Authentication required"
   }
 }
 ```
 
 ## Response Fields
 
-| Field     | Type   | Description                                    |
-| --------- | ------ | ---------------------------------------------- |
-| `country` | string | Country name (e.g., "United States", "Brazil") |
-| `total`   | number | Total number of clicks from this country       |
+| Field     | Type   | Description                                     |
+| --------- | ------ | ----------------------------------------------- |
+| `country` | string | ISO 3166-1 alpha-2 country code (e.g., "US")    |
+| `total`   | number | Total number of clicks from this country code   |
 
 ## Data Period
 
@@ -101,7 +99,7 @@ console.log("Country analytics:", analytics.data);
 // Find top country
 const topCountry = analytics.data[0];
 console.log(
-  `Top country: ${topCountry.country} with ${topCountry.total} clicks`,
+  `Top country code: ${topCountry.country} with ${topCountry.total} clicks`,
 );
 ```
 
@@ -132,7 +130,7 @@ console.log("Top 5 countries:", topCountries);
 
 ## Notes
 
-- Country names are standardized (e.g., "United States" not "USA")
+- Country values are ISO 3166-1 alpha-2 codes (e.g., "US")
 - Unknown or undetectable countries may appear as "Unknown"
 - Data is updated in real-time as clicks occur
 - Only includes clicks from the last 60 days

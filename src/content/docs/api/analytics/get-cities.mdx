@@ -26,27 +26,27 @@ Requires authentication. Include your session cookie or API key in the request.
   "data": [
     {
       "city": "New York",
-      "country": "United States",
+      "country": "US",
       "total": 450
     },
     {
       "city": "São Paulo",
-      "country": "Brazil",
+      "country": "BR",
       "total": 320
     },
     {
       "city": "London",
-      "country": "United Kingdom",
+      "country": "GB",
       "total": 280
     },
     {
       "city": "Los Angeles",
-      "country": "United States",
+      "country": "US",
       "total": 250
     },
     {
       "city": "Berlin",
-      "country": "Germany",
+      "country": "DE",
       "total": 180
     },
     {
@@ -65,8 +65,7 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Invalid metric type",
-    "code": "INVALID_METRIC_TYPE"
+    "message": "Invalid metric type"
   }
 }
 ```
@@ -76,19 +75,18 @@ Requires authentication. Include your session cookie or API key in the request.
 ```json
 {
   "error": {
-    "message": "Authentication required",
-    "code": "UNAUTHORIZED"
+    "message": "Authentication required"
   }
 }
 ```
 
 ## Response Fields
 
-| Field     | Type   | Description                                    |
-| --------- | ------ | ---------------------------------------------- |
-| `city`    | string | City name (e.g., "New York", "São Paulo")      |
-| `country` | string | Country name (e.g., "United States", "Brazil") |
-| `total`   | number | Total number of clicks from this city          |
+| Field     | Type   | Description                                      |
+| --------- | ------ | ------------------------------------------------ |
+| `city`    | string | City name (e.g., "New York", "São Paulo")        |
+| `country` | string | ISO 3166-1 alpha-2 country code (e.g., "US", "BR") |
+| `total`   | number | Total number of clicks from this city            |
 
 ## Data Period
 
@@ -112,7 +110,7 @@ console.log("City analytics:", analytics.data);
 // Find top city
 const topCity = analytics.data[0];
 console.log(
-  `Top city: ${topCity.city}, ${topCity.country} with ${topCity.total} clicks`,
+  `Top city: ${topCity.city}, country code ${topCity.country} with ${topCity.total} clicks`,
 );
 ```
 
@@ -158,7 +156,8 @@ console.log("Heatmap data:", heatmapData);
 ## Notes
 
 - City names are standardized and may include accented characters
-- Unknown or undetectable locations appear as "Unknown"
+- Country values are ISO 3166-1 alpha-2 codes (e.g., "US")
+- Unknown or undetectable locations appear as "null"
 - Data is updated in real-time as clicks occur
 - Only includes clicks from the last 60 days
 - Results are automatically sorted by click count (highest first)
