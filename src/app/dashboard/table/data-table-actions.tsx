@@ -2,7 +2,7 @@ import { MoreVertical } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { deleteLink } from '@/actions/dashboard/link'
+import { deleteLink, type ListLinkUnit } from '@/actions/dashboard/link'
 import { UpdateLinkSheet } from '@/components/form/update-link-sheet'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,16 +14,16 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 interface DataTableActionsProps {
-  id: string
+  link: ListLinkUnit
 }
 
-export function DataTableActions({ id }: DataTableActionsProps) {
+export function DataTableActions({ link }: DataTableActionsProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const router = useRouter()
 
   function copyURL() {
     try {
-      navigator.clipboard.writeText(`${location.origin}/${id}`)
+      navigator.clipboard.writeText(`${location.origin}/${link.id}`)
       toast.success('Link copied!')
     } catch {
       toast.error('Failure to copy URL')
@@ -43,7 +43,7 @@ export function DataTableActions({ id }: DataTableActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-32">
-        <UpdateLinkSheet setExternalOpen={setDropdownOpen} linkId={id}>
+        <UpdateLinkSheet setExternalOpen={setDropdownOpen} link={link}>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             Edit
           </DropdownMenuItem>
@@ -54,7 +54,7 @@ export function DataTableActions({ id }: DataTableActionsProps) {
           variant="destructive"
           onClick={async () => {
             toast.loading('Deleting...')
-            const res = await deleteLink(id)
+            const res = await deleteLink(link.id)
 
             toast.dismiss()
             if (!res.success) {

@@ -1,6 +1,9 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createLinkSchema } from 'client/schemas/link-schema'
+import {
+  type CreatedLinkSchema,
+  createLinkSchema
+} from 'client/schemas/link-schema'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -21,10 +24,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
-import type { z } from '@/shared/lib/zod'
 import { Button } from '../ui/button'
-
-type Schema = z.infer<typeof createLinkSchema>
 
 interface CreateLinkSheetProps {
   side?: 'left' | 'right'
@@ -39,7 +39,7 @@ export function CreateLinkSheet({
   const router = useRouter()
   const form = useForm({ resolver: zodResolver(createLinkSchema) })
 
-  async function onSubmit(data: Schema) {
+  async function onSubmit(data: CreatedLinkSchema) {
     toast.loading('Creating link...')
     const res = await createLink(data)
 
