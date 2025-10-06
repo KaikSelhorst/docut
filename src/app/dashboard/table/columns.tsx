@@ -1,4 +1,5 @@
 import type { ColumnDef } from '@tanstack/react-table'
+import type { ListLinkUnit } from '@/actions/dashboard/link'
 import { DataTableColumnHeader } from '@/components/data-table'
 import { Skeleton } from '@/components/ui/skeleton'
 import { dateUtils } from '@/lib/date'
@@ -7,16 +8,7 @@ import {
   DataTableActionsSkeleton
 } from './data-table-actions'
 
-export interface Link {
-  id: string
-  url: string
-  expiration: string | null
-  clicks: number
-  updatedAt: string
-  createdAt: string
-}
-
-export const columns: ColumnDef<Link>[] = [
+export const columns: ColumnDef<ListLinkUnit>[] = [
   {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ID" />
@@ -72,14 +64,14 @@ export const columns: ColumnDef<Link>[] = [
     accessorKey: 'actions',
     cell: ({ row }) => {
       const link = row.original
-      return <DataTableActions id={link.id} />
+      return <DataTableActions link={link} />
     },
     size: 40,
     enableSorting: false
   }
 ]
 
-export const columnsSkeleton: ColumnDef<Link>[] = [
+export const columnsSkeleton: ColumnDef<ListLinkUnit>[] = [
   {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ID" />

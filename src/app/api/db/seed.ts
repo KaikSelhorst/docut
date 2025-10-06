@@ -146,8 +146,7 @@ async function seed() {
       }
 
       return false
-    } catch (e) {
-      console.log(e)
+    } catch {
       tx.rollback()
       return true
     }

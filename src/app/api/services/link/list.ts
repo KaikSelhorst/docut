@@ -33,7 +33,6 @@ class ListLinksService {
       )
       return serverError('Failed to retrieve links')
     }
-
     this.logger.info(`Links fetched for user ${session.session.userId}`)
     return Response.json(listOfLinks, { status: 200 })
   }

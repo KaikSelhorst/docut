@@ -3,13 +3,17 @@ import { getDefaultHeaders } from '@/actions/get-request-props'
 import { failure, success } from '@/actions/response'
 import { routes } from '@/actions/routes'
 
-interface Link {
+export interface ListLinkUnit {
   id: string
   url: string
   clicks: number
   expiration: string | null
   createdAt: string
   updatedAt: string
+  seo: {
+    title: string | null
+    description: string | null
+  }
 }
 
 interface Paginate {
@@ -19,7 +23,7 @@ interface Paginate {
 }
 
 interface Success extends Paginate {
-  links: Link[]
+  links: ListLinkUnit[]
 }
 
 export async function listLinks(filters: Record<string, string | undefined>) {
