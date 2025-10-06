@@ -86,7 +86,7 @@ export function ExpirationDatePicker({
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
-                  minDate={new Date()}
+                  minDate={dateUtils.addDays(new Date(), 1)}
                   onChange={(date) => field.onChange(date.toDate())}
                   date={field.value}
                   maxDate={maxDate}
