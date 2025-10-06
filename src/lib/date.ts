@@ -11,5 +11,8 @@ export const dateUtils = {
   },
   fromNow: (date: string | Date) => {
     return dayjs(date).fromNow()
+  },
+  addDays: (date: string | Date, days: number) => {
+    return dayjs(date).add(days, 'day')
   }
 }
