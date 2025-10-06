@@ -23,14 +23,17 @@ export const columns: ColumnDef<Link>[] = [
     ),
     accessorKey: 'id',
     cell: ({ row }) => <div className="font-medium">{row.getValue('id')}</div>,
-    size: 100
+    size: 60
   },
   {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Full URL" />
     ),
     accessorKey: 'url',
-    size: 200
+    size: 200,
+    cell: ({ row }) => (
+      <div className="overflow-clip text-ellipsis">{row.getValue('url')}</div>
+    )
   },
   {
     header: ({ column }) => (
@@ -38,7 +41,7 @@ export const columns: ColumnDef<Link>[] = [
     ),
     accessorKey: 'clicks',
     cell: ({ row }) => <div>{row.getValue('clicks')}</div>,
-    size: 180
+    size: 100
   },
   {
     header: ({ column }) => (
@@ -50,7 +53,7 @@ export const columns: ColumnDef<Link>[] = [
       if (expiration === null) return <div>Permanent</div>
       return <div>{dateUtils.fromNow(expiration as string)}</div>
     },
-    size: 120
+    size: 100
   },
   {
     header: ({ column }) => (
@@ -60,7 +63,7 @@ export const columns: ColumnDef<Link>[] = [
     cell: ({ row }) => (
       <div>{dateUtils.fromNow(row.getValue('updatedAt'))}</div>
     ),
-    size: 120
+    size: 100
   },
   {
     header: ({ column }) => (
