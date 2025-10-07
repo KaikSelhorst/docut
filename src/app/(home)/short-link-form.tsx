@@ -30,6 +30,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { createLinkModal } from '@/hooks'
 
 export function ShortLinkForm() {
   const { data: session } = useSession()
@@ -54,7 +55,7 @@ export function ShortLinkForm() {
           }
 
           toast.success('Link shortened successfully.')
-          const shortedURL = new URL(`${location.origin}/${res.data.id}`)
+          const shortedURL = new URL(res.data.id, location.origin)
           navigator.clipboard.writeText(shortedURL.toString())
           toast.success('Shortened link saved to your clipboard', {
             action: {
@@ -63,9 +64,13 @@ export function ShortLinkForm() {
                 navigator.clipboard.writeText(shortedURL.toString())
             }
           })
+
           form.reset()
 
-          form.setValue('url', shortedURL.toString())
+          createLinkModal({
+            originalUrl: data.url,
+            shortedUrl: shortedURL.toString()
+          })
         })}
       >
         <FormField

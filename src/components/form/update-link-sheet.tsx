@@ -25,6 +25,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
+import { createLinkModal } from '@/hooks'
 
 interface UpdateLinkSheetProps {
   side?: 'left' | 'right'
@@ -56,6 +57,13 @@ export function UpdateLinkSheet({
 
     toast.success('Link updated!')
     router.refresh()
+
+    const shortedUrl = new URL(res.data.id, location.origin)
+
+    createLinkModal({
+      originalUrl: res.data.url,
+      shortedUrl: shortedUrl.toString()
+    })
   }
 
   return (
