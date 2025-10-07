@@ -1,4 +1,5 @@
 export * from './ use-copy-button'
+export * from './use-link-modal'
 export * from './use-mobile'
 export * from './use-table-filters'
 export * from './use-theme'
