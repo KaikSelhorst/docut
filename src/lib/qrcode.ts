@@ -1,4 +1,4 @@
-// biome-ignore-all lint/suspicious/noDebugger: this is a third party library
+// biome-ignore-all lint: third party lib
 export namespace qrcodegen {
   type bit = number
   type byte = number
