@@ -24,6 +24,7 @@ import {
   SheetTitle,
   SheetTrigger
 } from '@/components/ui/sheet'
+import { createLinkModal } from '@/hooks'
 import { Button } from '../ui/button'
 
 interface CreateLinkSheetProps {
@@ -53,6 +54,13 @@ export function CreateLinkSheet({
     toast.success('Link created!')
     router.refresh()
     form.reset()
+
+    const shortedUrl = new URL(res.data.id, window.location.origin)
+
+    createLinkModal({
+      originalUrl: data.url,
+      shortedUrl: shortedUrl.toString()
+    })
   }
 
   return (
