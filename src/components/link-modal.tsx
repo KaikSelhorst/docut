@@ -30,8 +30,9 @@ export function LinkModal({ originalUrl, shortedUrl }: ShortedLinkModalProps) {
   )
 
   const generate = useCallback(() => {
+    const linkLen = shortedUrl.length
     if (ref.current === null) return
-    generateQRCode(shortedUrl, ref.current, 12)
+    generateQRCode(shortedUrl, ref.current, linkLen > 35 ? 9 : 12)
   }, [shortedUrl])
 
   useEffect(() => {
