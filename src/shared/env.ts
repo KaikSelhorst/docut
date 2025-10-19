@@ -12,7 +12,7 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(['production', 'development', 'test'])
       .default('development'),
-    DEBUG: booleanSchema,
+    DEBUG: booleanSchema.default(false),
     ADMIN_EMAIL: z.email().optional().default('admin@docut.xyz'),
     ADMIN_PASSWORD: z.string().optional().default('Senha123.'),
     // Better-Auth
@@ -20,7 +20,7 @@ export const env = createEnv({
     BETTER_AUTH_SECRET: z.string().min(1).optional(),
     // Database
     DATABASE_URL: z.string().min(1),
-    DRIZZLE_LOGGER: booleanSchema,
+    DRIZZLE_LOGGER: booleanSchema.default(false),
     // Redis
     REDIS_URL: z.string().min(1),
     // SMTP
