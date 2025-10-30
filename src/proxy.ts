@@ -6,7 +6,7 @@ const ROUTES = {
   protected: ['/dashboard', '/account']
 } as const
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const session = getSessionCookie(request)
   const { pathname } = request.nextUrl
 
