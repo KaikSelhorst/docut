@@ -20,7 +20,7 @@ func newAuthHandler() (*handler.AuthHandler, *fakes.UserRepo, *fakes.RefreshToke
 	users := fakes.NewUserRepo()
 	tokens := fakes.NewRefreshTokenRepo()
 	svc := service.NewAuthService("test-secret")
-	return handler.NewAuthHandler(users, tokens, svc), users, tokens
+	return handler.NewAuthHandler(users, tokens, svc, false), users, tokens
 }
 
 func seedUser(t *testing.T, users *fakes.UserRepo, email, password string) *model.User {
@@ -306,7 +306,7 @@ func TestAuthHandler_Logout_RevokesAccessToken(t *testing.T) {
 	svc := service.NewAuthService("test-secret")
 	users := fakes.NewUserRepo()
 	tokens := fakes.NewRefreshTokenRepo()
-	h := handler.NewAuthHandler(users, tokens, svc)
+	h := handler.NewAuthHandler(users, tokens, svc, false)
 
 	u := seedUser(t, users, "ivan@example.com", "password123")
 

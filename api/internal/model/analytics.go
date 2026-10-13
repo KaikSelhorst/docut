@@ -25,6 +25,7 @@ type ReferrerBreakdown struct {
 	WhatsApp  int64 `json:"whatsapp"`
 	YouTube   int64 `json:"youtube"`
 	Google    int64 `json:"google"`
+	Bing      int64 `json:"bing"`
 	Discord   int64 `json:"discord"`
 	Other     int64 `json:"other"`
 }
@@ -45,10 +46,10 @@ type LinkAnalytics struct {
 	ShortCode    string            `json:"short_code"`
 	TotalClicks  int64             `json:"total_clicks"`
 	UniqueClicks int64             `json:"unique_clicks"`
-	OverTime  []ClicksOverTime  `json:"over_time"`
-	Devices   DeviceBreakdown   `json:"devices"`
-	Referrers ReferrerBreakdown `json:"referrers"`
-	Browsers  BrowserBreakdown  `json:"browsers"`
+	OverTime     []ClicksOverTime  `json:"over_time"`
+	Devices      DeviceBreakdown   `json:"devices"`
+	Referrers    ReferrerBreakdown `json:"referrers"`
+	Browsers     BrowserBreakdown  `json:"browsers"`
 }
 
 type TopLink struct {

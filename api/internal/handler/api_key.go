@@ -66,7 +66,6 @@ func (h *APIKeyHandler) CreateAPIKey(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// If the key is scoped to a project, verify the project belongs to this user.
 	if req.ProjectID != nil {
 		project, err := h.projectRepository.GetByID(r.Context(), *req.ProjectID)
 		if err != nil {

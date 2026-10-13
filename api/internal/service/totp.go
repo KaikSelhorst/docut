@@ -18,7 +18,6 @@ const (
 	totpWindow = 1  // accept ±1 period to handle clock drift
 )
 
-// GenerateTOTPSecret generates a 160-bit random secret encoded as base32 (no padding).
 func GenerateTOTPSecret() (string, error) {
 	b := make([]byte, 20)
 	if _, err := rand.Read(b); err != nil {
@@ -68,11 +67,9 @@ func generateTOTP(secret string, counter int64) (string, error) {
 		return "", fmt.Errorf("decode totp secret: %w", err)
 	}
 
-	// Encode counter as 8-byte big-endian unsigned integer.
 	msg := make([]byte, 8)
 	binary.BigEndian.PutUint64(msg, uint64(counter))
 
-	// Compute HMAC-SHA1.
 	mac := hmac.New(sha1.New, key)
 	mac.Write(msg)
 	h := mac.Sum(nil)

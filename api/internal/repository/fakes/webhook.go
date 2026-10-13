@@ -2,6 +2,7 @@ package fakes
 
 import (
 	"context"
+	"slices"
 	"sync"
 	"time"
 
@@ -96,12 +97,9 @@ func (r *WebhookRepo) ListByProjectAndEvent(_ context.Context, projectID int64, 
 		if w.ProjectID != projectID || !w.Enabled {
 			continue
 		}
-		for _, e := range w.Events {
-			if e == event {
-				cp := *w
-				out = append(out, &cp)
-				break
-			}
+		if slices.Contains(w.Events, event) {
+			cp := *w
+			out = append(out, &cp)
 		}
 	}
 	return out, nil
@@ -141,10 +139,7 @@ func (r *WebhookRepo) ListDeliveries(_ context.Context, webhookID string, limit,
 	if offset >= len(all) {
 		return nil, nil
 	}
-	end := offset + limit
-	if end > len(all) {
-		end = len(all)
-	}
+	end := min(offset+limit, len(all))
 	return all[offset:end], nil
 }
 

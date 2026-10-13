@@ -9,7 +9,7 @@ import (
 
 const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-const base = uint64(len(alphabet)) // 62
+const base = uint64(len(alphabet))
 
 const phi64 = uint64(0x9e3779b97f4a7c15)
 

@@ -82,24 +82,20 @@ type AuthState struct {
 	ExpiresIn    int    `json:"expires_in,omitempty"`
 }
 
-// TOTPValidateRequest is the payload for the second login step when TOTP is active.
 type TOTPValidateRequest struct {
 	Session string `json:"session"`
 	Code    string `json:"code"`
 }
 
-// TOTPSetupResponse returns the otpauth:// URI and the human-readable secret to the frontend.
 type TOTPSetupResponse struct {
 	URI    string `json:"uri"`
 	Secret string `json:"secret"`
 }
 
-// TOTPConfirmRequest confirms the setup with a valid authenticator code.
 type TOTPConfirmRequest struct {
 	Code string `json:"code"`
 }
 
-// TOTPDisableRequest disables TOTP by requiring the current authenticator code.
 type TOTPDisableRequest struct {
 	Code string `json:"code"`
 }

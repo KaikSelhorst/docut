@@ -44,7 +44,6 @@ func (c *APIKeyCache) Set(hash string, key *model.APIKey) {
 	c.mu.Unlock()
 }
 
-// Delete evicts a hash immediately — call when an API key is revoked.
 func (c *APIKeyCache) Delete(hash string) {
 	c.mu.Lock()
 	delete(c.items, hash)

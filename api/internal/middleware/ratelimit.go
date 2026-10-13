@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"net"
 	"net/http"
 	"strings"
 	"sync"
@@ -62,7 +63,6 @@ func (rl *RateLimiter) allow(key string) bool {
 	return true
 }
 
-// Limit is an http.Handler middleware that enforces the rate limit per client IP.
 func (rl *RateLimiter) Limit(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !rl.allow(clientIP(r)) {
@@ -80,8 +80,8 @@ func clientIP(r *http.Request) string {
 	if xri := r.Header.Get("X-Real-IP"); xri != "" {
 		return xri
 	}
-	if i := strings.LastIndex(r.RemoteAddr, ":"); i != -1 {
-		return r.RemoteAddr[:i]
+	if host, _, err := net.SplitHostPort(r.RemoteAddr); err == nil {
+		return host
 	}
 	return r.RemoteAddr
 }

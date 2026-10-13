@@ -7,7 +7,6 @@ import (
 	"github.com/KaikSelhorst/shortener/internal/httputil"
 )
 
-// SecurityHeaders sets defensive HTTP headers on every response.
 func SecurityHeaders(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
@@ -19,7 +18,6 @@ func SecurityHeaders(next http.Handler) http.Handler {
 	})
 }
 
-// RequireJSON rejects POST/PUT/PATCH requests that are not application/json.
 func RequireJSON(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {

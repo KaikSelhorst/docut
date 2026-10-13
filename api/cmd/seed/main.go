@@ -445,7 +445,7 @@ func buildDayPicker() func() int {
 	weights := make([]float64, daySpan)
 	cumulative := make([]float64, daySpan)
 	total := 0.0
-	for d := 0; d < daySpan; d++ {
+	for d := range daySpan {
 		trend := 1.0 + float64(daySpan-d)/daySpan*2.0
 		noise := 0.3 + rand.Float64()*1.4
 		if rand.IntN(100) < 5 {
