@@ -3,6 +3,7 @@ package router
 import (
 	"context"
 	"net/http"
+	"slices"
 	"time"
 
 	"github.com/KaikSelhorst/shortener/internal/cache"
@@ -35,8 +36,8 @@ type Router struct {
 // stack chains middlewares: first is outermost, last is innermost.
 func stack(mws ...func(http.Handler) http.Handler) func(http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
-		for i := len(mws) - 1; i >= 0; i-- {
-			h = mws[i](h)
+		for _, mw := range slices.Backward(mws) {
+			h = mw(h)
 		}
 		return h
 	}

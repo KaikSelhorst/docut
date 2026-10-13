@@ -31,11 +31,9 @@ func NewTrackerService(repo repository.ClickWriteRepo, logger *zap.SugaredLogger
 		queue:  make(chan model.Click, trackerBufSize),
 		done:   make(chan struct{}),
 	}
-	t.wg.Add(1)
-	go func() {
-		defer t.wg.Done()
+	t.wg.Go(func() {
 		t.run()
-	}()
+	})
 	return t
 }
 
