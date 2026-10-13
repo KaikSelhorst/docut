@@ -78,32 +78,29 @@ func ParseDeviceType(ua string) string {
 	return "desktop"
 }
 
-// knownReferrers maps hostname suffixes to their canonical source name.
 var knownReferrers = map[string]string{
-	"instagram.com": "instagram",
-	"facebook.com":  "facebook",
-	"fb.com":        "facebook",
-	"fb.me":         "facebook",
-	"twitter.com":   "twitter",
-	"t.co":          "twitter",
-	"x.com":         "twitter",
-	"tiktok.com":    "tiktok",
-	"linkedin.com":  "linkedin",
-	"lnkd.in":       "linkedin",
-	"whatsapp.com":  "whatsapp",
-	"wa.me":         "whatsapp",
+	"instagram.com":  "instagram",
+	"facebook.com":   "facebook",
+	"fb.com":         "facebook",
+	"fb.me":          "facebook",
+	"twitter.com":    "twitter",
+	"t.co":           "twitter",
+	"x.com":          "twitter",
+	"tiktok.com":     "tiktok",
+	"linkedin.com":   "linkedin",
+	"lnkd.in":        "linkedin",
+	"whatsapp.com":   "whatsapp",
+	"wa.me":          "whatsapp",
 	"youtube.com":    "youtube",
 	"youtu.be":       "youtube",
 	"discord.com":    "discord",
 	"discord.gg":     "discord",
 	"discordapp.com": "discord",
 	"google.com":     "google",
-	"google.co":     "google", // google.co.uk, google.com.br, etc.
-	"bing.com":      "google", // group search engines under google label isn't ideal; keep separate
+	"google.co":      "google", // google.co.uk, google.com.br, etc.
+	"bing.com":       "bing",
 }
 
-// ParseReferrerSource extracts the host from the referer URL and maps it to
-// a known social/search source. Returns "direct" for empty referers.
 func ParseReferrerSource(referer string) string {
 	if referer == "" {
 		return "direct"
@@ -115,10 +112,8 @@ func ParseReferrerSource(referer string) string {
 	}
 
 	host := strings.ToLower(u.Hostname())
-	// Strip www. prefix for matching.
 	host = strings.TrimPrefix(host, "www.")
 
-	// Exact match first.
 	if src, ok := knownReferrers[host]; ok {
 		return src
 	}

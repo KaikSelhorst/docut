@@ -146,6 +146,8 @@ func TestParseReferrerSource(t *testing.T) {
 		{"https://www.google.com/search?q=test", "google"},
 		{"https://google.co.uk/search?q=test", "google"},
 		{"https://google.com.br/", "google"},
+		// bing
+		{"https://www.bing.com/search?q=go", "bing"},
 		// discord
 		{"https://discord.com/channels/123/456", "discord"},
 		{"https://discord.gg/invite-code", "discord"},

@@ -318,6 +318,8 @@ func (r *ClickRepository) queryReferrers(ctx context.Context, query string, args
 			rb.WhatsApp = count
 		case "youtube":
 			rb.YouTube = count
+		case "bing":
+			rb.Bing = count
 		case "google":
 			rb.Google = count
 		case "discord":
