@@ -1,6 +1,6 @@
 module github.com/KaikSelhorst/shortener
 
-go 1.26.2
+go 1.27.2
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.19.1
