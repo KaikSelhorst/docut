@@ -25,7 +25,6 @@ type WebhookRepo interface {
 	ResetStuckDeliveries(ctx context.Context) error
 }
 
-// PendingDelivery carries everything the worker needs without an extra fetch.
 type PendingDelivery struct {
 	ID              string
 	WebhookID       string
@@ -177,7 +176,6 @@ func (r *WebhookRepository) ClaimPendingDeliveries(ctx context.Context, limit in
 	}
 	defer tx.Rollback(ctx) //nolint:errcheck
 
-	// Step 1: select and lock rows with SKIP LOCKED, joining webhooks for url/secret.
 	rows, err := tx.Query(ctx, `
 		SELECT wd.id, wd.webhook_id, wd.event, wd.payload, wd.attempts, w.url, w.secret
 		FROM webhook_deliveries wd

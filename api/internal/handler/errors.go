@@ -16,8 +16,6 @@ func writeJSON(w http.ResponseWriter, status int, v any) {
 	httputil.WriteJSON(w, status, v)
 }
 
-// repoError maps a repository error to an HTTP response.
-// ErrNotFound → 404 with notFoundMsg; any other error → 500.
 func repoError(w http.ResponseWriter, err error, notFoundMsg string) {
 	if errors.Is(err, repository.ErrNotFound) {
 		writeError(w, http.StatusNotFound, notFoundMsg)

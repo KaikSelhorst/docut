@@ -2,14 +2,12 @@ package sse
 
 import "sync"
 
-// ClickEvent is broadcast to all subscribers when a redirect click occurs.
 type ClickEvent struct {
 	ShortCode string `json:"short_code"`
 	ProjectID int64  `json:"project_id"`
 	LinkID    int64  `json:"link_id"`
 }
 
-// Hub manages SSE subscribers keyed by project ID, link ID, or user ID.
 type Hub struct {
 	mu                sync.RWMutex
 	byProject         map[int64]map[chan ClickEvent]struct{}
@@ -92,7 +90,6 @@ func (h *Hub) UnsubscribeUser(userID int64, ch chan ClickEvent) {
 	close(ch)
 }
 
-// RegisterProjectUser records which user owns a project so Notify can fan out to user-level streams.
 func (h *Hub) RegisterProjectUser(projectID, userID int64) {
 	h.mu.Lock()
 	h.projectUser[projectID] = userID
@@ -110,7 +107,6 @@ func (h *Hub) UnregisterProject(projectID int64) {
 	h.mu.Unlock()
 }
 
-// IsUserBootstrapped reports whether all projects for userID are already registered in the hub.
 func (h *Hub) IsUserBootstrapped(userID int64) bool {
 	h.mu.RLock()
 	_, ok := h.bootstrappedUsers[userID]
@@ -118,22 +114,18 @@ func (h *Hub) IsUserBootstrapped(userID int64) bool {
 	return ok
 }
 
-// MarkUserBootstrapped records that all projects for userID have been registered.
 func (h *Hub) MarkUserBootstrapped(userID int64) {
 	h.mu.Lock()
 	h.bootstrappedUsers[userID] = struct{}{}
 	h.mu.Unlock()
 }
 
-// InvalidateUserBootstrap clears the bootstrap flag so the next dashboard open re-queries.
-// Call when a project is created for this user.
 func (h *Hub) InvalidateUserBootstrap(userID int64) {
 	h.mu.Lock()
 	delete(h.bootstrappedUsers, userID)
 	h.mu.Unlock()
 }
 
-// Notify broadcasts to all project-level, link-level, and user-level subscribers.
 func (h *Hub) Notify(projectID, linkID int64, shortCode string) {
 	evt := ClickEvent{ShortCode: shortCode, ProjectID: projectID, LinkID: linkID}
 	h.mu.RLock()

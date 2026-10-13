@@ -8,7 +8,6 @@ import (
 
 var validName = regexp.MustCompile(`^[\p{L}0-9 _-]+$`)
 
-// ProjectRequest is used for both creating and updating a project.
 type ProjectRequest struct {
 	Name string `json:"name"`
 }
@@ -26,8 +25,6 @@ func (r *ProjectRequest) Validate() error {
 	return nil
 }
 
-// ProjectResponse is the public representation of a project.
-// It deliberately omits user_id to avoid coupling the API contract to the DB schema.
 type ProjectResponse struct {
 	ID        int64     `json:"id"`
 	Name      string    `json:"name"`

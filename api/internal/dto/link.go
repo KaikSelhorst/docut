@@ -29,7 +29,6 @@ func validateURL(raw string) error {
 	return nil
 }
 
-// LinkRequest is used for both creating and updating a link.
 type LinkRequest struct {
 	URL         string     `json:"url"`
 	Title       *string    `json:"title"`

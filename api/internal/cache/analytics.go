@@ -64,7 +64,6 @@ func (c *AnalyticsCache) SetProject(key string, v *model.ProjectAnalytics) {
 
 var analyticsPeriods = []string{"7d", "30d", "90d", ""}
 
-// InvalidateProject removes all period variants for a project from the cache.
 func (c *AnalyticsCache) InvalidateProject(projectID int64) {
 	c.mu.Lock()
 	for _, p := range analyticsPeriods {
@@ -73,7 +72,6 @@ func (c *AnalyticsCache) InvalidateProject(projectID int64) {
 	c.mu.Unlock()
 }
 
-// InvalidateLink removes all period variants for a link from the cache.
 func (c *AnalyticsCache) InvalidateLink(linkID int64) {
 	c.mu.Lock()
 	for _, p := range analyticsPeriods {
@@ -82,7 +80,6 @@ func (c *AnalyticsCache) InvalidateLink(linkID int64) {
 	c.mu.Unlock()
 }
 
-// Close releases all cached entries. Consistent with LinkCache.Close().
 func (c *AnalyticsCache) Close() {
 	c.mu.Lock()
 	c.links = make(map[string]analyticsEntry[*model.LinkAnalytics])

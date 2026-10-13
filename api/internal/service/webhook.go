@@ -68,7 +68,6 @@ func (s *WebhookService) EncryptSecret(plaintext string) (string, error) {
 	return base64.StdEncoding.EncodeToString(ciphertext), nil
 }
 
-// DecryptSecret reverses EncryptSecret.
 func (s *WebhookService) DecryptSecret(encoded string) (string, error) {
 	data, err := base64.StdEncoding.DecodeString(encoded)
 	if err != nil {
@@ -94,14 +93,12 @@ func (s *WebhookService) DecryptSecret(encoded string) (string, error) {
 	return string(plaintext), nil
 }
 
-// Sign returns the HMAC-SHA256 signature of payload as "sha256=<hex>".
 func Sign(payload []byte, secret string) string {
 	mac := hmac.New(sha256.New, []byte(secret))
 	mac.Write(payload)
 	return "sha256=" + hex.EncodeToString(mac.Sum(nil))
 }
 
-// GenerateWebhookSecret returns a random 32-byte hex secret.
 func GenerateWebhookSecret() (string, error) {
 	b := make([]byte, 32)
 	if _, err := io.ReadFull(rand.Reader, b); err != nil {
@@ -110,9 +107,6 @@ func GenerateWebhookSecret() (string, error) {
 	return hex.EncodeToString(b), nil
 }
 
-// Dispatch inserts delivery rows for every enabled webhook in the project
-// that subscribes to the given event. It only writes to the database —
-// the worker goroutine handles the actual HTTP delivery.
 func (s *WebhookService) Dispatch(ctx context.Context, projectID int64, event string, payload any) {
 	webhooks, err := s.repo.ListByProjectAndEvent(ctx, projectID, event)
 	if err != nil || len(webhooks) == 0 {

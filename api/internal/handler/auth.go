@@ -172,8 +172,6 @@ func (h *AuthHandler) Refresh(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// Me handles GET /auth/me (requires auth).
-// Returns the current user's public profile including totp_enabled status.
 func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
 	// Block API keys: TOTP status is sensitive account information not needed
 	// by programmatic API clients, and exposing it widens the attack surface.
@@ -233,7 +231,6 @@ func (h *AuthHandler) issueTokenPair(ctx context.Context, userID int64) (*dto.To
 	return issueTokenPairFor(ctx, h.refreshTokenRepository, h.authService, userID)
 }
 
-// issueTokenPairFor is a package-level helper shared by AuthHandler and TOTPHandler.
 func issueTokenPairFor(
 	ctx context.Context,
 	rtRepo repository.RefreshTokenRepo,
