@@ -1,9 +1,9 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import { Breadcrumbs } from "$lib/components/ui/breadcrumbs";
-  import * as SidebarNav from "$lib/components/ui/sidebar-nav";
-  import ProjectSwitcher from "$lib/components/project-switcher.svelte";
-  import AccountMenu from "$lib/components/account-menu.svelte";
+  import { Breadcrumbs } from "#lib/components/ui/breadcrumbs/index.js";
+  import * as SidebarNav from "#lib/components/ui/sidebar-nav/index.js";
+  import ProjectSwitcher from "#lib/components/project-switcher.svelte";
+  import AccountMenu from "#lib/components/account-menu.svelte";
   import type { LayoutProps } from "./$types";
 
   let { data, children }: LayoutProps = $props();

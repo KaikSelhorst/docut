@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { apiFetch } from "$lib/server/api";
+import { apiFetch } from "#lib/server/api.js";
 import type { PageServerLoad } from "./$types";
 
 interface Webhook {
@@ -34,7 +34,10 @@ export const load: PageServerLoad = async (event) => {
 
   const [webhooksRes, deliveriesRes] = await Promise.all([
     apiFetch(event, `/projects/${event.params.slug}/webhooks`),
-    apiFetch(event, `/projects/${event.params.slug}/webhooks/${event.params.id}/deliveries?page=${page}`),
+    apiFetch(
+      event,
+      `/projects/${event.params.slug}/webhooks/${event.params.id}/deliveries?page=${page}`,
+    ),
   ]);
 
   if (!webhooksRes.ok) error(webhooksRes.status, "Failed to load webhook");

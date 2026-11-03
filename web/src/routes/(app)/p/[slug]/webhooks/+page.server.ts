@@ -1,5 +1,5 @@
 import { error, fail } from "@sveltejs/kit";
-import { apiFetch } from "$lib/server/api";
+import { apiFetch } from "#lib/server/api.js";
 import type { Actions, PageServerLoad } from "./$types";
 
 interface Webhook {
@@ -24,7 +24,9 @@ export const actions: Actions = {
   create: async (event) => {
     const data = await event.request.formData();
     const url = data.get("url");
-    const events = data.getAll("events").filter((value): value is string => typeof value === "string");
+    const events = data
+      .getAll("events")
+      .filter((value): value is string => typeof value === "string");
 
     if (typeof url !== "string" || !url) {
       return fail(400, { error: "URL is required." });

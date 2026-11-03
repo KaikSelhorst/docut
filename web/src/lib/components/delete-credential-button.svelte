@@ -1,9 +1,9 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import * as Modal from "$lib/components/ui/modal";
-  import { Button } from "$lib/components/ui/button";
-  import { Tooltip } from "$lib/components/ui/tooltip";
-  import { createFormSubmit } from "$lib/form-submit.svelte";
+  import * as Modal from "#lib/components/ui/modal/index.js";
+  import { Button } from "#lib/components/ui/button/index.js";
+  import { Tooltip } from "#lib/components/ui/tooltip/index.js";
+  import { createFormSubmit } from "#lib/form-submit.svelte.js";
 
   interface Props {
     id: number;

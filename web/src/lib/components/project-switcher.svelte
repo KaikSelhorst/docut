@@ -1,14 +1,14 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
-  import * as Popover from "$lib/components/ui/popover";
-  import * as Modal from "$lib/components/ui/modal";
-  import { Field } from "$lib/components/ui/field";
-  import { Input } from "$lib/components/ui/input";
-  import { Button } from "$lib/components/ui/button";
-  import { Alert } from "$lib/components/ui/alert";
-  import ProjectIcon from "$lib/components/project-icon.svelte";
-  import type { Project } from "$lib/types";
+  import * as Popover from "#lib/components/ui/popover/index.js";
+  import * as Modal from "#lib/components/ui/modal/index.js";
+  import { Field } from "#lib/components/ui/field/index.js";
+  import { Input } from "#lib/components/ui/input/index.js";
+  import { Button } from "#lib/components/ui/button/index.js";
+  import { Alert } from "#lib/components/ui/alert/index.js";
+  import ProjectIcon from "#lib/components/project-icon.svelte";
+  import type { Project } from "#lib/types.js";
 
   interface Props {
     projects: Project[];
@@ -106,7 +106,7 @@
               createError = (result.data as { error?: string } | undefined)?.error ?? "Something went wrong.";
             } else if (result.type === "redirect") {
               closeModal();
-              await goto(result.location, { invalidateAll: true });
+              await goto(result.location, { refreshAll: true });
             }
           };
         }}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { renderProjectIcon } from "$lib/project-icon";
+  import { renderProjectIcon } from "#lib/project-icon.js";
 
   interface Props {
     seed: string;

@@ -1,5 +1,5 @@
 import type { Cookies } from "@sveltejs/kit";
-import { dev } from "$app/environment";
+import { dev } from "$app/env";
 
 export const LAST_PROJECT_COOKIE = "last_project";
 

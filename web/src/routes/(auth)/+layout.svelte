@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import AsciiPlasma from "$lib/components/ascii-plasma.svelte";
+  import AsciiPlasma from "#lib/components/ascii-plasma.svelte";
 
   let { children }: { children: Snippet } = $props();
 </script>

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import * as Modal from "$lib/components/ui/modal";
-  import * as Table from "$lib/components/ui/table";
-  import { Button } from "$lib/components/ui/button";
-  import { Badge } from "$lib/components/ui/badge";
-  import type { BadgeToken } from "$lib/components/ui/badge";
-  import { formatDateTime } from "$lib/format";
+  import * as Modal from "#lib/components/ui/modal/index.js";
+  import * as Table from "#lib/components/ui/table/index.js";
+  import { Button } from "#lib/components/ui/button/index.js";
+  import { Badge } from "#lib/components/ui/badge/index.js";
+  import type { BadgeToken } from "#lib/components/ui/badge/index.js";
+  import { formatDateTime } from "#lib/format.js";
   import type { PageProps } from "./$types";
 
   let { data }: PageProps = $props();

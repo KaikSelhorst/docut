@@ -1,17 +1,17 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import * as Modal from "$lib/components/ui/modal";
-  import * as Table from "$lib/components/ui/table";
-  import { Field } from "$lib/components/ui/field";
-  import { Input } from "$lib/components/ui/input";
-  import { Select } from "$lib/components/ui/select";
-  import { Button } from "$lib/components/ui/button";
-  import { Alert } from "$lib/components/ui/alert";
-  import { Badge } from "$lib/components/ui/badge";
-  import { Checkbox } from "$lib/components/ui/checkbox";
-  import DeleteCredentialButton from "$lib/components/delete-credential-button.svelte";
-  import { createFormSubmit } from "$lib/form-submit.svelte";
-  import { formatDate } from "$lib/format";
+  import * as Modal from "#lib/components/ui/modal/index.js";
+  import * as Table from "#lib/components/ui/table/index.js";
+  import { Field } from "#lib/components/ui/field/index.js";
+  import { Input } from "#lib/components/ui/input/index.js";
+  import { Select } from "#lib/components/ui/select/index.js";
+  import { Button } from "#lib/components/ui/button/index.js";
+  import { Alert } from "#lib/components/ui/alert/index.js";
+  import { Badge } from "#lib/components/ui/badge/index.js";
+  import { Checkbox } from "#lib/components/ui/checkbox/index.js";
+  import DeleteCredentialButton from "#lib/components/delete-credential-button.svelte";
+  import { createFormSubmit } from "#lib/form-submit.svelte.js";
+  import { formatDate } from "#lib/format.js";
   import type { PageProps } from "./$types";
 
   const SCOPE_GROUPS = [

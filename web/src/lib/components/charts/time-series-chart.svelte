@@ -63,7 +63,7 @@
   const labelStep = $derived(Math.max(1, Math.ceil(data.length / 8)));
   const xLabelIndices = $derived(data.map((_, i) => i).filter((i) => i % labelStep === 0));
 
-  // Fixed locale (see $lib/format.ts) so the axis/tooltip dates don't shift
+  // Fixed locale (see #lib/format.ts) so the axis/tooltip dates don't shift
   // between server render and the visitor's own browser locale.
   function formatAxisDate(value: string): string {
     return new Date(value).toLocaleDateString("en-GB", { month: "short", day: "numeric" });

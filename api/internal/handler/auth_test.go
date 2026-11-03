@@ -1,6 +1,7 @@
 package handler_test
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -126,8 +127,8 @@ func TestAuthHandler_Login_WithTOTP(t *testing.T) {
 	u := seedUser(t, users, "carol@example.com", "mypassword")
 
 	secret := "JBSWY3DPEHPK3PXP"
-	_ = users.SaveTOTPSecret(nil, u.ID, secret)
-	_ = users.SetTOTPEnabled(nil, u.ID, true)
+	_ = users.SaveTOTPSecret(context.Background(), u.ID, secret)
+	_ = users.SetTOTPEnabled(context.Background(), u.ID, true)
 
 	w := httptest.NewRecorder()
 	r := testutil.NewRequest(http.MethodPost, "/auth/login", dto.LoginRequest{

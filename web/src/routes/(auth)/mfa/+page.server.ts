@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { env } from "$env/dynamic/private";
-import { MFA_SESSION_COOKIE, setAuthCookies } from "$lib/server/auth";
+import { API_URL } from "$app/env/private";
+import { MFA_SESSION_COOKIE, setAuthCookies } from "#lib/server/auth.js";
 import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -19,7 +19,7 @@ export const actions: Actions = {
       return fail(400, { error: "Code is required." });
     }
 
-    const res = await fetch(`${env.API_URL}/auth/mfa/totp`, {
+    const res = await fetch(`${API_URL}/auth/mfa/totp`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ session, code }),

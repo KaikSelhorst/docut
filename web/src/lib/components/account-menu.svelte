@@ -1,7 +1,7 @@
 <script lang="ts">
-  import * as Popover from "$lib/components/ui/popover";
-  import * as Modal from "$lib/components/ui/modal";
-  import { Button } from "$lib/components/ui/button";
+  import * as Popover from "#lib/components/ui/popover/index.js";
+  import * as Modal from "#lib/components/ui/modal/index.js";
+  import { Button } from "#lib/components/ui/button/index.js";
 
   let logoutModalOpen = $state(false);
 </script>
