@@ -65,7 +65,7 @@ func deliver(ctx context.Context, repo repository.WebhookRepo, svc *service.Webh
 
 	resp, err := client.Do(req)
 	if resp != nil {
-		defer resp.Body.Close()
+		defer func() { _ = resp.Body.Close() }()
 	}
 	if err != nil || resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		var code *int

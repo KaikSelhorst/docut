@@ -48,7 +48,9 @@ func (h *SSEHandler) HandleProjectStream(w http.ResponseWriter, r *http.Request)
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
 	w.Header().Set("X-Accel-Buffering", "no")
-	fmt.Fprintf(w, ": connected\n\n")
+	if _, err := fmt.Fprintf(w, ": connected\n\n"); err != nil {
+		return
+	}
 	_ = rc.Flush()
 
 	ch := h.hub.SubscribeProject(project.ID)
@@ -69,10 +71,14 @@ func (h *SSEHandler) HandleProjectStream(w http.ResponseWriter, r *http.Request)
 			if err != nil {
 				continue
 			}
-			fmt.Fprintf(w, "data: %s\n\n", data)
+			if _, err := fmt.Fprintf(w, "data: %s\n\n", data); err != nil {
+				return
+			}
 			_ = rc.Flush()
 		case <-ticker.C:
-			fmt.Fprintf(w, ": ping\n\n")
+			if _, err := fmt.Fprintf(w, ": ping\n\n"); err != nil {
+				return
+			}
 			_ = rc.Flush()
 		}
 	}
@@ -116,7 +122,9 @@ func (h *SSEHandler) HandleLinkStream(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
 	w.Header().Set("X-Accel-Buffering", "no")
-	fmt.Fprintf(w, ": connected\n\n")
+	if _, err := fmt.Fprintf(w, ": connected\n\n"); err != nil {
+		return
+	}
 	_ = rc.Flush()
 
 	ch := h.hub.SubscribeLink(link.ID)
@@ -137,10 +145,14 @@ func (h *SSEHandler) HandleLinkStream(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				continue
 			}
-			fmt.Fprintf(w, "data: %s\n\n", data)
+			if _, err := fmt.Fprintf(w, "data: %s\n\n", data); err != nil {
+				return
+			}
 			_ = rc.Flush()
 		case <-ticker.C:
-			fmt.Fprintf(w, ": ping\n\n")
+			if _, err := fmt.Fprintf(w, ": ping\n\n"); err != nil {
+				return
+			}
 			_ = rc.Flush()
 		}
 	}
@@ -174,7 +186,9 @@ func (h *SSEHandler) HandleUserStream(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
 	w.Header().Set("X-Accel-Buffering", "no")
-	fmt.Fprintf(w, ": connected\n\n")
+	if _, err := fmt.Fprintf(w, ": connected\n\n"); err != nil {
+		return
+	}
 	_ = rc.Flush()
 
 	ch := h.hub.SubscribeUser(userID)
@@ -195,10 +209,14 @@ func (h *SSEHandler) HandleUserStream(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				continue
 			}
-			fmt.Fprintf(w, "data: %s\n\n", data)
+			if _, err := fmt.Fprintf(w, "data: %s\n\n", data); err != nil {
+				return
+			}
 			_ = rc.Flush()
 		case <-ticker.C:
-			fmt.Fprintf(w, ": ping\n\n")
+			if _, err := fmt.Fprintf(w, ": ping\n\n"); err != nil {
+				return
+			}
 			_ = rc.Flush()
 		}
 	}

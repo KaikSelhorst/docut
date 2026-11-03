@@ -82,7 +82,9 @@ func TestWebhookService_Sign_Format(t *testing.T) {
 func TestWebhookService_Sign_Deterministic(t *testing.T) {
 	t.Parallel()
 	payload := []byte(`{"event":"link.clicked"}`)
-	if service.Sign(payload, "secret") != service.Sign(payload, "secret") {
+	first := service.Sign(payload, "secret")
+	second := service.Sign(payload, "secret")
+	if first != second {
 		t.Error("Sign must be deterministic for the same payload and secret")
 	}
 }

@@ -16,13 +16,6 @@ import (
 	"github.com/KaikSelhorst/shortener/internal/service"
 )
 
-type linkClickedPayload struct {
-	Event     string `json:"event"`
-	ProjectID int64  `json:"project_id"`
-	LinkID    int64  `json:"link_id"`
-	ShortCode string `json:"short_code"`
-}
-
 type linkEventPayload struct {
 	Event     string        `json:"event"`
 	ProjectID int64         `json:"project_id"`
