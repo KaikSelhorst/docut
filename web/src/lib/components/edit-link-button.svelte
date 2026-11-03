@@ -1,11 +1,11 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import * as Modal from "$lib/components/ui/modal";
-  import { Field } from "$lib/components/ui/field";
-  import { Input } from "$lib/components/ui/input";
-  import { Button } from "$lib/components/ui/button";
-  import { Alert } from "$lib/components/ui/alert";
-  import { Tooltip } from "$lib/components/ui/tooltip";
+  import * as Modal from "#lib/components/ui/modal/index.js";
+  import { Field } from "#lib/components/ui/field/index.js";
+  import { Input } from "#lib/components/ui/input/index.js";
+  import { Button } from "#lib/components/ui/button/index.js";
+  import { Alert } from "#lib/components/ui/alert/index.js";
+  import { Tooltip } from "#lib/components/ui/tooltip/index.js";
 
   interface Link {
     short_code: string;

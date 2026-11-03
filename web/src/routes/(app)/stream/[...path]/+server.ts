@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { apiFetch } from "$lib/server/api";
+import { apiFetch } from "#lib/server/api.js";
 import type { RequestHandler } from "./$types";
 
 // EventSource can't send an Authorization header, so every SSE stream in the

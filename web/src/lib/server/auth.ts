@@ -1,6 +1,6 @@
 import type { Cookies } from "@sveltejs/kit";
-import { dev } from "$app/environment";
-import { env } from "$env/dynamic/private";
+import { dev } from "$app/env";
+import { API_URL } from "$app/env/private";
 
 export const MFA_SESSION_COOKIE = "mfa_session";
 export const ACCESS_TOKEN_COOKIE = "access_token";
@@ -88,7 +88,7 @@ export async function refreshAccessToken(
 
   const promise = (async () => {
     try {
-      const res = await fetchFn(`${env.API_URL}/auth/refresh`, {
+      const res = await fetchFn(`${API_URL}/auth/refresh`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ refresh_token: refreshToken }),

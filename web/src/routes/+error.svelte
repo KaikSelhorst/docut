@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import { buttonVariants, buttonSizes } from "$lib/components/ui/button";
-  import { renderAsciiCode } from "$lib/ascii-digits";
+  import { buttonVariants, buttonSizes } from "#lib/components/ui/button/index.js";
+  import { renderAsciiCode } from "#lib/ascii-digits.js";
 
   const isNotFound = $derived(page.status === 404);
   const ascii = $derived(renderAsciiCode(String(page.status)));

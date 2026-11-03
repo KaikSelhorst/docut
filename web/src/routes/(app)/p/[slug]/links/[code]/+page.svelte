@@ -1,9 +1,9 @@
 <script lang="ts">
-  import * as Card from "$lib/components/ui/card";
-  import { Button } from "$lib/components/ui/button";
-  import StatTile from "$lib/components/stat-tile.svelte";
-  import TimeSeriesChart from "$lib/components/charts/time-series-chart.svelte";
-  import RankedBarList from "$lib/components/charts/ranked-bar-list.svelte";
+  import * as Card from "#lib/components/ui/card/index.js";
+  import { Button } from "#lib/components/ui/button/index.js";
+  import StatTile from "#lib/components/stat-tile.svelte";
+  import TimeSeriesChart from "#lib/components/charts/time-series-chart.svelte";
+  import RankedBarList from "#lib/components/charts/ranked-bar-list.svelte";
   import type { PageProps } from "./$types";
 
   let { data }: PageProps = $props();

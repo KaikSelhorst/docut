@@ -1,5 +1,5 @@
 import { redirect, type Cookies } from "@sveltejs/kit";
-import { env } from "$env/dynamic/private";
+import { API_URL } from "$app/env/private";
 import { ACCESS_TOKEN_COOKIE, refreshAccessToken } from "./auth";
 
 interface ApiFetchInit {
@@ -24,7 +24,7 @@ export async function apiFetch(
   init: ApiFetchInit = {},
 ): Promise<Response> {
   const request = (accessToken: string | undefined) =>
-    fetch(`${env.API_URL}${path}`, {
+    fetch(`${API_URL}${path}`, {
       ...init,
       headers: { ...init.headers, authorization: `Bearer ${accessToken}` },
     });

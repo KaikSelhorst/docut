@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { env } from "$env/dynamic/private";
-import { setAuthCookies, setMfaSessionCookie } from "$lib/server/auth";
+import { API_URL } from "$app/env/private";
+import { setAuthCookies, setMfaSessionCookie } from "#lib/server/auth.js";
 import type { Actions } from "./$types";
 
 export const actions: Actions = {
@@ -13,7 +13,7 @@ export const actions: Actions = {
       return fail(400, { error: "Email and password are required." });
     }
 
-    const res = await fetch(`${env.API_URL}/auth/login`, {
+    const res = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ email, password }),

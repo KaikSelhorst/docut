@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
-import { apiFetch } from "$lib/server/api";
-import type { Project } from "$lib/types";
+import { apiFetch } from "#lib/server/api.js";
+import type { Project } from "#lib/types.js";
 import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = async (event) => {

@@ -1,6 +1,6 @@
 import { error, fail } from "@sveltejs/kit";
-import { apiFetch } from "$lib/server/api";
-import type { Project } from "$lib/types";
+import { apiFetch } from "#lib/server/api.js";
+import type { Project } from "#lib/types.js";
 import type { Actions, PageServerLoad } from "./$types";
 
 interface Credential {
@@ -15,7 +15,10 @@ interface Credential {
 }
 
 export const load: PageServerLoad = async (event) => {
-  const [keysRes, projectsRes] = await Promise.all([apiFetch(event, "/api-keys"), apiFetch(event, "/projects")]);
+  const [keysRes, projectsRes] = await Promise.all([
+    apiFetch(event, "/api-keys"),
+    apiFetch(event, "/projects"),
+  ]);
 
   if (!keysRes.ok) error(keysRes.status, "Failed to load credentials");
   if (!projectsRes.ok) error(projectsRes.status, "Failed to load projects");
@@ -29,7 +32,9 @@ export const actions: Actions = {
   create: async (event) => {
     const data = await event.request.formData();
     const name = data.get("name");
-    const scopes = data.getAll("scopes").filter((value): value is string => typeof value === "string");
+    const scopes = data
+      .getAll("scopes")
+      .filter((value): value is string => typeof value === "string");
     const projectIdRaw = data.get("project_id");
 
     if (typeof name !== "string" || !name) {
@@ -39,7 +44,8 @@ export const actions: Actions = {
       return fail(400, { error: "Select at least one scope." });
     }
 
-    const projectId = typeof projectIdRaw === "string" && projectIdRaw ? Number(projectIdRaw) : undefined;
+    const projectId =
+      typeof projectIdRaw === "string" && projectIdRaw ? Number(projectIdRaw) : undefined;
 
     const res = await apiFetch(event, "/api-keys", {
       method: "POST",

@@ -1,6 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { apiFetch } from "$lib/server/api";
-import { LAST_PROJECT_COOKIE } from "$lib/server/projects";
+import { apiFetch } from "#lib/server/api.js";
+import { LAST_PROJECT_COOKIE } from "#lib/server/projects.js";
 import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ parent, cookies }) => {

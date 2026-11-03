@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button";
-  import * as Table from "$lib/components/ui/table";
-  import AsciiPlasma from "$lib/components/ascii-plasma.svelte";
-  import TimeSeriesChart from "$lib/components/charts/time-series-chart.svelte";
+  import { Button } from "#lib/components/ui/button/index.js";
+  import * as Table from "#lib/components/ui/table/index.js";
+  import AsciiPlasma from "#lib/components/ascii-plasma.svelte";
+  import TimeSeriesChart from "#lib/components/charts/time-series-chart.svelte";
 
   const SNIPPET = `curl https://docut.xyz/projects/marketing/links \\
   -H "Authorization: Bearer sk_live_..." \\

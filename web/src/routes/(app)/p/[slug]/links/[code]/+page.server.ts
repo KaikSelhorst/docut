@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { apiFetch } from "$lib/server/api";
+import { apiFetch } from "#lib/server/api.js";
 import type { PageServerLoad } from "./$types";
 
 const PERIODS = ["7d", "30d", "90d"] as const;
@@ -33,11 +33,16 @@ interface LinkAnalytics {
 
 export const load: PageServerLoad = async (event) => {
   const requested = event.url.searchParams.get("period");
-  const period: Period = (PERIODS as readonly string[]).includes(requested ?? "") ? (requested as Period) : "30d";
+  const period: Period = (PERIODS as readonly string[]).includes(requested ?? "")
+    ? (requested as Period)
+    : "30d";
 
   const [linkRes, analyticsRes] = await Promise.all([
     apiFetch(event, `/projects/${event.params.slug}/links/${event.params.code}`),
-    apiFetch(event, `/projects/${event.params.slug}/links/${event.params.code}/analytics?period=${period}`),
+    apiFetch(
+      event,
+      `/projects/${event.params.slug}/links/${event.params.code}/analytics?period=${period}`,
+    ),
   ]);
 
   if (!linkRes.ok) error(linkRes.status, "Failed to load link");

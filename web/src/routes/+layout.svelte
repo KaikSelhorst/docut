@@ -1,7 +1,7 @@
 <script lang="ts">
   import "../app.css";
-  import { dev } from "$app/environment";
-  import DevPerfMonitor from "$lib/components/dev-perf-monitor.svelte";
+  import { dev } from '$app/env';
+  import DevPerfMonitor from "#lib/components/dev-perf-monitor.svelte";
 
   let { children } = $props();
 </script>

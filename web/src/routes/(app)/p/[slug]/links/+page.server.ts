@@ -1,5 +1,5 @@
 import { error, fail } from "@sveltejs/kit";
-import { apiFetch } from "$lib/server/api";
+import { apiFetch } from "#lib/server/api.js";
 import type { Actions, PageServerLoad } from "./$types";
 
 interface Link {

@@ -1,12 +1,12 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import * as Card from "$lib/components/ui/card";
-  import * as Modal from "$lib/components/ui/modal";
-  import { Field } from "$lib/components/ui/field";
-  import { Input } from "$lib/components/ui/input";
-  import { Button } from "$lib/components/ui/button";
-  import { Alert } from "$lib/components/ui/alert";
-  import { createFormSubmit } from "$lib/form-submit.svelte";
+  import * as Card from "#lib/components/ui/card/index.js";
+  import * as Modal from "#lib/components/ui/modal/index.js";
+  import { Field } from "#lib/components/ui/field/index.js";
+  import { Input } from "#lib/components/ui/input/index.js";
+  import { Button } from "#lib/components/ui/button/index.js";
+  import { Alert } from "#lib/components/ui/alert/index.js";
+  import { createFormSubmit } from "#lib/form-submit.svelte.js";
   import type { PageProps } from "./$types";
 
   let { data, form }: PageProps = $props();

@@ -1,16 +1,16 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import * as Modal from "$lib/components/ui/modal";
-  import * as Table from "$lib/components/ui/table";
-  import { Field } from "$lib/components/ui/field";
-  import { Input } from "$lib/components/ui/input";
-  import { Button } from "$lib/components/ui/button";
-  import { Alert } from "$lib/components/ui/alert";
-  import { Tooltip } from "$lib/components/ui/tooltip";
-  import DeleteLinkButton from "$lib/components/delete-link-button.svelte";
-  import EditLinkButton from "$lib/components/edit-link-button.svelte";
-  import { createFormSubmit } from "$lib/form-submit.svelte";
-  import { formatDate } from "$lib/format";
+  import * as Modal from "#lib/components/ui/modal/index.js";
+  import * as Table from "#lib/components/ui/table/index.js";
+  import { Field } from "#lib/components/ui/field/index.js";
+  import { Input } from "#lib/components/ui/input/index.js";
+  import { Button } from "#lib/components/ui/button/index.js";
+  import { Alert } from "#lib/components/ui/alert/index.js";
+  import { Tooltip } from "#lib/components/ui/tooltip/index.js";
+  import DeleteLinkButton from "#lib/components/delete-link-button.svelte";
+  import EditLinkButton from "#lib/components/edit-link-button.svelte";
+  import { createFormSubmit } from "#lib/form-submit.svelte.js";
+  import { formatDate } from "#lib/format.js";
   import { untrack } from "svelte";
   import type { PageProps } from "./$types";
 
